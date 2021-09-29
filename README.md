@@ -1,2 +1,2 @@
 # URL shortener
-Simple url shortener written in TypeScript
+URL shortener written in TypeScript
