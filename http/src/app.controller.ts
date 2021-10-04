@@ -30,7 +30,7 @@ export class AppController {
       throw new BadRequestException('Same domain is not allowed!');
     }
 
-    const counter = 213123812
+    const counter = Number.MAX_SAFE_INTEGER;
     const token = this.tokenService.generateToken(counter);
     const document = {
       longUrl,
