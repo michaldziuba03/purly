@@ -25,6 +25,7 @@ export class AppController {
     @Body('url', ...CreateMappingPipes) longUrl: string,
     @Req() req: Request
   ) {
+    console.log(req.ip);
     const { hostname } = new URL(longUrl);
     if (hostname === req.hostname) {
       throw new BadRequestException('Same domain is not allowed!');
