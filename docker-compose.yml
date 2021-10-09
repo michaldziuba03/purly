@@ -7,10 +7,14 @@ services:
     volumes:
       - ./gateway/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./gateway/conf.d:/etc/nginx/conf.d
-    #depends_on:
-      #- app
-  #app:
-    #build:
-      #context: ./http
-    #network_mode: host
+
+  database:
+    image: cassandra
+    network_mode: host
+    restart: always
       
+  cache:
+    image: redis:alpine
+    network_mode: host
+    restart: always
+  
