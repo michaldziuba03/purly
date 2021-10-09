@@ -6,8 +6,7 @@ export const UrlSchema = joi
     .max(2048)
     .required();
 
-export const TokenSchema = 
-    joi
+export const TokenSchema = joi
     .string()
     .min(1)
     .max(8)

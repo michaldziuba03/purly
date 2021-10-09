@@ -6,6 +6,7 @@ import { ValidationPipe } from 'src/common/validator.pipe';
 import { TokenService } from 'src/token/token.service';
 import { MappingService } from './mappings.service';
 import * as domainBlacklist from '../domain-blacklist.json';
+import { CounterService } from 'src/counter/counter.service';
 
 const CreateMappingPipes = [
   new ValidationPipe(UrlSchema),
@@ -16,11 +17,10 @@ const GetMappingPipes = [ new ValidationPipe(TokenSchema) ];
 
 @Controller()
 export class MappingsController {
-    private counter = 21937416;
-    
     constructor(
         private readonly tokenService: TokenService,
         private readonly mappingService: MappingService,
+        private readonly counterService: CounterService,
     ) {}
 
     @Get(':token')
@@ -45,13 +45,16 @@ export class MappingsController {
         throw new BadRequestException('Same domain is not allowed!');
       }
 
-      const token = this.tokenService.generateToken(this.counter);
+      const counter = this.counterService.getValueAndIncrement();
+      const token = this.tokenService.generateToken(counter);
       const result = await this.mappingService.createMapping({
           token,
           url: longUrl,
-      })
-      
-      this.counter++;
-      return token;
+          counter,
+      });
+
+      return {
+        token,
+      };
     }
 }
