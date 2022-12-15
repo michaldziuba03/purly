@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { LeanDocument, Model } from 'mongoose';
 import { RangeService } from 'src/range/range.service';
 import { Alias, AliasDocument } from './alias.model';
 import Hashids from 'hashids';
@@ -27,5 +27,13 @@ export class AliasService {
         });
 
         return alias.save();
+    }
+
+    async findAlias(token: string): Promise<LeanDocument<AliasDocument>> {
+        const alias = await this.aliasModel.findOne({ token })
+            .select(['token', 'url', 'createdAt'])
+            .lean();
+
+        return alias;
     }
 }

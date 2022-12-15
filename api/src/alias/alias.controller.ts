@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, NotFoundException } from '@nestjs/common';
 import { AliasService } from './alias.service';
 import { CreateAliasDTO } from './dto/create-alias.dto';
 
@@ -11,6 +11,16 @@ export class AliasController {
     @Post()
     async createAlias(@Body() body: CreateAliasDTO) {
         const alias = await this.aliasService.createAlias(body);
+        return alias;
+    }
+
+    @Get(':token')
+    async getAlias(@Param('token') token: string) {
+        const alias = await this.aliasService.findAlias(token);
+        if (!alias) {
+            throw new NotFoundException();
+        }
+
         return alias;
     }
 }

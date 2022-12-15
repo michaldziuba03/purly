@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type ZK from 'zookeeper';
+const ZK_EPHEMERAL_SEQUENTIAL = 3; // flag for created znode
 
 interface ICounter {
     seq: number; // sequence number
@@ -22,7 +23,7 @@ export class RangeService {
     }
 
     private async setRange() {
-        const path = await this.zk.create(this.basePath, '', 3);
+        const path = await this.zk.create(this.basePath, '', ZK_EPHEMERAL_SEQUENTIAL);
         
         const seq = this.parseSeq(path);
         const end = seq * this.range;
