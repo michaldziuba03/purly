@@ -1,20 +1,15 @@
 version: '3.6'
 services:
-  gateway:
-    image: openresty/openresty:alpine
-    network_mode: host
+  zoo1:
+    image: zookeeper
     restart: always
-    volumes:
-      - ./gateway/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
-      - ./gateway/conf.d:/etc/nginx/conf.d
-
-  database:
-    image: cassandra
-    network_mode: host
+    hostname: zoo1
+    ports:
+      - 2181:2181
+  zoonav:
+    image: elkozmon/zoonavigator
     restart: always
-      
-  cache:
-    image: redis:alpine
-    network_mode: host
-    restart: always
-  
+    hostname: zoonav
+    ports:
+      - 9000:9000
+    

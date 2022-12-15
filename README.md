@@ -5,4 +5,3 @@ URL shortener using Node.js, Nginx (OpenResty) and Cassandra. Under active devel
 My NPM packages used in this project:
 - `@mich4l/nestjs-redis`
 - `@mich4l/nestjs-cassandra`
-- `@mich4l/url-utils`
