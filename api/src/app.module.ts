@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AliasModule } from './alias/alias.module';
+import { RangeModule } from './range/range.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost/shortener'),
+    RangeModule,
+    AliasModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

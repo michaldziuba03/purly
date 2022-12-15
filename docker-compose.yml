@@ -12,4 +12,10 @@ services:
     hostname: zoonav
     ports:
       - 9000:9000
+
+  database:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
     
