@@ -23,7 +23,7 @@ export class RangeService {
     }
 
     private async setRange() {
-        const path = await this.zk.create(this.basePath, '', ZK_EPHEMERAL_SEQUENTIAL);
+        const path = await this.zk.create(this.basePath, '', ZK_EPHEMERAL_SEQUENTIAL); // returns something like /range0000000001
         
         const seq = this.parseSeq(path);
         const end = seq * this.range;
