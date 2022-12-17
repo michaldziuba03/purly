@@ -20,3 +20,4 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 - Zookeeper
 - Next.js
 - React
+- Docker
