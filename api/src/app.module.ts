@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from './config/config.module';
 import { Config } from './config/config';
 import { LoggerModule } from './logger/logger.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LoggerModule } from './logger/logger.module';
     }),
     RangeModule,
     AliasModule,
+    AccountModule,
   ],
   controllers: [],
   providers: [],
