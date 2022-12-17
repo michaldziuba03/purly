@@ -1,6 +1,7 @@
 import { Logger, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { RangeService } from './range.service';
 import Zk from 'zookeeper';
+import { Config } from 'src/config/config';
 
 @Module({
   providers: [RangeService],
@@ -11,17 +12,18 @@ export class RangeModule implements OnModuleInit, OnModuleDestroy {
 
   constructor(
     private readonly rangeService: RangeService,
+    private readonly config: Config,
   ) {}
   
   onModuleInit() {
-    const config = {
-      connect: 'localhost:2181',
+    const zkConfig = {
+      connect: this.config.zkConnect,
       timeout: 5000,
       debug_level: Zk.ZOO_LOG_LEVEL_WARN,
       host_order_deterministic: false,
   };
 
-    this.zk = new Zk(config);
+    this.zk = new Zk(zkConfig);
 
     this.zk.once('connect', () => {
       Logger.log('Zookeeper connected', RangeModule.name);

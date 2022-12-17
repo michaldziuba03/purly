@@ -6,6 +6,7 @@ import {
 } from '@nestjs/platform-fastify';
 import helmet = require('@fastify/helmet');
 import { ValidationPipe } from '@nestjs/common';
+import { Config } from './config/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -13,6 +14,7 @@ async function bootstrap() {
     new FastifyAdapter()
   );
   
+  const config = app.get<Config>(Config);
   app.enableCors();
   app.enableShutdownHooks();
   app.register(helmet);
@@ -23,6 +25,6 @@ async function bootstrap() {
     transform: true,
   }));
   
-  await app.listen(3000);
+  await app.listen(config.port);
 }
 bootstrap();

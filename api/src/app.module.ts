@@ -2,10 +2,18 @@ import { Module } from '@nestjs/common';
 import { AliasModule } from './alias/alias.module';
 import { RangeModule } from './range/range.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from './config/config.module';
+import { Config } from './config/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/shortener'),
+    ConfigModule,
+    MongooseModule.forRootAsync({
+      inject: [Config],
+      useFactory: async (config: Config) => {
+        return { uri: config.mongoURI }
+      }
+    }),
     RangeModule,
     AliasModule,
   ],
