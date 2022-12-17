@@ -15,8 +15,9 @@ export class AccountService {
     async createAccount(data: CreateAccountDTO): Promise<Account> {
         const hashedPassword = await argon2d.hash(data.password);
         const account = new this.accountModel({
+            email: data.email,
+            name: data.name,
             password: hashedPassword,
-            ...data
         });
         
         return account.save();

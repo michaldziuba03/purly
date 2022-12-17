@@ -5,6 +5,8 @@ export type AccountDocument = HydratedDocument<Account>;
 
 @Schema({ timestamps: true })
 export class Account {
+    id: string;
+
     @Prop()
     name: string;
 
