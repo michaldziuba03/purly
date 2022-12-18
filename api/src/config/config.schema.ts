@@ -15,6 +15,5 @@ export const configSchema = Joi.object().keys({
     MONGO_URI: Joi.string().required(),
     SESSION_KEY: Joi.string().required(),
     STRIPE_SECRET_KEY: Joi.string().required(),
-    STRIPE_SUCCESS_URL: Joi.string().required(),
-    STRIPE_CANCEL_URL: Joi.string().required(),
+    FRONTEND_URL: Joi.string().uri().required(),
 });

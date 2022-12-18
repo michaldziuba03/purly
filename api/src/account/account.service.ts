@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import argon2 from 'argon2';
+import crypto from 'crypto';
 import { Model } from 'mongoose';
 import { Account, AccountDocument } from './account.model';
 import { CreateAccountDTO } from './dto/create-account.dto';
@@ -12,9 +13,16 @@ export class AccountService {
         private readonly accountModel: Model<AccountDocument>
     ) {}
 
+    private generateGravatar(email: string) {
+        const hash = crypto.createHash('md5').update(email).digest('hex');
+        return `https://www.gravatar.com/avatar/${hash}`;
+    }
+
     async createAccount(data: CreateAccountDTO): Promise<Account> {
+        const picture = this.generateGravatar(data.email);
         const hashedPassword = await argon2.hash(data.password);
         const account = new this.accountModel({
+            picture,
             email: data.email,
             name: data.name,
             password: hashedPassword,

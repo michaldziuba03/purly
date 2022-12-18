@@ -8,6 +8,9 @@ export class Account {
     id: string;
 
     @Prop()
+    picture: string;
+
+    @Prop()
     name: string;
 
     @Prop({ unique: true })

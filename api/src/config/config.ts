@@ -32,11 +32,15 @@ export class Config {
         return this.configService.get<string>('STRIPE_SECRET_KEY');
     }
 
+    get frontendUrl() {
+        return this.configService.get<string>('FRONTEND_URL');
+    }
+
     get stripeSuccessUrl() {
-        return this.configService.get<string>('STRIPE_SUCCESS_URL');
+        return this.frontendUrl;
     }
 
     get stripeCancelUrl() {
-        return this.configService.get<string>('STRIPE_CANCEL_URL');
+        return new URL('/cancel', this.frontendUrl).href;
     }
 }
