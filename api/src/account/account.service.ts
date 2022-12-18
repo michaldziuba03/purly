@@ -30,4 +30,12 @@ export class AccountService {
     findByEmail(email: string) {
         return this.accountModel.findOne({ email }).lean();
     }
+
+    findById(userId: string) {
+        return this.accountModel.findById(userId).lean();
+    }
+
+    saveCustomerId(userId: string, customerId: string) {
+        return this.accountModel.updateOne({ id: userId }, { customerId });
+    }
 }

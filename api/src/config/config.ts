@@ -31,4 +31,12 @@ export class Config {
     get stripeKey() {
         return this.configService.get<string>('STRIPE_SECRET_KEY');
     }
+
+    get stripeSuccessUrl() {
+        return this.configService.get<string>('STRIPE_SUCCESS_URL');
+    }
+
+    get stripeCancelUrl() {
+        return this.configService.get<string>('STRIPE_CANCEL_URL');
+    }
 }

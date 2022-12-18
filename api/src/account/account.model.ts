@@ -15,6 +15,9 @@ export class Account {
 
     @Prop()
     password: string;
+
+    @Prop()
+    customerId?: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);
