@@ -1,4 +1,6 @@
-import { Controller, Post, Body, Get, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, NotFoundException, UseGuards } from '@nestjs/common';
+import { User } from 'src/common/decorators/user.decorator';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 import { AliasService } from './alias.service';
 import { CreateAliasDTO } from './dto/create-alias.dto';
 
@@ -9,8 +11,8 @@ export class AliasController {
     ) {}
 
     @Post()
-    async createAlias(@Body() body: CreateAliasDTO) {
-        const alias = await this.aliasService.createAlias(body);
+    async createAlias(@Body() body: CreateAliasDTO, @User('id') userId: string) {
+        const alias = await this.aliasService.createAlias(body, userId);
         return alias;
     }
 

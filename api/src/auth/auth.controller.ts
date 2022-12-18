@@ -27,7 +27,12 @@ export class AuthController {
             throw new BadRequestException('Invalid email or password');
         }
 
-        session.set('userId', account.id);
+        session.set('user', account);
         return account;
+    }
+
+    @Post('logout')
+    async logout(@Session() session: CookieSession) {
+        session.delete();
     }
 }

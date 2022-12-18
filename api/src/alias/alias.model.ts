@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose/dist";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import mongoose, { HydratedDocument } from "mongoose";
 
 export type AliasDocument = HydratedDocument<Alias>;
 
@@ -9,6 +9,9 @@ export type AliasDocument = HydratedDocument<Alias>;
 export class Alias {
     @Prop({ unique: true })
     token: string;
+
+    @Prop({ type: mongoose.Schema.Types.ObjectId })
+    userId?: string;
     
     @Prop()
     number: number;

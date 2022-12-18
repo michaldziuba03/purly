@@ -16,13 +16,14 @@ export class AliasService {
         private readonly rangeService: RangeService,
     ) {}
 
-    async createAlias(data: CreateAliasDTO): Promise<Alias> {
+    async createAlias(data: CreateAliasDTO, userId: string): Promise<Alias> {
         const number = await this.rangeService.next();
         const token =  this.hashids.encode(number);
 
         const alias = new this.aliasModel({
             token,
             number,
+            userId,
             url: data.url,
         });
 
