@@ -4,9 +4,12 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import helmet = require('@fastify/helmet');
 import { ValidationPipe } from '@nestjs/common';
 import { Config } from './config/config';
+
+// FASTIFY PLUGINS:
+import helmet from '@fastify/helmet';
+import session from '@fastify/secure-session';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -17,8 +20,17 @@ async function bootstrap() {
   const config = app.get<Config>(Config);
   app.enableCors();
   app.enableShutdownHooks();
+
   app.register(helmet);
-  
+  app.register(session, {
+    cookieName: 'session',
+    key: Buffer.from(config.sessionKey, 'hex'),
+    cookie: {
+      httpOnly: true,
+      path: '/',
+    }
+  })
+
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     stopAtFirstError: true,

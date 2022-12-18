@@ -23,4 +23,8 @@ export class Config {
     get mongoURI() {
         return this.configService.get<string>('MONGO_URI');
     }
+
+    get sessionKey() {
+        return this.configService.get<string>('SESSION_KEY');
+    }
 }

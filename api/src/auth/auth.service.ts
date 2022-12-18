@@ -11,15 +11,32 @@ export class AuthService {
     ) {}
 
     async register(data: CreateAccountDTO) {
-        const account = await this.accountService.createAccount(data);
-        return {
-            id: account.id,
-            name: account.name,
+        const alreadyExists = await this.accountService.accountExists(data.email);
+        if (alreadyExists) {
+            return;
+        }
+        
+        try {
+            const account = await this.accountService.createAccount(data);
+            
+            return {
+                id: account.id,
+                name: account.name,
+            }
+        } catch (err) {
+            if (err.name === "MongoServerError" && err.code === 11000) {
+                return;
+            }
+
+            throw err;
         }
     }
 
     async login(data: LoginDTO) {
         const account = await this.accountService.findByEmail(data.email);
+        if (!account) {
+            return;
+        }
 
         const areSame = await argon2.verify(account.password, data.password);
         if (!areSame) {

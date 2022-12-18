@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import type ZK from 'zookeeper';
+import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Config } from 'src/config/config';
+import Zk from 'zookeeper';
 const ZK_EPHEMERAL_SEQUENTIAL = 3; // flag for created znode
 
 interface ICounter {
@@ -10,16 +11,38 @@ interface ICounter {
 }
 
 @Injectable()
-export class RangeService {
-    private basePath = '/range';
-    private range = 10_000;
+export class RangeService implements OnModuleInit, OnModuleDestroy {
+    private readonly basePath = '/range';
+    private readonly range = 10_000;
 
     private counter: ICounter;
-    private zk: ZK;
+    private zk: Zk;
 
-    async initRange(zk: ZK) {
-        this.zk = zk;
-        this.setRange();
+    constructor(
+      private readonly config: Config,
+    ) {}
+
+    onModuleInit() {
+        const zkConfig = {
+          connect: this.config.zkConnect,
+          timeout: 5000,
+          debug_level: Zk.ZOO_LOG_LEVEL_WARN,
+          host_order_deterministic: false,
+        };
+    
+        // TODO: change Zookeeper initiation - current method will be hard to test
+        this.zk = new Zk(zkConfig);
+        this.zk.once('connect', () => {
+          Logger.log('Zookeeper connected', RangeService.name);
+          this.setRange();
+        });
+    
+        this.zk.init({});
+      }
+    
+    onModuleDestroy() {
+        this.zk.close();
+        Logger.log('Zookeeper disconnected gracefully', RangeService.name);
     }
 
     private async setRange() {
