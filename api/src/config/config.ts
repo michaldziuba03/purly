@@ -27,4 +27,8 @@ export class Config {
     get sessionKey() {
         return this.configService.get<string>('SESSION_KEY');
     }
+
+    get stripeKey() {
+        return this.configService.get<string>('STRIPE_SECRET_KEY');
+    }
 }

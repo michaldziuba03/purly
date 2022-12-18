@@ -14,4 +14,5 @@ export const configSchema = Joi.object().keys({
     ZK_CONNECT: Joi.string().required(),
     MONGO_URI: Joi.string().required(),
     SESSION_KEY: Joi.string().required(),
+    STRIPE_SECRET_KEY: Joi.string().required(),
 })

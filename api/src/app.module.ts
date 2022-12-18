@@ -7,6 +7,7 @@ import { Config } from './config/config';
 import { LoggerModule } from './logger/logger.module';
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
     AliasModule,
     AccountModule,
     AuthModule,
+    SubscriptionModule,
   ],
   controllers: [],
   providers: [],
