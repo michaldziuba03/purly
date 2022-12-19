@@ -50,4 +50,8 @@ export class SubscriptionService {
 
         return session;
     }
+
+    constructEvent(body: unknown, signature: string, webhookSecret: string) {
+        return this.stripe.webhooks.constructEvent(body as Buffer, signature, webhookSecret);
+    }
 }

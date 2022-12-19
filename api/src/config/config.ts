@@ -28,12 +28,16 @@ export class Config {
         return this.configService.get<string>('SESSION_KEY');
     }
 
+    get frontendUrl() {
+        return this.configService.get<string>('FRONTEND_URL');
+    }
+
     get stripeKey() {
         return this.configService.get<string>('STRIPE_SECRET_KEY');
     }
 
-    get frontendUrl() {
-        return this.configService.get<string>('FRONTEND_URL');
+    get stripeHookSecret() {
+        return this.configService.get<string>('STRIPE_WEBHOOK_SECRET');
     }
 
     get stripeSuccessUrl() {

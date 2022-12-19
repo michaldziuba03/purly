@@ -35,6 +35,10 @@ export class AccountService {
         return Boolean(await this.accountModel.exists({ email }).lean());
     }
 
+    updateAccount(userId: string, data: Partial<Account>) {
+        return this.accountModel.updateOne({ id: userId }, data);
+    }
+
     findByEmail(email: string) {
         return this.accountModel.findOne({ email }).lean();
     }

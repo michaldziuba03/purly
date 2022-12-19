@@ -11,7 +11,10 @@ import session from '@fastify/secure-session';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter()
+    new FastifyAdapter(),
+    {
+      rawBody: true, // required by stripe webhook
+    }
   );
   
   const config = app.get<Config>(Config);
