@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
+import { Plans } from "src/subscription/subscription.constants";
 
 export type AccountDocument = HydratedDocument<Account>;
 
@@ -21,6 +22,9 @@ export class Account {
 
     @Prop()
     customerId?: string;
+
+    @Prop()
+    plan?: Plans;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

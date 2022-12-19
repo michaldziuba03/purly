@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import argon2 from 'argon2';
 import crypto from 'crypto';
 import { Model } from 'mongoose';
+import { Plans } from 'src/subscription/subscription.constants';
 import { Account, AccountDocument } from './account.model';
 import { CreateAccountDTO } from './dto/create-account.dto';
 
@@ -49,5 +50,9 @@ export class AccountService {
 
     saveCustomerId(userId: string, customerId: string) {
         return this.accountModel.updateOne({ id: userId }, { customerId });
+    }
+
+    saveSubscription(customerId: string, plan: Plans) {
+        return this.accountModel.updateOne({ customerId }, { plan });
     }
 }

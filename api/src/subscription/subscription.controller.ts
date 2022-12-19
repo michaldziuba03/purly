@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Headers, Post, RawBodyRequest, Req, UseGuards, } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Headers, Post, RawBodyRequest, Req, UseGuards, } from '@nestjs/common';
 import { User } from 'src/common/decorators/user.decorator';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { Config } from 'src/config/config';
@@ -18,8 +18,14 @@ export class SubscriptionController {
         return this.subService.createSubscriptionSession(priceId, userId);
     }
 
+    @Get()
+    @UseGuards(new AuthGuard())
+    manageSubscriptions(@User('id') userId: string) {
+        return this.subService.manageSubscription(userId);
+    }
+
     @Post('webhook')
-    webhook(
+    async webhook(
         @Req() req: RawBodyRequest<unknown>,
         @Headers('stripe-signature') stripeSignature: string, 
     ) {
@@ -31,18 +37,23 @@ export class SubscriptionController {
                 this.config.stripeHookSecret
             );
         } catch (err) {
-            console.error(err);
             throw new BadRequestException('Invalid webhook event');
         }
 
         switch (event.type) {
             case 'customer.subscription.created':
-                console.log('Subscription created');
+                console.log('Subscription created:', event.data, event.object);
+                // @ts-ignore:
+                await this.subService.createSubscription(event.data.object.customer, event.data.object.plan.product);
+                break
+            case 'customer.subscription.updated':
+                break
+            case 'customer.subscription.deleted':
                 break
             default:
                 break
         }
 
-        return; // just send back STATUS 200 OK
+        return; // just send back STATUS 201 CREATED
     }
 }

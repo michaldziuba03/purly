@@ -2,11 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AccountService } from 'src/account/account.service';
 import { Config } from 'src/config/config';
 import Stripe from 'stripe'
-
-enum Plans {
-    BASIC = 'basic',
-    PRO = 'pro',
-}
+import { Plans } from './subscription.constants';
 
 @Injectable()
 export class SubscriptionService {
@@ -53,5 +49,29 @@ export class SubscriptionService {
 
     constructEvent(body: unknown, signature: string, webhookSecret: string) {
         return this.stripe.webhooks.constructEvent(body as Buffer, signature, webhookSecret);
+    }
+
+    private getPlan(productId: string) {
+        switch (productId) {
+            case this.config.basicPlanId:
+                return Plans.BASIC;
+            case this.config.proPlanId:
+                return Plans.PRO;
+        }
+    }
+
+    createSubscription(customerId: string, productId: string) {
+        const plan = this.getPlan(productId);
+        return this.accountService.saveSubscription(customerId, plan);
+    }
+
+    async manageSubscription(userId: string) {
+        const account = await this.accountService.findById(userId);
+        const billingPortal = await this.stripe.billingPortal.sessions.create({
+            customer: account.customerId,
+            return_url: this.config.stripeSuccessUrl,
+        });
+
+        return billingPortal;
     }
 }

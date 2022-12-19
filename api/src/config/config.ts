@@ -47,4 +47,12 @@ export class Config {
     get stripeCancelUrl() {
         return new URL('/cancel', this.frontendUrl).href;
     }
+
+    get basicPlanId() {
+        return this.configService.get<string>('BASIC_PLAN_ID');
+    }
+
+    get proPlanId() {
+        return this.configService.get<string>('PRO_PLAN_ID');
+    }
 }
