@@ -53,7 +53,11 @@ export class SubscriptionService {
     }
 
     constructEvent(body: Buffer, signature: string, webhookSecret: string) {
-        return this.stripe.webhooks.constructEvent(body, signature, webhookSecret);
+        try {
+            return this.stripe.webhooks.constructEvent(body, signature, webhookSecret);
+        } catch (err) {
+            return;
+        }
     }
 
     async isProcessed(eventId: string, eventType: string) {

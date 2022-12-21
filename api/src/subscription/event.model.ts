@@ -3,8 +3,9 @@ import { HydratedDocument } from "mongoose";
 
 export type StripeEventDocument = HydratedDocument<StripeEvent>;
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'stripe_events' })
 export class StripeEvent {
+
     @Prop({ unique: true })
     eventId: string;
 

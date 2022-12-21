@@ -32,9 +32,18 @@ export class AliasService {
 
     async findAlias(token: string): Promise<LeanDocument<AliasDocument>> {
         const alias = await this.aliasModel.findOne({ token })
-            .select(['token', 'url', 'createdAt'])
+            .select(['token', 'url', 'createdAt', 'enableTracking'])
             .lean();
 
         return alias;
+    }
+
+    async deleteAlias(token: string, userId: string) {
+        const result = await this.aliasModel.deleteOne({
+            token,
+            userId
+        }).lean()
+
+        return result.deletedCount > 0;
     }
 }

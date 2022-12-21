@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, NotFoundException, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, NotFoundException, UseGuards, Delete, Res } from '@nestjs/common';
 import { User } from 'src/common/decorators/user.decorator';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { AliasService } from './alias.service';
@@ -24,5 +24,30 @@ export class AliasController {
         }
 
         return alias;
+    }
+
+    @Get(':token/redirect')
+    async redirect(@Param('token') token: string, @Res() res) {
+        const alias = await this.aliasService.findAlias(token);
+        if (!alias) {
+            throw new NotFoundException();
+        }
+
+        if (alias.enableTracking) {
+            // send data to queue for analitics (ip, user-agent)
+        }
+
+        return res.status(302).redirect(alias.url);
+    }
+
+    @Delete(':token')
+    @UseGuards(new AuthGuard())
+    async deleteAlias(@Param('token') token: string, @User('id') userId: string) {
+        const isDeleted = await this.aliasService.deleteAlias(token, userId);
+        if (!isDeleted) {
+            throw new NotFoundException();
+        }
+
+        return;
     }
 }

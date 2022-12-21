@@ -18,6 +18,9 @@ export class Alias {
 
     @Prop()
     url: string; 
+
+    @Prop({ default: false })
+    enableTracking: boolean;
 }
 
 export const AliasSchema = SchemaFactory.createForClass(Alias);

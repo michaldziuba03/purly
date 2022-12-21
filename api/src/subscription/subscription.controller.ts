@@ -36,20 +36,18 @@ export class SubscriptionController {
         @Headers('stripe-signature') stripeSignature: string, 
     ) {
         if (!stripeSignature) {
-            throw new BadRequestException('Missing stripe-signature header');
+            throw new BadRequestException('Missing signature');
         }
 
-        let event: Stripe.Event | Buffer = req.rawBody;
-        try {
-            event = this.subService.constructEvent(
-                req.rawBody, 
-                stripeSignature, 
-                this.config.stripeHookSecret
-            );
-        } catch (err) {
-            throw new BadRequestException('Invalid webhook event');
-        }
+        const event = this.subService.constructEvent(
+            req.rawBody, 
+            stripeSignature, 
+            this.config.stripeHookSecret
+        );
 
+        if (!event) {
+            throw new BadRequestException('Invalid event data');
+        }
         /* 
         We want to ensure the idempotency of our webhook handler so we are checking if event has already been processed
         
