@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { AccountService } from 'src/account/account.service';
 import { Config } from 'src/config/config';
 import Stripe from 'stripe'
+import { StripeEvent } from './event.model';
 import { Plans } from './subscription.constants';
 
 @Injectable()
@@ -11,6 +14,8 @@ export class SubscriptionService {
     constructor(
         private readonly config: Config,
         private readonly accountService: AccountService,
+        @InjectModel(StripeEvent.name)
+        private readonly stripeEvent: Model<StripeEvent>,
     ) {
         this.stripe = new Stripe(config.stripeKey, { apiVersion: null });
     }
@@ -47,8 +52,22 @@ export class SubscriptionService {
         return session;
     }
 
-    constructEvent(body: unknown, signature: string, webhookSecret: string) {
-        return this.stripe.webhooks.constructEvent(body as Buffer, signature, webhookSecret);
+    constructEvent(body: Buffer, signature: string, webhookSecret: string) {
+        return this.stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    }
+
+    async isProcessed(eventId: string, eventType: string) {
+        try {
+            await this.stripeEvent.create({ eventId, eventType });
+            
+            return false;
+        } catch (err) {
+            if (err.name === "MongoServerError" && err.code === 11000) {
+                return true;
+            }
+
+            throw new err;
+        }
     }
 
     private getPlan(productId: string) {
@@ -60,9 +79,13 @@ export class SubscriptionService {
         }
     }
 
-    createSubscription(customerId: string, productId: string) {
+    async saveSubscription(customerId: string, productId: string) {
         const plan = this.getPlan(productId);
         return this.accountService.saveSubscription(customerId, plan);
+    }
+
+    deleteSubscription(customerId: string) {
+        return this.accountService.deleteSubscription(customerId);
     }
 
     async manageSubscription(userId: string) {

@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "stats": {
+      "type": "library",
+      "root": "libs/stats",
+      "entryFile": "index",
+      "sourceRoot": "libs/stats/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/stats/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
+}

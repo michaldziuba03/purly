@@ -3,6 +3,7 @@ import { User } from 'src/common/decorators/user.decorator';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { Config } from 'src/config/config';
 import Stripe from 'stripe';
+import { SubscriptionEvents } from './subscription.constants';
 import { SubscriptionService } from './subscription.service';
 
 @Controller('subscriptions')
@@ -24,11 +25,20 @@ export class SubscriptionController {
         return this.subService.manageSubscription(userId);
     }
 
+    private readonly updateSubscriptionTriggers: string[] = [
+        SubscriptionEvents.CREATED,
+        SubscriptionEvents.UPDATED,
+    ]
+
     @Post('webhook')
-    async webhook(
+    async stripeWebhook(
         @Req() req: RawBodyRequest<unknown>,
         @Headers('stripe-signature') stripeSignature: string, 
     ) {
+        if (!stripeSignature) {
+            throw new BadRequestException('Missing stripe-signature header');
+        }
+
         let event: Stripe.Event | Buffer = req.rawBody;
         try {
             event = this.subService.constructEvent(
@@ -40,18 +50,27 @@ export class SubscriptionController {
             throw new BadRequestException('Invalid webhook event');
         }
 
-        switch (event.type) {
-            case 'customer.subscription.created':
-                console.log('Subscription created:', event.data, event.object);
-                // @ts-ignore:
-                await this.subService.createSubscription(event.data.object.customer, event.data.object.plan.product);
-                break
-            case 'customer.subscription.updated':
-                break
-            case 'customer.subscription.deleted':
-                break
-            default:
-                break
+        /* 
+        We want to ensure the idempotency of our webhook handler so we are checking if event has already been processed
+        
+        TO-DO: saving event and updating subscription should be run in transaction (to avoid dangerous data inconsistency in some cases).
+        For example: saving event succeed but updating subscription status failed - we end up with data inconsistency
+        */
+       if (this.updateSubscriptionTriggers.includes(event.type)) {
+            const isProcessed = await this.subService.isProcessed(event.id, event.type);
+            if (isProcessed) return;
+
+            const subscription = event.data.object as Stripe.Subscription;
+            // @ts-ignore:
+            await this.subService.saveSubscription(subscription.customer, subscription.plan.product);
+        }
+
+        if (event.type === SubscriptionEvents.DELETED) {
+            const isProcessed = await this.subService.isProcessed(event.id, event.type);
+            if (isProcessed) return;
+
+            const subscription = event.data.object as Stripe.Subscription;
+            await this.subService.deleteSubscription(subscription.customer as string);
         }
 
         return; // just send back STATUS 201 CREATED

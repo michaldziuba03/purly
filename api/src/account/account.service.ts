@@ -11,7 +11,7 @@ import { CreateAccountDTO } from './dto/create-account.dto';
 export class AccountService {
     constructor(
         @InjectModel(Account.name)
-        private readonly accountModel: Model<AccountDocument>
+        private readonly accountModel: Model<AccountDocument>,
     ) {}
 
     private generateGravatar(email: string) {
@@ -54,5 +54,9 @@ export class AccountService {
 
     saveSubscription(customerId: string, plan: Plans) {
         return this.accountModel.updateOne({ customerId }, { plan });
+    }
+
+    deleteSubscription(customerId: string) {
+        return this.accountModel.updateOne({ customerId }, { plan: null });
     }
 }
