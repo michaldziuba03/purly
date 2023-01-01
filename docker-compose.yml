@@ -18,4 +18,10 @@ services:
     restart: always
     ports:
       - 27017:27017
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - 6379:6379
     
