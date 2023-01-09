@@ -11,4 +11,5 @@ export const configSchema = Joi.object().keys({
         .valid(NodeEnv.dev, NodeEnv.prod, NodeEnv.test)
         .default(NodeEnv.dev),
     REDIS_URI: Joi.string(),
+    MONGO_URI: Joi.string(),
 });

@@ -51,7 +51,7 @@ export class SubscriptionController {
         /* 
         We want to ensure the idempotency of our webhook handler so we are checking if event has already been processed
         
-        TO-DO: saving event and updating subscription should be run in transaction (to avoid dangerous data inconsistency in some cases).
+        TODO: saving event and updating subscription should be run in transaction (to avoid dangerous data inconsistency in some cases).
         For example: saving event succeed but updating subscription status failed - we end up with data inconsistency
         */
        if (this.updateSubscriptionTriggers.includes(event.type)) {

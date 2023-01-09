@@ -27,13 +27,17 @@
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/microservices": "^9.2.1",
+    "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "bull": "^4.10.2",
+    "geoip-country": "^4.1.38",
     "ioredis": "^5.2.4",
     "joi": "^17.7.0",
+    "mongoose": "^6.8.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "ua-parser-js": "^1.0.32"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -44,6 +48,7 @@
     "@types/jest": "28.1.8",
     "@types/node": "^16.0.0",
     "@types/supertest": "^2.0.11",
+    "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",

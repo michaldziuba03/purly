@@ -24,6 +24,10 @@ export class Config {
         return this.configService.get<string>('MONGO_URI');
     }
 
+    get redisURI() {
+        return this.configService.get<string>('REDIS_URI');
+    }
+
     get sessionKey() {
         return this.configService.get<string>('SESSION_KEY');
     }
@@ -54,5 +58,9 @@ export class Config {
 
     get proPlanId() {
         return this.configService.get<string>('PRO_PLAN_ID');
+    }
+
+    get emailSecret() {
+        return this.configService.get<string>('EMAIL_SECRET');
     }
 }

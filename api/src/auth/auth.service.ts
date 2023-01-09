@@ -3,11 +3,15 @@ import { AccountService } from 'src/account/account.service';
 import { CreateAccountDTO } from 'src/account/dto/create-account.dto';
 import { LoginDTO } from './dto/login.dto';
 import argon2 from 'argon2';
+import { JwtService } from '@nestjs/jwt/dist';
+import { Config } from 'src/config/config';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly accountService: AccountService
+        private readonly config: Config,
+        private readonly accountService: AccountService,
+        private readonly jwtService: JwtService,
     ) {}
 
     async register(data: CreateAccountDTO) {

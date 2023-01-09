@@ -1,13 +1,17 @@
-import { Controller, Post, Body, Get, Param, NotFoundException, UseGuards, Delete, Res } from '@nestjs/common';
+import {Controller, Post, Body, Get, Param, NotFoundException, UseGuards, Delete, Res, Headers, Ip} from '@nestjs/common';
 import { User } from 'src/common/decorators/user.decorator';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { AliasService } from './alias.service';
 import { CreateAliasDTO } from './dto/create-alias.dto';
+import {InjectQueue} from "@nestjs/bull";
+import { Queue } from 'bull';
 
 @Controller('alias')
 export class AliasController {
     constructor(
         private readonly aliasService: AliasService,
+        @InjectQueue('stats')
+        private readonly statsQueue: Queue,
     ) {}
 
     @Post()
@@ -27,7 +31,12 @@ export class AliasController {
     }
 
     @Get(':token/redirect')
-    async redirect(@Param('token') token: string, @Res() res) {
+    async redirect(
+        @Param('token') token: string,
+        @Headers() headers: any,
+        @Ip() ip: string,
+        @Res() res
+    ) {
         const alias = await this.aliasService.findAlias(token);
         if (!alias) {
             throw new NotFoundException();
@@ -35,6 +44,12 @@ export class AliasController {
 
         if (alias.enableTracking) {
             // send data to queue for analitics (ip, user-agent)
+            this.statsQueue.add({
+                agent: headers['user-agent'],
+                ip,
+                alias: alias.token,
+                userId: alias.userId,
+            })
         }
 
         return res.status(302).redirect(alias.url);
