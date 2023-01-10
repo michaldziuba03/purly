@@ -1,7 +1,0 @@
-  gateway:
-    image: openresty/openresty:alpine
-    network_mode: host
-    restart: always
-    volumes:
-      - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
-      - ./nginx/conf.d:/etc/nginx/conf.d
