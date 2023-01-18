@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { normalizer } from '../database/normalize';
 import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type AccountDocument = HydratedDocument<Account>;
 
@@ -10,17 +11,21 @@ export type AccountDocument = HydratedDocument<Account>;
 })
 export class Account {
   @Expose()
+  @ApiProperty()
   id: string;
 
   @Expose()
+  @ApiProperty()
   @Prop()
   name: string;
 
   @Expose()
+  @ApiProperty()
   @Prop()
   picture: string;
 
   @Expose()
+  @ApiProperty()
   @Prop({ unique: true })
   email: string;
 

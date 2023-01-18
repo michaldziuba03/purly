@@ -14,13 +14,17 @@ import { LocalAuthGuard } from './guards/local.guard';
 import { Request } from 'express';
 import { AnonGuard } from './guards/auth.guard';
 import { mapEntity } from '../common/utils';
+import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginDTO } from './dto';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
   @UseGuards(new AnonGuard())
+  @ApiResponse({ type: Account })
   async register(@Body() data: CreateAccountDTO) {
     const account = await this.authService.register(data);
     if (!account) {
@@ -32,6 +36,8 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(new AnonGuard(), LocalAuthGuard)
+  @ApiResponse({ type: Account })
+  @ApiBody({ type: LoginDTO })
   login(@User() account: Account) {
     return mapEntity(account, Account);
   }
