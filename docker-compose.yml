@@ -1,4 +1,6 @@
 version: '3.6'
+networks:
+  mongo-net:
 services:
   zoo1:
     image: zookeeper
@@ -18,40 +20,20 @@ services:
     ports:
       - 6379:6379
 
-  replica-set-manager:
+  mongo1:
+    hostname: localhost # This is a only way to make it accessible from host. I could use network_mode: host, but it's working only on Linux hosts
     image: mongo
-    restart: "no"
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - mongo-net
     entrypoint: [
       '/bin/sh',
       '-c',
       '/mongo-rs.sh'
     ]
-    network_mode: host
     volumes:
       - ./scripts/mongo-rs.sh:/mongo-rs.sh
-    depends_on:
-      - mongo1
-      - mongo2
-      - mongo3
-
-  mongo1:
-    hostname: mongo1
-    image: mongo
-    restart: always
-    command: mongod --bind_ip_all --replSet rs --port 27017
-    network_mode: host
-    depends_on:
-      - mongo2
-      - mongo3
-  mongo2:
-    hostname: mongo2
-    image: mongo
-    restart: always
-    command: mongod --bind_ip_all --replSet rs --port 27018
-    network_mode: host
-  mongo3:
-    hostname: mongo3
-    image: mongo
-    restart: always
-    command: mongod --bind_ip_all --replSet rs --port 27019
-    network_mode: host
