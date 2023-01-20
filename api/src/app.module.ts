@@ -5,6 +5,7 @@ import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { RedisModule } from '@mich4l/nestjs-redis';
 import { Config } from './config/config';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { Config } from './config/config';
     DatabaseModule,
     AccountModule,
     AuthModule,
+    SubscriptionModule,
   ],
   controllers: [],
   providers: [],

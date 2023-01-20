@@ -17,11 +17,12 @@ export function setupSwagger(app: INestApplication) {
     .setExternalDoc('GitHub', 'https://github.com/michaldziuba03/url-shortener')
     .build();
 
+  const path = 'api/spec';
   const swaggerDoc = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api/spec', app, swaggerDoc);
+  SwaggerModule.setup(path, app, swaggerDoc);
 
   // Serve specification in json (useful for tools like Insomnia)
-  app.getHttpAdapter().get('/api/spec/json', (_, res) => {
+  app.getHttpAdapter().get(`/${path}/json`, (_, res) => {
     res.json(swaggerDoc);
   });
 }

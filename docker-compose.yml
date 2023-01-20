@@ -12,16 +12,46 @@ services:
     hostname: zoonav
     ports:
       - 9000:9000
-
-  database:
-    image: mongo
-    restart: always
-    ports:
-      - 27017:27017
-
   redis:
     image: redis:alpine
     restart: always
     ports:
       - 6379:6379
-    
+
+  replica-set-manager:
+    image: mongo
+    restart: "no"
+    entrypoint: [
+      '/bin/sh',
+      '-c',
+      '/mongo-rs.sh'
+    ]
+    network_mode: host
+    volumes:
+      - ./scripts/mongo-rs.sh:/mongo-rs.sh
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+
+  mongo1:
+    hostname: mongo1
+    image: mongo
+    restart: always
+    command: mongod --bind_ip_all --replSet rs --port 27017
+    network_mode: host
+    depends_on:
+      - mongo2
+      - mongo3
+  mongo2:
+    hostname: mongo2
+    image: mongo
+    restart: always
+    command: mongod --bind_ip_all --replSet rs --port 27018
+    network_mode: host
+  mongo3:
+    hostname: mongo3
+    image: mongo
+    restart: always
+    command: mongod --bind_ip_all --replSet rs --port 27019
+    network_mode: host
