@@ -14,11 +14,7 @@ import { LocalAuthGuard } from './guards/local.guard';
 import { Request } from 'express';
 import { AnonGuard } from './guards/auth.guard';
 import { mapEntity } from '../common/utils';
-import {
-  ApiBody,
-  ApiCreatedResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDTO } from './dto';
 
 @Controller('auth')

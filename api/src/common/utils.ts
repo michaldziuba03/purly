@@ -41,3 +41,7 @@ export function mapEntity<C>(plain: any, cls: ClassConstructor<C>) {
     });
   }
 }
+
+export function returnPromise(value: any) {
+  return new Promise((resolve) => resolve(value));
+}
