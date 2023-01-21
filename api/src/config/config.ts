@@ -12,7 +12,11 @@ export class Config implements RedisOptionsFactory {
   }
 
   get isDev() {
-    return this.nodeEnv !== NodeEnv.PROD;
+    return this.nodeEnv === NodeEnv.DEV;
+  }
+
+  get isTest() {
+    return this.nodeEnv === NodeEnv.TEST;
   }
 
   get port() {
@@ -28,6 +32,9 @@ export class Config implements RedisOptionsFactory {
   }
 
   get mongoURI() {
+    if (this.isTest) {
+      return this.configService.get<string>('MONGO_TEST_URI');
+    }
     return this.configService.get<string>('MONGO_URI');
   }
 
