@@ -66,6 +66,7 @@ describe('AuthController (e2e)', () => {
       return request(server)
         .post(path)
         .send(mockUser)
+        .expect(HttpStatus.CREATED)
         .expect((result) => {
           const account = result.body;
           expect(typeof account.id).toEqual('string');
