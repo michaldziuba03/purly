@@ -32,9 +32,6 @@ export class Config implements RedisOptionsFactory {
   }
 
   get mongoURI() {
-    if (this.isTest) {
-      return this.configService.get<string>('MONGO_TEST_URI');
-    }
     return this.configService.get<string>('MONGO_URI');
   }
 
