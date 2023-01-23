@@ -37,7 +37,7 @@ jobs:
       - name: Run unit tests
         run: pnpm test
 
-      - name: [DEBUG] Show docker compose logs
+      - name: "[DEBUG] Show docker compose logs"
         run: docker compose logs
         
       - name: Run e2e tests
