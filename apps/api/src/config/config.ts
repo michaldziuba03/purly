@@ -15,10 +15,6 @@ export class Config implements RedisOptionsFactory {
     return this.nodeEnv === NodeEnv.DEV;
   }
 
-  get isTest() {
-    return this.nodeEnv === NodeEnv.TEST;
-  }
-
   get port() {
     return this.configService.get<number>('PORT');
   }
