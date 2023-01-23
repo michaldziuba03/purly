@@ -1,0 +1,23 @@
+{
+	"name": "url-shortener",
+	"author": "Michał Dziuba",
+	"description": "URL Shortener built with Node.js, Zookeeper, Redis and MongoDB",
+	"repository": {
+		"url": "https://github.com/michaldziuba03/url-shortener"
+	},
+	"homepage": "https://github.com/michaldziuba03/url-shortener",
+	"devDependencies": {
+		"@commitlint/cli": "^17.4.2",
+		"@commitlint/config-conventional": "^17.4.2",
+		"husky": "^8.0.0"
+	},
+	"scripts": {
+		"prepare": "husky install",
+		"lint:staged": "pnpm --filter * lint:staged"
+	},
+	"commitlint": {
+		"extends": [
+			"@commitlint/config-conventional"
+		]
+	}
+}
