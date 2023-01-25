@@ -20,20 +20,10 @@ services:
     ports:
       - 6379:6379
 
-  mongo1:
-    hostname: localhost # This is a only way to make it accessible from host. I could use network_mode: host, but it's working only on Linux hosts
-    image: mongo
-    expose:
-      - 27017
+  mongodb:
+    image: md03/mongo-replica
     ports:
       - "27017:27017"
     restart: always
     networks:
       - mongo-net
-    entrypoint: [
-      '/bin/sh',
-      '-c',
-      '/mongo-rs.sh'
-    ]
-    volumes:
-      - ./scripts/mongo-rs.sh:/mongo-rs.sh
