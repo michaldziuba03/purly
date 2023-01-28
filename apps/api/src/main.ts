@@ -4,8 +4,8 @@ import { Config } from './config/config';
 import { ValidationPipe } from '@nestjs/common';
 import { validatorOptions } from './common/options';
 import helmet from 'helmet';
-import { setupSession } from './session';
-import { setupSwagger } from './swagger';
+import { setupSession } from './common/session';
+import { setupSwagger } from './common/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

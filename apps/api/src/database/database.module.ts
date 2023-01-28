@@ -1,7 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Config } from '../config/config';
+import { TransactionManager } from './transaction.manager';
 
+@Global()
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -11,5 +13,7 @@ import { Config } from '../config/config';
       }),
     }),
   ],
+  providers: [TransactionManager],
+  exports: [TransactionManager],
 })
 export class DatabaseModule {}

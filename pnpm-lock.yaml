@@ -55,6 +55,7 @@ importers:
       rimraf: ^4.1.0
       rxjs: ^7.8.0
       source-map-support: ^0.5.21
+      stripe: ^11.7.0
       supertest: ^6.3.3
       ts-jest: 29.0.5
       ts-loader: ^9.4.2
@@ -85,6 +86,7 @@ importers:
       reflect-metadata: 0.1.13
       rimraf: 4.1.1
       rxjs: 7.8.0
+      stripe: 11.7.0
     devDependencies:
       '@nestjs/cli': 9.1.8
       '@nestjs/schematics': 9.0.4_typescript@4.9.4
@@ -6595,6 +6597,14 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
     dev: true
+
+  /stripe/11.7.0:
+    resolution: {integrity: sha512-xpOc+ZD2IHx+e4wdo6zuZ1zZA5b894CyESH5sFrQ4RkMH+h6i9ybf6iDwxsV3TW403ab6SyA2BU9vZTOUPQcDQ==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 18.11.18
+      qs: 6.11.0
+    dev: false
 
   /strnum/1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}

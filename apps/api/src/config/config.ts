@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IORedisOptions, RedisOptionsFactory } from '@mich4l/nestjs-redis';
 import { NodeEnv } from './config.types';
+import {config} from 'rxjs';
 
 @Injectable()
 export class Config implements RedisOptionsFactory {
@@ -35,5 +36,13 @@ export class Config implements RedisOptionsFactory {
     return {
       connectUrl: this.configService.get<string>('REDIS_URI'),
     };
+  }
+
+  get stripeSecret() {
+    return this.configService.get<string>('STRIPE_SECRET_KEY');
+  }
+
+  get stripeWebhookSecret() {
+    return this.configService.get<string>('STRIPE_WEBHOOK_SECRET');
   }
 }

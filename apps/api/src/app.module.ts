@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { RedisModule } from '@mich4l/nestjs-redis';
 import { Config } from './config/config';
 import { SubscriptionModule } from './subscription/subscription.module';
+import { StripeModule } from './stripe/stripe.module';
+import { PlanModule } from './plan/plan.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { SubscriptionModule } from './subscription/subscription.module';
     AccountModule,
     AuthModule,
     SubscriptionModule,
+    StripeModule,
+    PlanModule,
   ],
   controllers: [],
   providers: [],

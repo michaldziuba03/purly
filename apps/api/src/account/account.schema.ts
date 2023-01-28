@@ -31,6 +31,12 @@ export class Account {
 
   @Prop()
   password: string;
+
+  @Prop()
+  billingId: string;
+
+  @Prop()
+  plan: string;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

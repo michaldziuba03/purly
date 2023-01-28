@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Config } from '../../src/config/config';
 import { validatorOptions } from '../../src/common/options';
-import { setupSession } from '../../src/session';
+import { setupSession } from '../../src/common/session';
 
 export async function createTestApp(): Promise<INestApplication> {
   const moduleFixture = await Test.createTestingModule({

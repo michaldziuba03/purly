@@ -1,5 +1,5 @@
 import { INestApplication } from '@nestjs/common';
-import { Config } from './config/config';
+import { Config } from '../config/config';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import * as connectRedis from 'connect-redis';
