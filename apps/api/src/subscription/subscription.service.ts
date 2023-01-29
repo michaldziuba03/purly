@@ -1,15 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AccountService } from '../account/account.service';
 import { InjectStripe } from '../stripe/stripe.provider';
+import { StripeEventService } from '../stripe-event/stripe-event.service';
+import { TransactionSession } from '../database/transaction.manager';
 import Stripe from 'stripe';
 
 @Injectable()
-export class SubscriptionService {
+export class SubscriptionService implements OnModuleInit {
   constructor(
     @InjectStripe()
     private readonly stripe: Stripe,
     private readonly accountService: AccountService,
+    private readonly stripeEvents: StripeEventService,
   ) {}
+
+  onModuleInit() {
+    this.stripeEvents.subscribeEvent(
+      'customer.subscription.updated',
+      this.handleSubscriptionUpdated.bind(this),
+    );
+  }
+
+  handleSubscriptionUpdated(event: Stripe.Event, t: TransactionSession) {
+    console.log('HANDLE SUBSCRIPTION UPDATED:', event);
+  }
 
   async createCustomer(email: string) {
     const customer = await this.stripe.customers.create({ email });
@@ -19,7 +33,7 @@ export class SubscriptionService {
   async createCheckoutSession(accountId: string, priceId: string) {
     const account = await this.accountService.findAccountById(accountId);
     if (!account) {
-      throw Error('Critical error'); // should be actually impossible
+      throw new Error('Critical error'); // should be actually impossible
     }
 
     if (!account.billingId) {

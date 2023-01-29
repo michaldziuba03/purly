@@ -18,6 +18,13 @@ export class PlanService implements OnModuleInit {
     return this.planRepository.find();
   }
 
+  async getNameByProductId(productId: string) {
+    const plan = await this.planRepository.findOne({ productId });
+    if (!plan) return;
+
+    return plan.name;
+  }
+
   async onModuleInit() {
     const plans = await this.planRepository.find();
     if (plans.length) {

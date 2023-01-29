@@ -8,6 +8,7 @@ import { Config } from './config/config';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { StripeModule } from './stripe/stripe.module';
 import { PlanModule } from './plan/plan.module';
+import { StripeEventModule } from './stripe-event/stripe-event.module';
 
 @Module({
   imports: [
@@ -16,9 +17,10 @@ import { PlanModule } from './plan/plan.module';
     DatabaseModule,
     AccountModule,
     AuthModule,
-    SubscriptionModule,
     StripeModule,
+    StripeEventModule,
     PlanModule,
+    SubscriptionModule,
   ],
   controllers: [],
   providers: [],
