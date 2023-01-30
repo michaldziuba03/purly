@@ -12,7 +12,8 @@
 		"husky": "^8.0.0"
 	},
 	"scripts": {
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"lint:staged": "pnpm --filter * lint:staged"
 	},
 	"commitlint": {
 		"extends": [
