@@ -13,5 +13,6 @@ import { PlanController } from './plan.controller';
   ],
   providers: [PlanService, PlanRepository],
   controllers: [PlanController],
+  exports: [PlanService],
 })
 export class PlanModule {}

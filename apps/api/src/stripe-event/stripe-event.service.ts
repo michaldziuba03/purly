@@ -42,7 +42,7 @@ export class StripeEventService {
     try {
       await this.eventRepository.create(
         {
-          eventId: event.id,
+          eventId: 'xd', //event.id,
           eventType: event.type,
           payload: event,
         },
@@ -51,16 +51,21 @@ export class StripeEventService {
 
       await handler(event, t);
       await this.transactionManager.commit(t);
+      await this.transactionManager.end(t);
     } catch (err) {
       await this.transactionManager.abort(t);
-      this.handleFailure(err);
-    } finally {
       await this.transactionManager.end(t);
+      this.handleFailure(err);
     }
   }
 
   handleFailure(err: any) {
-    if (err.name === 'MongoServerError' && err.code === 11000) {
+    if (
+      err.name === 'MongoServerError' &&
+      err.code === 11000 &&
+      err.keyValue.eventId
+    ) {
+      // ignore error because this event is already processed.
       console.log(err);
     } else {
       throw err;

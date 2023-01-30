@@ -1,13 +1,64 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
 import { createHash } from 'crypto';
 import { CreateAccountDTO } from './dto';
 import * as argon from 'argon2';
 import { Account } from './account.schema';
+import { StripeEventService } from '../stripe-event/stripe-event.service';
+import Stripe from 'stripe';
+import { TransactionSession } from '../database/transaction.manager';
+import { PlanService } from '../plan/plan.service';
 
 @Injectable()
-export class AccountService {
-  constructor(private readonly accountRepository: AccountRepository) {}
+export class AccountService implements OnModuleInit {
+  constructor(
+    private readonly accountRepository: AccountRepository,
+    private readonly planService: PlanService,
+    private readonly stripeEvents: StripeEventService,
+  ) {}
+
+  onModuleInit() {
+    this.stripeEvents.subscribeEvent(
+      'customer.subscription.updated',
+      this.updateSubscriptionStatus.bind(this),
+    );
+
+    this.stripeEvents.subscribeEvent(
+      'customer.subscription.deleted',
+      this.clearSubscriptionStatus.bind(this),
+    );
+  }
+
+  async updateSubscriptionStatus(event: Stripe.Event, t: TransactionSession) {
+    const subscription = event.data.object as Stripe.Subscription & {
+      plan: Stripe.Plan;
+    };
+    const plan = await this.planService.getNameByProductId(
+      subscription.plan.product as string,
+    );
+    await this.accountRepository.findOneAndUpdate(
+      {
+        billingId: subscription.customer,
+      },
+      {
+        plan,
+      },
+      { transaction: t },
+    );
+  }
+
+  async clearSubscriptionStatus(event: Stripe.Event, t: TransactionSession) {
+    const subscription = event.data.object as Stripe.Subscription;
+    await this.accountRepository.findOneAndUpdate(
+      { billingId: subscription.customer },
+      {
+        plan: null,
+      },
+      {
+        transaction: t,
+      },
+    );
+  }
 
   private generateGravatar(email: string) {
     const hash = createHash('md5').update(email).digest('hex');

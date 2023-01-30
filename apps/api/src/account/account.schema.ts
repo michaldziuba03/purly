@@ -32,9 +32,10 @@ export class Account {
   @Prop()
   password: string;
 
-  @Prop()
+  @Prop({ unique: true })
   billingId: string;
 
+  @Expose()
   @Prop()
   plan: string;
 }
