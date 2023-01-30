@@ -42,7 +42,7 @@ export class StripeEventService {
     try {
       await this.eventRepository.create(
         {
-          eventId: 'xd', //event.id,
+          eventId: event.id,
           eventType: event.type,
           payload: event,
         },
