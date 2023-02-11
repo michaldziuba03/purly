@@ -15,7 +15,7 @@ export class AuthenticatedGuard implements CanActivate {
 }
 
 @Injectable()
-export class AnonGuard implements CanActivate {
+export class GuestGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const req = context.switchToHttp().getRequest<Request>();
     if (req.isAuthenticated()) {

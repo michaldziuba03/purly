@@ -32,7 +32,7 @@ export class Account {
   @Prop()
   password: string;
 
-  @Prop({ unique: true })
+  @Prop({ unique: true, sparse: true })
   billingId: string;
 
   @Expose()
