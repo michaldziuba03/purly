@@ -4,6 +4,7 @@ import { AuthController } from './auth.controller';
 import { AccountModule } from '../account/account.module';
 import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from './session.serializer';
+import { GithubStrategy, GoogleStrategy, FacebookStrategy } from './strategies';
 
 @Module({
   imports: [
@@ -12,7 +13,13 @@ import { SessionSerializer } from './session.serializer';
       session: true,
     }),
   ],
-  providers: [AuthService, SessionSerializer],
+  providers: [
+    AuthService,
+    GoogleStrategy,
+    GithubStrategy,
+    FacebookStrategy,
+    SessionSerializer,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

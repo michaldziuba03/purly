@@ -45,4 +45,16 @@ export class Config implements RedisOptionsFactory {
   get stripeWebhookSecret() {
     return this.configService.get<string>('STRIPE_WEBHOOK_SECRET');
   }
+
+  get googleClientId() {
+    return this.configService.get<string>('GOOGLE_CLIENT_ID');
+  }
+
+  get githubClientId() {
+    return this.configService.get<string>('GITHUB_CLIENT_ID');
+  }
+
+  get githubClientSecret() {
+    return this.configService.get<string>('GITHUB_CLIENT_SECRET');
+  }
 }

@@ -22,6 +22,9 @@
     "test:e2e": "jest --runInBand --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@md03/passport-facebook": "^1.0.0",
+    "@md03/passport-github": "^1.0.0",
+    "@md03/passport-google": "^1.0.0",
     "@mich4l/nestjs-redis": "^1.1.0",
     "@nestjs/common": "^9.2.1",
     "@nestjs/config": "^2.2.0",
