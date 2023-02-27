@@ -14,6 +14,12 @@ import { AuthenticatedGuard, GuestGuard } from './guards/auth.guard';
 import { mapEntity } from '../common/utils';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDTO } from './dto';
+import { User } from '../common/decorators/user.decorator';
+import {
+  OAuthFacebookGuard,
+  OAuthGithubGuard,
+  OAuthGoogleGuard,
+} from './guards/oauth.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -57,6 +63,24 @@ export class AuthController {
     });
 
     req.session.cookie.maxAge = 0;
+  }
+
+  @Post('federated/google')
+  @UseGuards(new GuestGuard(), OAuthGoogleGuard)
+  async googleLogin(@User() account: Account) {
+    return mapEntity(account, Account);
+  }
+
+  @Post('federated/facebook')
+  @UseGuards(new GuestGuard(), OAuthFacebookGuard)
+  async facebookLogin(@User() account: Account) {
+    return mapEntity(account, Account);
+  }
+
+  @Post('federated/github')
+  @UseGuards(new GuestGuard(), OAuthGithubGuard)
+  async githubLogin(@User() account: Account) {
+    return mapEntity(account, Account);
   }
 
   private createSession(req: Request, user: Partial<Account>) {

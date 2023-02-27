@@ -3,11 +3,13 @@ import { AccountRepository } from './account.repository';
 import { createHash } from 'crypto';
 import { CreateAccountDTO } from './dto';
 import * as argon from 'argon2';
-import { Account } from './account.schema';
+import { OAuthProvider } from './account.constants';
 import { StripeEventService } from '../stripe-event/stripe-event.service';
 import Stripe from 'stripe';
 import { TransactionSession } from '../database/transaction.manager';
 import { PlanService } from '../plan/plan.service';
+import { Account } from './account.schema';
+import { OAuthData } from './account.types';
 
 @Injectable()
 export class AccountService implements OnModuleInit {
@@ -79,11 +81,20 @@ export class AccountService implements OnModuleInit {
     });
   }
 
+  async findByEmail(email: string) {
+    return this.accountRepository.findOne({ email });
+  }
+
   async findByEmailAndPass(email: string, password: string) {
     const account = await this.accountRepository.findOne({ email });
     if (!account) {
       return;
     }
+    // when user register with social login, password will be undefined
+    if (!account.password) {
+      return;
+    }
+
     const areSame = await argon.verify(account.password, password);
     if (!areSame) {
       return;
@@ -98,5 +109,46 @@ export class AccountService implements OnModuleInit {
 
   updateAccountById(accountId: string, data: Partial<Account>) {
     return this.accountRepository.findOneAndUpdate({ _id: accountId }, data);
+  }
+
+  findByFederatedAccount(provider: OAuthProvider, subject: string) {
+    return this.accountRepository.findOne({
+      'accounts.provider': provider,
+      'accounts.subject': subject,
+    });
+  }
+
+  async connectFederatedAccount(
+    provider: OAuthProvider,
+    subject: string,
+    data: OAuthData,
+  ) {
+    const { email, name, picture } = data;
+    const user = await this.findByEmail(email);
+    // pre-account takeover prevention:
+    if (user && !user.isVerified) {
+      return;
+    }
+
+    if (user) {
+      await this.accountRepository.updateOne(
+        { _id: user._id },
+        {
+          $push: {
+            accounts: { provider, subject },
+          },
+        },
+      );
+
+      return user;
+    }
+
+    return this.accountRepository.create({
+      email,
+      name,
+      picture,
+      isVerified: true,
+      accounts: [{ provider, subject }],
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Document, Model, FilterQuery } from 'mongoose';
+import { Document, Model, FilterQuery, UpdateQuery } from 'mongoose';
 import { TransactionSession } from './transaction.manager';
 
 export interface IEntityOptions {
@@ -17,6 +17,17 @@ export abstract class EntityRepository<D extends Document> {
     }
 
     return this.entityModel.create(data);
+  }
+
+  updateOne(
+    filter: FilterQuery<D>,
+    data: UpdateQuery<D>,
+    options: IEntityOptions = {},
+  ): any {
+    return this.entityModel.updateOne(filter, data, {
+      lean: true,
+      session: options.transaction?.session,
+    });
   }
 
   async exists(filter: FilterQuery<D>): Promise<boolean> {
