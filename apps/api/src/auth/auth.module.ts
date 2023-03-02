@@ -5,10 +5,12 @@ import { AccountModule } from '../account/account.module';
 import { PassportModule } from '@nestjs/passport';
 import { SessionSerializer } from './session.serializer';
 import { GithubStrategy, GoogleStrategy, FacebookStrategy } from './strategies';
+import { TokenModule } from '../token/token.module';
 
 @Module({
   imports: [
     AccountModule,
+    TokenModule,
     PassportModule.register({
       session: true,
     }),

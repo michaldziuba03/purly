@@ -9,6 +9,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
 import { StripeModule } from './stripe/stripe.module';
 import { PlanModule } from './plan/plan.module';
 import { StripeEventModule } from './stripe-event/stripe-event.module';
+import { TokenModule } from './token/token.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { StripeEventModule } from './stripe-event/stripe-event.module';
     RedisModule.forRootAsync({ useExisting: Config }),
     DatabaseModule,
     AccountModule,
+    TokenModule,
     AuthModule,
     StripeModule,
     StripeEventModule,

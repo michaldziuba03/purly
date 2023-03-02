@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
 import { createHash } from 'crypto';
 import { CreateAccountDTO } from './dto';
@@ -6,10 +6,14 @@ import * as argon from 'argon2';
 import { OAuthProvider } from './account.constants';
 import { StripeEventService } from '../stripe-event/stripe-event.service';
 import Stripe from 'stripe';
-import { TransactionSession } from '../database/transaction.manager';
+import {
+  TransactionManager,
+  TransactionSession,
+} from '../database/transaction.manager';
 import { PlanService } from '../plan/plan.service';
 import { Account } from './account.schema';
 import { OAuthData } from './account.types';
+import { TokenService } from '../token/token.service';
 
 @Injectable()
 export class AccountService implements OnModuleInit {
@@ -17,6 +21,8 @@ export class AccountService implements OnModuleInit {
     private readonly accountRepository: AccountRepository,
     private readonly planService: PlanService,
     private readonly stripeEvents: StripeEventService,
+    private readonly tokenService: TokenService,
+    private readonly transactionManager: TransactionManager,
   ) {}
 
   onModuleInit() {
@@ -149,6 +155,25 @@ export class AccountService implements OnModuleInit {
       picture,
       isVerified: true,
       accounts: [{ provider, subject }],
+    });
+  }
+
+  async verifyAccount(token: string) {
+    await this.transactionManager.transaction(async (t) => {
+      const tokenMeta = await this.tokenService.consumeVerificationToken(
+        token,
+        t,
+      );
+
+      if (!tokenMeta) {
+        throw new NotFoundException();
+      }
+
+      await this.accountRepository.updateOne(
+        { _id: tokenMeta.userId },
+        { isVerified: true },
+        { transaction: t },
+      );
     });
   }
 }

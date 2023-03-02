@@ -6,11 +6,13 @@ import { AccountRepository } from './account.repository';
 import { AccountController } from './account.controller';
 import { StripeEventModule } from '../stripe-event/stripe-event.module';
 import { PlanModule } from '../plan/plan.module';
+import { TokenModule } from '../token/token.module';
 
 @Module({
   imports: [
     StripeEventModule,
     PlanModule,
+    TokenModule,
     MongooseModule.forFeature([{ schema: AccountSchema, name: Account.name }]),
   ],
   providers: [AccountService, AccountRepository],

@@ -53,7 +53,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  @UseGuards(new AuthenticatedGuard())
+  @UseGuards(AuthenticatedGuard)
   async logout(@Req() req: Request) {
     await new Promise<void>((resolve, reject) => {
       req.logOut({ keepSessionInfo: false }, (err) => {

@@ -11,13 +11,20 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { OptionalAuth } from '../common/decorators/optional-auth.decorator';
 
 @Controller('accounts')
 @ApiTags('accounts')
 @ApiCookieAuth()
-@UseGuards(new AuthenticatedGuard())
+@UseGuards(AuthenticatedGuard)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
+
+  @Post('verify')
+  @OptionalAuth()
+  async verifyAccount(@Body('token') token: string) {
+    await this.accountService.verifyAccount(token);
+  }
 
   @Get('me')
   @ApiOkResponse({ type: Account })

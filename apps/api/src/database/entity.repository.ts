@@ -9,11 +9,17 @@ export abstract class EntityRepository<D extends Document> {
   protected constructor(private readonly entityModel: Model<D>) {}
   private readonly defaultProjection = {};
 
-  create(data: Partial<D>, options: IEntityOptions = {}) {
+  async create(data: Partial<D>, options: IEntityOptions = {}): Promise<D> {
     if (options.transaction) {
-      return this.entityModel.create([data], {
+      const result = await this.entityModel.create([data], {
         session: options.transaction?.session,
       });
+
+      if (Array.isArray(result)) {
+        return result[0];
+      }
+
+      return result;
     }
 
     return this.entityModel.create(data);
@@ -67,6 +73,13 @@ export abstract class EntityRepository<D extends Document> {
       projection: { ...this.defaultProjection },
       session: options.transaction?.session,
     });
+  }
+
+  findOneAndDelete(filter: FilterQuery<D> = {}, options: IEntityOptions = {}) {
+    return this.entityModel
+      .findOneAndDelete(filter)
+      .session(options.transaction?.session)
+      .lean();
   }
 
   async deleteOne(

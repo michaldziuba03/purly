@@ -4,7 +4,7 @@ import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 import { User } from '../common/decorators/user.decorator';
 
 @Controller('subscriptions')
-@UseGuards(new AuthenticatedGuard())
+@UseGuards(AuthenticatedGuard)
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
