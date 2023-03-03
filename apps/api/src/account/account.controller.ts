@@ -4,7 +4,7 @@ import { User } from '../common/decorators/user.decorator';
 import { mapEntity } from '../common/utils';
 import { Account } from './account.schema';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
-import { UpdateAccountDTO } from './dto';
+import { ResetPasswordDTO, UpdateAccountDTO } from './dto';
 import {
   ApiCookieAuth,
   ApiCreatedResponse,
@@ -19,6 +19,12 @@ import { OptionalAuth } from '../common/decorators/optional-auth.decorator';
 @UseGuards(AuthenticatedGuard)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
+
+  @Post('reset')
+  @OptionalAuth()
+  async resetPassword(@Body() data: ResetPasswordDTO) {
+    await this.accountService.resetPassword(data);
+  }
 
   @Post('verify')
   @OptionalAuth()

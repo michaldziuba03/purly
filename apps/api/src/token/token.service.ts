@@ -40,16 +40,23 @@ export class TokenService {
     return token;
   }
 
-  async consumeResetToken(plainToken: string, transaction: TransactionSession) {
+  async checkResetToken(plainToken: string) {
     const token = this.hashToken(plainToken);
+    const exists = await this.resetTokenRepo.exists({ token });
+    if (!exists) return;
+
+    return token;
+  }
+
+  async consumeResetToken(token: string, t: TransactionSession) {
     const tokenMeta = await this.resetTokenRepo.findOne({ token });
     if (!tokenMeta) {
       return;
     }
-
+    // invalidate all active reset tokens:
     await this.resetTokenRepo.deleteMany(
       { userId: tokenMeta.userId },
-      { transaction },
+      { transaction: t },
     );
 
     return tokenMeta;
@@ -67,6 +74,10 @@ export class TokenService {
     return token;
   }
 
+  checkVerificationToken(token: string) {
+    return this.verificationTokenRepo.exists({ token });
+  }
+
   async getVerificationToken(userId: string) {
     // application will try to reuse existing verification tokens (unlike reset tokens)
     const tokenMeta = await this.verificationTokenRepo.findOne({ userId });
@@ -77,10 +88,10 @@ export class TokenService {
     return this.createVerificationToken(userId);
   }
 
-  consumeVerificationToken(token: string, transaction: TransactionSession) {
+  consumeVerificationToken(token: string, t: TransactionSession) {
     return this.verificationTokenRepo.findOneAndDelete(
       { token },
-      { transaction }, // consuming verification token is supposed to be run in transaction
+      { transaction: t }, // consuming verification token is supposed to be run in transaction
     );
   }
 }

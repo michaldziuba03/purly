@@ -13,7 +13,7 @@ import { Request } from 'express';
 import { AuthenticatedGuard, GuestGuard } from './guards/auth.guard';
 import { mapEntity } from '../common/utils';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import { LoginDTO } from './dto';
+import { LoginDTO, ForgotPasswordDTO } from './dto';
 import { User } from '../common/decorators/user.decorator';
 import {
   OAuthFacebookGuard,
@@ -25,6 +25,16 @@ import {
 @ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('forgot')
+  @UseGuards(GuestGuard)
+  async forgotPassword(@Body() data: ForgotPasswordDTO) {
+    await this.authService.forgotPassword(data.email);
+    // even if account doesn't exist, we will return message "Email sent":
+    return {
+      message: 'Email sent. Check your inbox and open link to continue.',
+    };
+  }
 
   @Post('register')
   @UseGuards(new GuestGuard())

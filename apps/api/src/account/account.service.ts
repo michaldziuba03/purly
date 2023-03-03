@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  OnModuleInit,
+} from '@nestjs/common';
 import { AccountRepository } from './account.repository';
 import { createHash } from 'crypto';
-import { CreateAccountDTO } from './dto';
+import { CreateAccountDTO, ResetPasswordDTO } from './dto';
 import * as argon from 'argon2';
 import { OAuthProvider } from './account.constants';
 import { StripeEventService } from '../stripe-event/stripe-event.service';
@@ -159,6 +164,11 @@ export class AccountService implements OnModuleInit {
   }
 
   async verifyAccount(token: string) {
+    const tokenExists = await this.tokenService.checkVerificationToken(token);
+    if (!tokenExists) {
+      throw new NotFoundException();
+    }
+
     await this.transactionManager.transaction(async (t) => {
       const tokenMeta = await this.tokenService.consumeVerificationToken(
         token,
@@ -172,6 +182,27 @@ export class AccountService implements OnModuleInit {
       await this.accountRepository.updateOne(
         { _id: tokenMeta.userId },
         { isVerified: true },
+        { transaction: t },
+      );
+    });
+  }
+
+  async resetPassword(data: ResetPasswordDTO) {
+    const token = await this.tokenService.checkResetToken(data.token);
+    if (!token) {
+      throw new BadRequestException('Invalid reset password token');
+    }
+
+    await this.transactionManager.transaction(async (t) => {
+      const tokenMeta = await this.tokenService.consumeResetToken(token, t);
+      if (!tokenMeta) {
+        throw new BadRequestException('Invalid reset password token');
+      }
+
+      const hashedPassword = await argon.hash(data.password);
+      await this.accountRepository.updateOne(
+        { _id: tokenMeta.userId },
+        { password: hashedPassword },
         { transaction: t },
       );
     });

@@ -11,6 +11,17 @@ export class AuthService {
     private readonly tokenService: TokenService,
   ) {}
 
+  // request password reset
+  async forgotPassword(email: string) {
+    const account = await this.accountService.findByEmail(email);
+    if (!account) {
+      return;
+    }
+
+    const resetToken = await this.tokenService.createResetToken(account.id);
+    console.log('Use this token to reset password:', resetToken);
+  }
+
   async login(data: LoginDTO) {
     return this.accountService.findByEmailAndPass(data.email, data.password);
   }
