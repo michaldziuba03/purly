@@ -18,18 +18,20 @@ export class TransactionManager {
   // shorthand for regular transactions:
   async transaction(callback: TransactionCallback) {
     const t = await this.create();
-    try {
-      const result = await callback(t);
-      await this.commit(t);
-      await this.end(t);
+    let result;
 
-      return result;
+    try {
+      result = await callback(t);
+      await this.commit(t);
     } catch (err) {
       await this.abort(t);
       await this.end(t);
 
       throw err;
     }
+
+    await this.end(t);
+    return result;
   }
 
   async create() {

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IORedisOptions, RedisOptionsFactory } from '@mich4l/nestjs-redis';
 import { NodeEnv } from './config.types';
-import { config } from 'rxjs';
 
 @Injectable()
 export class Config implements RedisOptionsFactory {
@@ -30,6 +29,10 @@ export class Config implements RedisOptionsFactory {
 
   get mongoURI() {
     return this.configService.get<string>('MONGO_URI');
+  }
+
+  get zookeeperURI() {
+    return this.configService.get<string>('ZOOKEEPER_URI');
   }
 
   createRedisOptions(): IORedisOptions {

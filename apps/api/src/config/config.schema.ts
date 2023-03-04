@@ -7,6 +7,7 @@ export const ConfigSchema = joi.object().keys({
     .valid(NodeEnv.DEV, NodeEnv.PROD, NodeEnv.TEST)
     .default(NodeEnv.DEV),
   MONGO_URI: joi.string().required(),
+  ZOOKEEPER_URI: joi.string().required(),
   PORT: joi.number().required(),
   SESSION_SECRET: joi.string().required(),
   API_PREFIX: joi.string().optional(),

@@ -10,6 +10,7 @@ import { StripeModule } from './stripe/stripe.module';
 import { PlanModule } from './plan/plan.module';
 import { StripeEventModule } from './stripe-event/stripe-event.module';
 import { TokenModule } from './token/token.module';
+import { RangeModule } from './range/range.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TokenModule } from './token/token.module';
     StripeEventModule,
     PlanModule,
     SubscriptionModule,
+    RangeModule,
   ],
   controllers: [],
   providers: [],
