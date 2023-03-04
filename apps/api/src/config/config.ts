@@ -27,6 +27,10 @@ export class Config implements RedisOptionsFactory {
     return this.configService.get<string>('SESSION_SECRET');
   }
 
+  get aliasSalt() {
+    return this.configService.get<string>('ALIAS_SALT');
+  }
+
   get mongoURI() {
     return this.configService.get<string>('MONGO_URI');
   }

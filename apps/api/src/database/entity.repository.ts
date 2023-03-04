@@ -5,6 +5,10 @@ export interface IEntityOptions {
   transaction?: TransactionSession;
 }
 
+export interface IFindOptions {
+  limit?: number;
+}
+
 export abstract class EntityRepository<D extends Document> {
   protected constructor(private readonly entityModel: Model<D>) {}
   private readonly defaultProjection = {};
@@ -41,10 +45,16 @@ export abstract class EntityRepository<D extends Document> {
     return Boolean(result);
   }
 
-  find(filter: FilterQuery<D> = {}) {
-    return this.entityModel.find(filter, {
-      ...this.defaultProjection,
-    });
+  find(filter: FilterQuery<D> = {}, options: IFindOptions = {}) {
+    return this.entityModel.find(
+      filter,
+      {
+        ...this.defaultProjection,
+      },
+      {
+        limit: options.limit,
+      },
+    );
   }
 
   findOneById(id: string) {

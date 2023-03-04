@@ -1,8 +1,8 @@
 import { INestApplication } from '@nestjs/common';
 import { Config } from '../config/config';
-import * as session from 'express-session';
-import * as passport from 'passport';
-import * as connectRedis from 'connect-redis';
+import session from 'express-session';
+import passport from 'passport';
+import connectRedis from 'connect-redis';
 import { injectRedisToken } from '@mich4l/nestjs-redis';
 
 export function setupSession(app: INestApplication, config: Config) {

@@ -11,6 +11,8 @@ import { PlanModule } from './plan/plan.module';
 import { StripeEventModule } from './stripe-event/stripe-event.module';
 import { TokenModule } from './token/token.module';
 import { RangeModule } from './range/range.module';
+import { LinkModule } from './link/link.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { RangeModule } from './range/range.module';
     PlanModule,
     SubscriptionModule,
     RangeModule,
+    LinkModule,
+    ReportModule,
   ],
   controllers: [],
   providers: [],
