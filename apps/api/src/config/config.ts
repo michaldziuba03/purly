@@ -64,4 +64,12 @@ export class Config implements RedisOptionsFactory {
   get githubClientSecret() {
     return this.configService.get<string>('GITHUB_CLIENT_SECRET');
   }
+
+  get enableRecaptcha() {
+    return this.configService.get<boolean>('ENABLE_RECAPTCHA');
+  }
+
+  get recaptchaSecret() {
+    return this.configService.get<string>('RECAPTCHA_SECRET');
+  }
 }

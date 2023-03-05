@@ -12,4 +12,6 @@ export const ConfigSchema = joi.object().keys({
   ALIAS_SALT: joi.string().default('md2003'),
   SESSION_SECRET: joi.string().required(),
   API_PREFIX: joi.string().optional(),
+  ENABLE_RECAPTCHA: joi.boolean().default(false),
+  RECAPTCHA_SECRET: joi.string().optional(),
 });

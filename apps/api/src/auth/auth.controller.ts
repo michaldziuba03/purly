@@ -20,6 +20,7 @@ import {
   OAuthGithubGuard,
   OAuthGoogleGuard,
 } from './guards/oauth.guard';
+import { RecaptchaGuard } from '../common/guards/recaptcha.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -37,7 +38,7 @@ export class AuthController {
   }
 
   @Post('register')
-  @UseGuards(new GuestGuard())
+  @UseGuards(GuestGuard, RecaptchaGuard)
   @ApiCreatedResponse({ type: Account })
   async register(@Body() data: CreateAccountDTO, @Req() req: Request) {
     const account = await this.authService.register(data);
@@ -50,7 +51,7 @@ export class AuthController {
   }
 
   @Post('login')
-  @UseGuards(new GuestGuard())
+  @UseGuards(GuestGuard, RecaptchaGuard)
   @ApiCreatedResponse({ type: Account })
   async login(@Body() data: LoginDTO, @Req() req: Request) {
     const account = await this.authService.login(data);
