@@ -28,7 +28,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('forgot')
-  @UseGuards(GuestGuard)
+  @UseGuards(GuestGuard, RecaptchaGuard)
   async forgotPassword(@Body() data: ForgotPasswordDTO) {
     await this.authService.forgotPassword(data.email);
     // even if account doesn't exist, we will return message "Email sent":
@@ -77,19 +77,19 @@ export class AuthController {
   }
 
   @Post('federated/google')
-  @UseGuards(new GuestGuard(), OAuthGoogleGuard)
+  @UseGuards(GuestGuard, OAuthGoogleGuard)
   async googleLogin(@User() account: Account) {
     return mapEntity(account, Account);
   }
 
   @Post('federated/facebook')
-  @UseGuards(new GuestGuard(), OAuthFacebookGuard)
+  @UseGuards(GuestGuard, OAuthFacebookGuard)
   async facebookLogin(@User() account: Account) {
     return mapEntity(account, Account);
   }
 
   @Post('federated/github')
-  @UseGuards(new GuestGuard(), OAuthGithubGuard)
+  @UseGuards(GuestGuard, OAuthGithubGuard)
   async githubLogin(@User() account: Account) {
     return mapEntity(account, Account);
   }

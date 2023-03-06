@@ -17,6 +17,10 @@ export class AuthService {
     if (!account) {
       return;
     }
+    // You cannot reset password for accounts registered with OAuth provider (passwordless)
+    if (!account.password) {
+      return;
+    }
 
     const resetToken = await this.tokenService.createResetToken(account.id);
     console.log('Use this token to reset password:', resetToken);

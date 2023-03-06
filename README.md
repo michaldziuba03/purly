@@ -21,5 +21,18 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 - React
 - Docker
 
+## Features
+- [x] Email Verification
+- [x] Social Authentication (Google, Facebook, GitHub)
+- [x] Email & Password Authentication
+- [x] Reset Password flow
+- [x] Google Recaptcha support
+- [x] Paid monthly subscriptions (Stripe)
+- [x] URL shortening
+- [x] Reporting malicious URLs
+- [ ] Rate Limiting
+- [ ] Statistics for shortened URLs
+- [ ] Caching
+
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
