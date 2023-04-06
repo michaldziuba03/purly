@@ -32,6 +32,7 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 - [x] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
+- [ ] Health checks
 - [ ] Caching
 
 ## License
