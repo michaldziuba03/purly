@@ -1,0 +1,26 @@
+{
+  "name": "@libs/data",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "keywords": [],
+  "author": "Michał Dziuba",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^9.0.0",
+    "@nestjs/mongoose": "^9.2.1"
+  },
+  "dependencies": {
+    "class-transformer": "^0.5.1",
+    "mongoose": "^6.8.3"
+  },
+  "devDependencies": {
+    "@nestjs/common": "^9.4.0",
+    "@nestjs/mongoose": "^9.2.1",
+    "typescript": "^5.0.3"
+  }
+}

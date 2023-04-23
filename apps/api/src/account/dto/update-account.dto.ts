@@ -1,10 +1,10 @@
 import { IsString, Length } from 'class-validator';
 import { NAME_MAX, NAME_MIN } from '../account.constants';
-import { ApiProperty } from '@nestjs/swagger';
+import { Trim } from '../../shared/utils';
 
 export class UpdateAccountDTO {
-  @ApiProperty()
   @IsString()
   @Length(NAME_MIN, NAME_MAX)
+  @Trim()
   name: string;
 }

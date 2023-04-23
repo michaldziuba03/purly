@@ -1,12 +1,17 @@
+
+
+
 import {
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
   Injectable,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
-import { OPTIONAL_AUTH } from '../../common/decorators/optional-auth.decorator';
+import { SetMetadata } from '@nestjs/common';
+
+const OPTIONAL_AUTH = 'OPTIONAL_AUTH';
+export const OptionalAuth = () => SetMetadata(OPTIONAL_AUTH, true);
 
 @Injectable()
 export class AuthenticatedGuard implements CanActivate {
@@ -23,17 +28,5 @@ export class AuthenticatedGuard implements CanActivate {
 
     const req = context.switchToHttp().getRequest<Request>();
     return req.isAuthenticated();
-  }
-}
-
-@Injectable()
-export class GuestGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
-    const req = context.switchToHttp().getRequest<Request>();
-    if (req.isAuthenticated()) {
-      throw new ForbiddenException('You are currently logged-in');
-    }
-
-    return true;
   }
 }

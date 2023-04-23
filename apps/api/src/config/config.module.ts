@@ -1,8 +1,8 @@
+import { Config } from './config';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule as BaseConfigModule } from '@nestjs/config';
-import { ConfigSchema } from './config.schema';
-import { Config } from './config';
 import * as process from 'process';
+import { ConfigSchema } from './config.schema';
 
 @Global()
 @Module({

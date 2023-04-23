@@ -1,27 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { AccountModule } from '../account/account.module';
+import { SessionSerializer } from './session/session.serializer';
 import { PassportModule } from '@nestjs/passport';
-import { SessionSerializer } from './session.serializer';
-import { GithubStrategy, GoogleStrategy, FacebookStrategy } from './strategies';
-import { TokenModule } from '../token/token.module';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { GithubStrategy } from './strategies/github.strategy';
 
 @Module({
-  imports: [
-    AccountModule,
-    TokenModule,
-    PassportModule.register({
-      session: true,
-    }),
-  ],
-  providers: [
-    AuthService,
-    GoogleStrategy,
-    GithubStrategy,
-    FacebookStrategy,
-    SessionSerializer,
-  ],
+  imports: [PassportModule.register({ session: true })],
   controllers: [AuthController],
+  providers: [AuthService, GoogleStrategy, GithubStrategy, SessionSerializer],
 })
 export class AuthModule {}

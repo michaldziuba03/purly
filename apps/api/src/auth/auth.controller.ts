@@ -1,66 +1,46 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAccountDTO } from '../account/dto';
-import { Account } from '../account/account.schema';
-import { Request } from 'express';
-import { AuthenticatedGuard, GuestGuard } from './guards/auth.guard';
-import { mapEntity } from '../common/utils';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import { LoginDTO, ForgotPasswordDTO } from './dto';
-import { User } from '../common/decorators/user.decorator';
 import {
-  OAuthFacebookGuard,
-  OAuthGithubGuard,
-  OAuthGoogleGuard,
-} from './guards/oauth.guard';
-import { RecaptchaGuard } from '../common/guards/recaptcha.guard';
+  LoginDTO,
+  RegisterDTO,
+  ResetPasswordDTO,
+  ResetPasswordRequestDTO,
+} from './dto';
+import { Account } from '@libs/data';
+import { Request } from 'express';
+import { GuestGuard } from './guards/guest.guard';
+import { AuthenticatedGuard } from './guards/auth.guard';
 
 @Controller('auth')
-@ApiTags('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('forgot')
-  @UseGuards(GuestGuard, RecaptchaGuard)
-  async forgotPassword(@Body() data: ForgotPasswordDTO) {
-    await this.authService.forgotPassword(data.email);
-    // even if account doesn't exist, we will return message "Email sent":
-    return {
-      message: 'Email sent. Check your inbox and open link to continue.',
-    };
+  private createAuthSession(req: Request, user: Partial<Account>) {
+    return new Promise<void>((resolve, reject) => {
+      req.login(user, (err) => {
+        if (err) return reject(err);
+
+        return resolve();
+      });
+    });
   }
 
   @Post('register')
-  @UseGuards(GuestGuard, RecaptchaGuard)
-  @ApiCreatedResponse({ type: Account })
-  async register(@Body() data: CreateAccountDTO, @Req() req: Request) {
+  @UseGuards(GuestGuard)
+  async register(@Body() data: RegisterDTO, @Req() req: Request) {
     const account = await this.authService.register(data);
-    if (!account) {
-      throw new BadRequestException('Account already exists');
-    }
+    await this.createAuthSession(req, account);
 
-    await this.createSession(req, account as Account);
-    return mapEntity(account, Account);
+    return account;
   }
 
   @Post('login')
-  @UseGuards(GuestGuard, RecaptchaGuard)
-  @ApiCreatedResponse({ type: Account })
+  @UseGuards(GuestGuard)
   async login(@Body() data: LoginDTO, @Req() req: Request) {
     const account = await this.authService.login(data);
-    if (!account) {
-      throw new BadRequestException('Invalid email or password');
-    }
+    await this.createAuthSession(req, account);
 
-    await this.createSession(req, account);
-    return mapEntity(account, Account);
+    return account;
   }
 
   @Post('logout')
@@ -76,31 +56,19 @@ export class AuthController {
     req.session.cookie.maxAge = 0;
   }
 
-  @Post('federated/google')
-  @UseGuards(GuestGuard, OAuthGoogleGuard)
-  async googleLogin(@User() account: Account) {
-    return mapEntity(account, Account);
+  @Post('reset/request')
+  @UseGuards(GuestGuard)
+  async resetPasswordRequest(@Body() data: ResetPasswordRequestDTO) {
+    await this.authService.resetPasswordRequest(data);
+
+    return {
+      message: 'Email sent. Check your inbox and open link to continue.',
+    };
   }
 
-  @Post('federated/facebook')
-  @UseGuards(GuestGuard, OAuthFacebookGuard)
-  async facebookLogin(@User() account: Account) {
-    return mapEntity(account, Account);
-  }
-
-  @Post('federated/github')
-  @UseGuards(GuestGuard, OAuthGithubGuard)
-  async githubLogin(@User() account: Account) {
-    return mapEntity(account, Account);
-  }
-
-  private createSession(req: Request, user: Partial<Account>) {
-    return new Promise<void>((resolve, reject) => {
-      req.login(user, (err) => {
-        if (err) return reject(err);
-
-        return resolve();
-      });
-    });
+  @Post('reset')
+  @UseGuards(GuestGuard)
+  resetPassword(@Body() data: ResetPasswordDTO) {
+    return this.authService.resetPassword(data);
   }
 }

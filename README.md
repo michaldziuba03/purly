@@ -23,7 +23,7 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 
 ## Features
 - [x] Email Verification
-- [x] Social Authentication (Google, Facebook, GitHub)
+- [x] Social Authentication (Google, GitHub)
 - [x] Email & Password Authentication
 - [x] Reset Password flow
 - [x] Google Recaptcha support
@@ -32,7 +32,7 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 - [x] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
-- [ ] Health checks
+- [x] Health checks
 - [ ] Caching
 
 ## License

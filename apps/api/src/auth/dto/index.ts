@@ -1,2 +1,4 @@
+export * from './register.dto';
 export * from './login.dto';
-export * from './forgot.dto';
+export * from './reset-request.dto';
+export * from './reset-password.dto';

@@ -1,49 +1,95 @@
-import { Injectable } from '@nestjs/common';
-import { AccountService } from '../account/account.service';
-import { CreateAccountDTO } from '../account/dto';
-import { LoginDTO } from './dto';
-import { TokenService } from '../token/token.service';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { AccountRepository, ResetTokenRepository } from '@libs/data';
+import * as argon2 from 'argon2';
+import { generateGravatar, generateToken } from '../shared/utils';
+import {
+  RegisterDTO,
+  LoginDTO,
+  ResetPasswordRequestDTO,
+  ResetPasswordDTO,
+} from './dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly accountService: AccountService,
-    private readonly tokenService: TokenService,
+    private readonly accountRepository: AccountRepository,
+    private readonly resetTokenRepository: ResetTokenRepository,
   ) {}
 
-  // request password reset
-  async forgotPassword(email: string) {
-    const account = await this.accountService.findByEmail(email);
+  async register(data: RegisterDTO) {
+    const userExists = await this.accountRepository.exists({
+      email: data.email,
+    });
+
+    if (userExists) {
+      throw new BadRequestException('Account already exists');
+    }
+
+    const verificationToken = await generateToken(128);
+    const hashedPassword = await argon2.hash(data.password);
+    const account = await this.accountRepository.create({
+      email: data.email,
+      name: data.name,
+      password: hashedPassword,
+      picture: generateGravatar(data.email),
+      verificationToken,
+    });
+
+    return account;
+  }
+
+  async login(data: LoginDTO) {
+    const account = await this.accountRepository.findByEmail(data.email);
+
+    if (!account) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    const isMatching = await argon2.verify(account.password, data.password);
+    if (!isMatching) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    return account;
+  }
+
+  async resetPasswordRequest(data: ResetPasswordRequestDTO) {
+    const account = await this.accountRepository.findByEmail(data.email);
     if (!account) {
       return;
     }
-    // You cannot reset password for accounts registered with OAuth provider (passwordless)
+    // handle accounts registered with OAuth providers:
     if (!account.password) {
       return;
     }
 
-    const resetToken = await this.tokenService.createResetToken(account.id);
-    console.log('Use this token to reset password:', resetToken);
+    const token = await generateToken(64);
+    await this.resetTokenRepository.createResetToken(account.id, token);
+    console.log('Reset token:', token);
   }
 
-  async login(data: LoginDTO) {
-    return this.accountService.findByEmailAndPass(data.email, data.password);
-  }
-
-  async register(data: CreateAccountDTO) {
-    const alreadyExists = await this.accountService.accountExists(data.email);
-    if (alreadyExists) {
-      return;
+  async resetPassword(data: ResetPasswordDTO) {
+    const resetMeta = await this.resetTokenRepository.findByToken(data.token);
+    if (!resetMeta) {
+      throw new NotFoundException('Invalid reset token');
     }
 
-    const account = await this.accountService.createAccount(data);
-    if (!account) {
-      return;
-    }
-    const verificationToken = await this.tokenService.createVerificationToken(
-      account.id,
+    const hashedPassword = await argon2.hash(data.password);
+    const account = await this.accountRepository.findOneAndUpdate(
+      {
+        id: resetMeta.userId,
+      },
+      {
+        password: hashedPassword,
+      },
     );
-    console.log('Use this token to verify email:', verificationToken);
+
+    await this.resetTokenRepository.clearTokens(resetMeta.userId);
 
     return account;
   }

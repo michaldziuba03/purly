@@ -1,56 +1,24 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AccountService } from './account.service';
-import { User } from '../common/decorators/user.decorator';
-import { mapEntity } from '../common/utils';
-import { Account } from './account.schema';
+import { UserSession } from '../shared/decorators/user.decorator';
+import { UpdateAccountDTO } from './dto/update-account.dto';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
-import { ResetPasswordDTO, UpdateAccountDTO } from './dto';
-import {
-  ApiCookieAuth,
-  ApiCreatedResponse,
-  ApiOkResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { OptionalAuth } from '../common/decorators/optional-auth.decorator';
 
-@Controller('accounts')
-@ApiTags('accounts')
-@ApiCookieAuth()
+@Controller('account')
 @UseGuards(AuthenticatedGuard)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @Post('reset')
-  @OptionalAuth()
-  async resetPassword(@Body() data: ResetPasswordDTO) {
-    await this.accountService.resetPassword(data);
+  @Get()
+  getAuthenticatedAccount(@UserSession('id') userId: string) {
+    return this.accountService.getAccount(userId);
   }
 
-  @Post('verify')
-  @OptionalAuth()
-  async verifyAccount(@Body('token') token: string) {
-    await this.accountService.verifyAccount(token);
-  }
-
-  @Get('me')
-  @ApiOkResponse({ type: Account })
-  async getProfile(@User('id') accountId: string) {
-    const account = await this.accountService.findAccountById(accountId);
-
-    return mapEntity(account, Account);
-  }
-
-  @Post('me')
-  @ApiCreatedResponse({ type: Account })
-  async updateProfile(
-    @User('id') accountId: string,
+  @Post()
+  updateAuthenticatedAccount(
+    @UserSession('id') userId: string,
     @Body() data: UpdateAccountDTO,
   ) {
-    const account = await this.accountService.updateAccountById(
-      accountId,
-      data,
-    );
-
-    return mapEntity(account, Account);
+    return this.accountService.updateAccount(userId, data);
   }
 }

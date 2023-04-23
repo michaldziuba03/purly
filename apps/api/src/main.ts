@@ -2,10 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Config } from './config/config';
 import { ValidationPipe } from '@nestjs/common';
-import { validatorOptions } from './common/options';
 import helmet from 'helmet';
-import { setupSession } from './common/session';
-import { setupSwagger } from './common/swagger';
+import { setupSession } from './auth/session/session.setup';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,7 +15,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      ...validatorOptions,
+      whitelist: true,
+      stopAtFirstError: true,
     }),
   );
 
@@ -28,10 +27,6 @@ async function bootstrap() {
   // Middlewares:
   app.use(helmet());
   setupSession(app, config);
-
-  if (config.isDev) {
-    setupSwagger(app);
-  }
 
   await app.listen(config.port);
 }
