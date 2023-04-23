@@ -13,12 +13,17 @@ import {
   ResetPasswordRequestDTO,
   ResetPasswordDTO,
 } from './dto';
+import { Queue } from 'bull';
+import { InjectQueue } from '@nestjs/bull';
+import { MAIL_QUEUE, MailJobs, ResetPasswordPayload } from '@libs/jobs';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly accountRepository: AccountRepository,
     private readonly resetTokenRepository: ResetTokenRepository,
+    @InjectQueue(MAIL_QUEUE)
+    private readonly mailQueue: Queue,
   ) {}
 
   async register(data: RegisterDTO) {
@@ -71,6 +76,16 @@ export class AuthService {
     const token = await generateToken(64);
     await this.resetTokenRepository.createResetToken(account.id, token);
     console.log('Reset token:', token);
+
+    const resetJob: ResetPasswordPayload = {
+      email: account.email,
+      name: account.name,
+      agent: 'Linux',
+      link: `http://localhost:3000/auth/reset/${token}`,
+      ip: '127.0.0.1',
+    };
+
+    this.mailQueue.add(MailJobs.Reset, resetJob, { attempts: 2 });
   }
 
   async resetPassword(data: ResetPasswordDTO) {

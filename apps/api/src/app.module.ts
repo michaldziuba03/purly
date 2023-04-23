@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { HealthModule } from './health/health.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -17,6 +18,12 @@ import { HealthModule } from './health/health.module';
       useFactory: (config: Config) => {
         return { uri: config.mongoURI };
       },
+    }),
+    BullModule.forRootAsync({
+      inject: [Config],
+      useFactory: (config: Config) => ({
+        url: config.createRedisOptions().connectUrl,
+      }),
     }),
     SharedModule,
     AccountModule,

@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@libs/data": "workspace:*",
+    "@libs/jobs": "workspace:*",
     "@md03/passport-facebook": "^1.0.0",
     "@md03/passport-github": "^1.0.0",
     "@md03/passport-google": "^1.0.0",
