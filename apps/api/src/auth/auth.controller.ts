@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Headers, Ip,
   Post,
   Req,
   UseGuards,
@@ -67,8 +68,12 @@ export class AuthController {
 
   @Post('reset/request')
   @UseGuards(GuestGuard)
-  async resetPasswordRequest(@Body() data: ResetPasswordRequestDTO) {
-    await this.authService.resetPasswordRequest(data);
+  async resetPasswordRequest(
+    @Body() data: ResetPasswordRequestDTO,
+    @Headers('user-agent') agent: string,
+    @Ip() ip: string,
+  ) {
+    await this.authService.resetPasswordRequest(data, { agent, ip });
 
     return {
       message: 'Email sent. Check your inbox and open link to continue.',

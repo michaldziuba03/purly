@@ -5,14 +5,9 @@ import { SessionSerializer } from './session/session.serializer';
 import { PassportModule } from '@nestjs/passport';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
-import { BullModule } from '@nestjs/bull';
-import { MAIL_QUEUE } from '@libs/jobs';
 
 @Module({
-  imports: [
-    PassportModule.register({ session: true }),
-    BullModule.registerQueue({ name: MAIL_QUEUE }),
-  ],
+  imports: [PassportModule.register({ session: true })],
   controllers: [AuthController],
   providers: [AuthService, GoogleStrategy, GithubStrategy, SessionSerializer],
 })

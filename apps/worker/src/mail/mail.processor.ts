@@ -1,7 +1,12 @@
 import { Process, Processor } from '@nestjs/bull';
 import { MailService } from './mail.service';
 import { Job } from 'bull';
-import { MAIL_QUEUE, MailJobs, ResetPasswordPayload } from '@libs/jobs';
+import {
+  MAIL_QUEUE,
+  MailJobs,
+  ResetPasswordPayload,
+  VerificationPayload,
+} from '@libs/jobs';
 
 @Processor(MAIL_QUEUE)
 export class MailProcessor {
@@ -11,5 +16,10 @@ export class MailProcessor {
   async sendResetLink(job: Job<ResetPasswordPayload>) {
     console.log(job);
     await this.mailService.sendResetEmail(job.data);
+  }
+
+  @Process(MailJobs.Verification)
+  async sendVerificationLink(job: Job<VerificationPayload>) {
+    await this.mailService.sendVerificationEmail(job.data);
   }
 }

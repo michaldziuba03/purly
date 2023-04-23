@@ -13,17 +13,14 @@ import {
   ResetPasswordRequestDTO,
   ResetPasswordDTO,
 } from './dto';
-import { Queue } from 'bull';
-import { InjectQueue } from '@nestjs/bull';
-import { MAIL_QUEUE, MailJobs, ResetPasswordPayload } from '@libs/jobs';
+import { QueueService } from '../shared/queue.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly accountRepository: AccountRepository,
     private readonly resetTokenRepository: ResetTokenRepository,
-    @InjectQueue(MAIL_QUEUE)
-    private readonly mailQueue: Queue,
+    private readonly queueService: QueueService,
   ) {}
 
   async register(data: RegisterDTO) {
@@ -45,6 +42,12 @@ export class AuthService {
       verificationToken,
     });
 
+    this.queueService.sendVerificationEmail({
+      email: account.email,
+      name: account.name,
+      link: `http://localhost:3000/auth/verify/${verificationToken}`,
+    });
+
     return account;
   }
 
@@ -63,7 +66,10 @@ export class AuthService {
     return account;
   }
 
-  async resetPasswordRequest(data: ResetPasswordRequestDTO) {
+  async resetPasswordRequest(
+    data: ResetPasswordRequestDTO,
+    metadata: { ip: string; agent: string },
+  ) {
     const account = await this.accountRepository.findByEmail(data.email);
     if (!account) {
       return;
@@ -77,15 +83,13 @@ export class AuthService {
     await this.resetTokenRepository.createResetToken(account.id, token);
     console.log('Reset token:', token);
 
-    const resetJob: ResetPasswordPayload = {
-      email: account.email,
+    this.queueService.sendResetEmail({
       name: account.name,
-      agent: 'Linux',
+      email: account.email,
+      agent: metadata.agent,
+      ip: metadata.ip,
       link: `http://localhost:3000/auth/reset/${token}`,
-      ip: '127.0.0.1',
-    };
-
-    this.mailQueue.add(MailJobs.Reset, resetJob, { attempts: 2 });
+    });
   }
 
   async resetPassword(data: ResetPasswordDTO) {
