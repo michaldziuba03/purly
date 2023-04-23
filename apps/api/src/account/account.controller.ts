@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AccountService } from './account.service';
 import { UserSession } from '../shared/decorators/user.decorator';
 import { UpdateAccountDTO } from './dto/update-account.dto';
@@ -6,6 +14,7 @@ import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 
 @Controller('account')
 @UseGuards(AuthenticatedGuard)
+@UseInterceptors(ClassSerializerInterceptor)
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
