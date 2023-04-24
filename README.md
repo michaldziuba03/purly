@@ -13,7 +13,7 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 ## Screenshots - current state
 > Homepage
 
-![image](https://user-images.githubusercontent.com/43048524/234007909-0260599b-dfdb-4278-99df-314d4bd6475b.png)
+![image](https://user-images.githubusercontent.com/43048524/234039968-15cd292d-7915-4af1-b4a0-dcffd4f3ce8d.png)
 
 
 ## Tech stack
