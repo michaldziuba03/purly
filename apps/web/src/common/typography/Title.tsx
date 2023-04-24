@@ -22,10 +22,10 @@ export const Title: React.FC<ITitleProps> = (props) => {
         props.className,
         'font-extrabold text-black',
         {
-            'text-5xl': size === 1,
-            'text-3xl': size === 2,
-            'text-2xl': size === 3,
-            'text-xl': size === 4,
+            'text-4xl lg:text-6xl': size === 1,
+            'text-2xl lg:text-3xl': size === 2,
+            'text-xl lg:text-2xl': size === 3,
+            'text-lg lg:text-xl': size === 4,
         }
     );
 

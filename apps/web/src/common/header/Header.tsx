@@ -1,11 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import {GitHubIcon} from "@/common/icons/GitHub";
+import {Logo} from "@/common/Logo";
 
 export const Header: React.FC = () => {
     return (
-        <header className='w-full flex justify-between px-20 py-10'>
-            <h1 className='font-bold text-lg select-none text-black'>XXX</h1>
+        <header className='w-full flex justify-between px-6 lg:px-20 py-10'>
+            <Link href='/'>
+                <Logo />
+            </Link>
 
             <nav className='flex items-center gap-6 font-semibold text-sm text-slate-700'>
                 <Link className='hover:text-purple-600 transition-colors duration-200' href='/'>Home</Link>
