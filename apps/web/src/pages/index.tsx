@@ -1,4 +1,8 @@
 import Head from 'next/head'
+import {Button} from "@/common/buttons/Button";
+import {Container} from "@/common/container/Container";
+import {Title} from "@/common/typography/Title";
+import {Leading} from "@/common/typography/Leading";
 
 export default function Home() {
   return (
@@ -9,9 +13,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1 className='text-orange-400'>Hello URL Shortener</h1>
-      </main>
+      <div>
+        <Container>
+            <Title>Hello world</Title>
+            <Leading>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</Leading>
+            <div className='flex'>
+                <Button>Get started</Button>
+                <Button outline>Get demo</Button>
+            </div>
+        </Container>
+      </div>
     </>
   )
 }
