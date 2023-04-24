@@ -29,6 +29,7 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 - [ ] Google Recaptcha support
 - [ ] Paid monthly subscriptions (Stripe)
 - [ ] URL shortening
+- [ ] QR Codes generation
 - [ ] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
