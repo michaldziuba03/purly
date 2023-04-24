@@ -22,14 +22,14 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 - Docker
 
 ## Features
-- [x] Email Verification
-- [x] Social Authentication (Google, GitHub)
+- [ ] Email Verification
+- [ ] Social Authentication (Google, GitHub)
 - [x] Email & Password Authentication
 - [x] Reset Password flow
-- [x] Google Recaptcha support
-- [x] Paid monthly subscriptions (Stripe)
-- [x] URL shortening
-- [x] Reporting malicious URLs
+- [ ] Google Recaptcha support
+- [ ] Paid monthly subscriptions (Stripe)
+- [ ] URL shortening
+- [ ] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
 - [x] Health checks
