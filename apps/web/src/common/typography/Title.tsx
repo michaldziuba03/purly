@@ -13,14 +13,16 @@ const Heading: React.FC<IHeadingProps> = ({ size, children, ...props }) => {
 
 interface ITitleProps extends React.PropsWithChildren {
     size?: HeadingLevel;
+    className?: string;
 }
 
 export const Title: React.FC<ITitleProps> = (props) => {
     const { size = 1 , children } = props;
     const style = classNames(
-        'font-bold',
+        props.className,
+        'font-extrabold text-black',
         {
-            'text-6xl': size === 1,
+            'text-5xl': size === 1,
             'text-3xl': size === 2,
             'text-2xl': size === 3,
             'text-xl': size === 4,
