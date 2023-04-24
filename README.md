@@ -10,6 +10,12 @@ URL shortener using Node.js, Nginx (OpenResty), Zookeeper, Redis and MongoDB. Un
 
 <!-- <img width="800" src="https://user-images.githubusercontent.com/43048524/207808313-00e73b70-32f6-4725-b7d1-75f960950aa8.jpg" alt="zookeeper giga chad" /> -->
 
+## Screenshots - current state
+> Homepage
+
+![image](https://user-images.githubusercontent.com/43048524/234007909-0260599b-dfdb-4278-99df-314d4bd6475b.png)
+
+
 ## Tech stack
 - Node.js
 - Nest.js
