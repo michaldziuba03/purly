@@ -3,6 +3,7 @@ import { Header } from "@/common/header/Header";
 import { Hero } from "@/components/sections/Hero";
 import {Features} from "@/components/sections/Features";
 import {Footer} from "@/common/footer/Footer";
+import {Pricing} from "@/components/sections/Pricing";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Features />
-
+      <Pricing />
       <Footer />
     </>
   )
