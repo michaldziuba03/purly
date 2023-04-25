@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-    @apply font-inter text-slate-500 bg-base;
+    @apply font-inter text-slate-500 bg-body;
 }

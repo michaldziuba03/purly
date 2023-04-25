@@ -1,9 +1,11 @@
 import React from 'react';
 
-interface ITextProps extends React.PropsWithChildren {}
+interface ITextProps extends React.PropsWithChildren {
+    className?: string;
+}
 
 export const Text: React.FC<ITextProps> = (props) => {
     return (
-        <span>{ props.children }</span>
+        <span className={props.className}>{ props.children }</span>
     )
 }
