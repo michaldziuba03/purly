@@ -2,12 +2,12 @@ import {PriceCard} from "@/components/PriceCard";
 
 export const PricingTable = () => {
     return  (
-        <div className='w-full grid gap-8 py-8 grid-cols-1 lg:grid-cols-3'>
+        <div className='w-full lg:max-w-5xl max-w-md grid gap-10 py-8 grid-cols-1 lg:grid-cols-3'>
             <PriceCard
                 price='$0'
                 name="Free"
                 description='Free plan for all users.'
-                action='Get Started'
+                action='Create account'
             />
             <PriceCard
                 price='$5'
