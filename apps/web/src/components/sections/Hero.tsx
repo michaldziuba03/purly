@@ -22,7 +22,7 @@ export const Hero: React.FC = () => {
                         Get Started for Free
                     </Button>
                     <div className='hidden lg:block'>
-                        <Button outline>Get Demo</Button>
+                        <Button type='outline'>Get Demo</Button>
                     </div>
                 </div>
 
