@@ -133,7 +133,6 @@ export class AuthService {
 
     const token = await generateToken(64);
     await this.resetTokenRepository.createResetToken(account.id, token);
-    console.log('Reset token:', token);
 
     this.queueService.sendResetEmail({
       name: account.name,

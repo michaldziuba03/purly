@@ -15,12 +15,12 @@ import {
   RegisterDTO,
   ResetPasswordDTO,
   ResetPasswordRequestDTO,
+  VerifyAccountDto,
 } from './dto';
 import { Account } from '@libs/data';
 import { Request } from 'express';
 import { GuestGuard } from './guards/guest.guard';
 import { AuthenticatedGuard } from './guards/auth.guard';
-import { VerifyAccountDto } from './dto/verify-account.dto';
 import { UserSession } from '../shared/decorators/user.decorator';
 
 @Controller('auth')
