@@ -35,7 +35,7 @@ export abstract class BaseRepository<TDoc extends Document, TEntity> {
       return Boolean(result.modifiedCount);
   }
 
-  async findOneAndUpdate(query: FilterQuery<TDoc>, data: Partial<TDoc>) {
+  async findOneAndUpdate(query: FilterQuery<TDoc>, data: UpdateQuery<TDoc>) {
     const result = await this.model.findOneAndUpdate(query, data, {
       new: true,
     });

@@ -24,6 +24,22 @@ export class AccountRepository extends BaseRepository<AccountDocument, Account> 
     return this.findOne({ email });
   }
 
+  findAndVerify(token: string) {
+    return this.findOneAndUpdate({
+      verificationToken: token,
+      isVerified: false,
+      verificationExpiration: {
+        $gte: Date.now(),
+      }
+    }, {
+      isVerified: true,
+      $unset: {
+        verificationToken: 1,
+        verificationExpiration: 1,
+      }
+    })
+  }
+
   findByFederatedAccount(provider: OAuthProviders, subject: string) {
     return this.findOne({
       'accounts.provider': provider,

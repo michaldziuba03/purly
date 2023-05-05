@@ -44,7 +44,7 @@ export class Account {
   verificationToken?: string;
 
   @Prop()
-  verificationExpiration?: Date;
+  verificationExpiration?: number;
 
   @Prop({ default: false })
   isVerified: boolean;

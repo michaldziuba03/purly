@@ -12,6 +12,7 @@ import {
   LoginDTO,
   ResetPasswordRequestDTO,
   ResetPasswordDTO,
+  VerifyAccountDto,
 } from './dto';
 import { QueueService } from '../shared/queue.service';
 
@@ -22,6 +23,8 @@ export class AuthService {
     private readonly resetTokenRepository: ResetTokenRepository,
     private readonly queueService: QueueService,
   ) {}
+
+  private readonly VERIFICATION_TIME = 24 * 60 * 60 * 1000;
 
   async register(data: RegisterDTO) {
     const userExists = await this.accountRepository.exists({
@@ -40,12 +43,13 @@ export class AuthService {
       password: hashedPassword,
       picture: generateGravatar(data.email),
       verificationToken,
+      verificationExpiration: Date.now() + this.VERIFICATION_TIME,
     });
 
     this.queueService.sendVerificationEmail({
       email: account.email,
       name: account.name,
-      link: `http://localhost:3000/auth/verify/${verificationToken}`,
+      link: this.createVerificationLink(verificationToken),
     });
 
     return account;
@@ -64,6 +68,54 @@ export class AuthService {
     }
 
     return account;
+  }
+
+  async verifyAccount(data: VerifyAccountDto) {
+    const account = await this.accountRepository.findAndVerify(data.token);
+    if (!account) {
+      throw new NotFoundException('Invalid verification token');
+    }
+
+    return account;
+  }
+
+  private createVerificationLink(token: string) {
+    // TO-DO: replace base url with env variable
+    return `http://localhost:3000/verify/${token}`;
+  }
+
+  async resendVerification(userId: string) {
+    const account = await this.accountRepository.findById(userId);
+    if (account.isVerified) {
+      throw new BadRequestException('Account is already verified');
+    }
+
+    let link = this.createVerificationLink(account.verificationToken);
+    const regenerateToken =
+      this.VERIFICATION_TIME / 2 > account.verificationExpiration - Date.now();
+
+    if (regenerateToken) {
+      const token = await generateToken(128);
+      await this.accountRepository.updateOne(
+        {
+          _id: account.id,
+        },
+        {
+          verificationToken: token,
+          verificationExpiration: Date.now() + this.VERIFICATION_TIME,
+        },
+      );
+
+      link = this.createVerificationLink(token);
+    }
+
+    this.queueService.sendVerificationEmail({
+      email: account.email,
+      name: account.name,
+      link,
+    });
+
+    return { email: account.email };
   }
 
   async resetPasswordRequest(
@@ -88,6 +140,7 @@ export class AuthService {
       email: account.email,
       agent: metadata.agent,
       ip: metadata.ip,
+      // TO-DO: replace base url with env variable
       link: `http://localhost:3000/auth/reset/${token}`,
     });
   }

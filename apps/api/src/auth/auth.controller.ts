@@ -2,7 +2,8 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
-  Headers, Ip,
+  Headers,
+  Ip,
   Post,
   Req,
   UseGuards,
@@ -19,6 +20,8 @@ import { Account } from '@libs/data';
 import { Request } from 'express';
 import { GuestGuard } from './guards/guest.guard';
 import { AuthenticatedGuard } from './guards/auth.guard';
+import { VerifyAccountDto } from './dto/verify-account.dto';
+import { UserSession } from '../shared/decorators/user.decorator';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -64,6 +67,17 @@ export class AuthController {
     });
 
     req.session.cookie.maxAge = 0;
+  }
+
+  @Post('verify')
+  async verifyAccount(@Body() body: VerifyAccountDto) {
+    return this.authService.verifyAccount(body);
+  }
+
+  @Post('verify/resend')
+  @UseGuards(AuthenticatedGuard)
+  async verifyResend(@UserSession('id') userId: string) {
+    return this.authService.resendVerification(userId);
   }
 
   @Post('reset/request')

@@ -7,13 +7,14 @@
 	},
 	"homepage": "https://github.com/michaldziuba03/url-shortener",
 	"devDependencies": {
-		"@commitlint/cli": "^17.6.1",
-		"@commitlint/config-conventional": "^17.6.1",
+		"@commitlint/cli": "^17.6.3",
+		"@commitlint/config-conventional": "^17.6.3",
 		"husky": "^8.0.3"
 	},
 	"scripts": {
 		"prepare": "husky install",
-		"lint:staged": "pnpm --filter * lint:staged"
+		"lint:staged": "pnpm --filter * lint:staged",
+		"build:libs": "pnpm --filter @libs/* build"
 	},
 	"commitlint": {
 		"extends": [

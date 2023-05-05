@@ -16,7 +16,7 @@ Under active development (early stage).
 - Docker
 
 ## Features
-- [ ] Email Verification
+- [x] Email Verification
 - [ ] Social Authentication (Google, GitHub)
 - [x] Email & Password Authentication
 - [x] Reset Password flow
