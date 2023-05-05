@@ -2,18 +2,19 @@ import React from "react";
 import { Title } from "@/common/typography/Title";
 import { GradientText } from "@/common/typography/GradientText";
 import { Leading } from "@/common/typography/Leading";
-import { Button } from "@/common/buttons/Button";
+import { Button } from "@/common/controls/Button";
 import { Container } from "@/common/container/Container";
-import {MouseIcon} from "@/common/icons/Mouse";
+import { MouseIcon } from "@/common/icons/Mouse";
+import { projectName } from "@/vars";
 
 export const Hero: React.FC = () => {
     return (
         <Container>
-            <div className='flex flex-col items-center mx-auto max-w-4xl py-8 lg:py-16'>
+            <div className='flex flex-col items-center mx-auto max-w-4xl py-8 lg:py-16 xl:py-20'>
                 <Title className='text-center'>Increase and track your network with
                     <GradientText> Open Source</GradientText>.
                 </Title>
-                <Leading className='text-center mt-5 max-w-3xl'>XXX is an open-source project to help you share and track your links. Shorten URLs. Generate QR Codes. Track traffic.</Leading>
+                <Leading className='text-center mt-5 max-w-3xl'>{ projectName } is an open-source project to help you share and track your links. Shorten URLs. Generate QR Codes. Track traffic.</Leading>
                 <div className='flex gap-4 mt-8'>
                     <Button>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.6} stroke="currentColor" className="w-6 h-6">

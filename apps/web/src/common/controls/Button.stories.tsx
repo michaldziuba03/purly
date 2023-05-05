@@ -1,4 +1,4 @@
-import { Button } from "@/common/buttons/Button";
+import { Button } from "@/common/controls/Button";
 
 export default {
   component: Button,
