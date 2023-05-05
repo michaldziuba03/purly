@@ -3,5 +3,6 @@ import { RangeService } from './range.service';
 
 @Module({
   providers: [RangeService],
+  exports: [RangeService],
 })
 export class RangeModule {}

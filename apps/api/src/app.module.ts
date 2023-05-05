@@ -8,6 +8,7 @@ import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { HealthModule } from './health/health.module';
 import { BullModule } from '@nestjs/bull';
+import { LinkModule } from './link/link.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { BullModule } from '@nestjs/bull';
     AccountModule,
     AuthModule,
     HealthModule,
+    LinkModule,
   ],
   controllers: [],
   providers: [],

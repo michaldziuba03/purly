@@ -45,6 +45,39 @@ export abstract class BaseRepository<TDoc extends Document, TEntity> {
     return this.mapEntity(result.toObject());
   }
 
+  async find(query: FilterQuery<TDoc>) {
+    const result = await this.model.find(query).lean();
+
+    return this.mapEntity(result);
+  }
+
+  async findPaginatedById(query: FilterQuery<TDoc>, limit: number = 10, page?: string) {
+    const pageQuery = page ? {
+      _id: { $lte: page }
+    } : {};
+
+    const result = await this.model.find({
+      ...query,
+      ...pageQuery,
+    })
+      .sort({ _id: -1 })
+      .limit(limit+1)
+      .lean();
+
+    const hasNext = result.length === limit+1;
+    let next;
+    if (hasNext) {
+      const lastEl = result.pop();
+      next = lastEl ? lastEl._id : undefined;
+    }
+
+    return {
+      data: this.mapEntity(result),
+      hasNext,
+      next,
+    }
+  }
+
   async findOne(query: FilterQuery<TDoc>) {
     const result = await this.model.findOne(query).lean();
     if (!result) return;

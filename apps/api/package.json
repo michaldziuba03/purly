@@ -57,6 +57,7 @@
     "mongoose": "^6.11.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "qrcode": "^1.5.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.4.1",
     "rxjs": "^7.8.1",
