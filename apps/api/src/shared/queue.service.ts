@@ -4,6 +4,7 @@ import {
   MailJobs,
   ResetPasswordPayload,
   VerificationPayload,
+  ReportPayload,
 } from '@libs/jobs';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
@@ -21,5 +22,9 @@ export class QueueService {
 
   sendVerificationEmail(payload: VerificationPayload) {
     return this.mailQueue.add(MailJobs.Verification, payload, { attempts: 2 });
+  }
+
+  sendReportEmail(payload: ReportPayload) {
+    return this.mailQueue.add(MailJobs.Report, payload, { attempts: 2 });
   }
 }

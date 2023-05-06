@@ -27,12 +27,12 @@ export class LinkService {
     });
   }
 
-  getLinksByUser(userId: string, page: string) {
+  getLinksByUser(userId: string, limit: number, page?: string) {
     return this.linkRepository.findPaginatedById(
       {
         userId,
       },
-      30,
+      limit,
       page,
     );
   }

@@ -4,6 +4,7 @@ import { Job } from 'bull';
 import {
   MAIL_QUEUE,
   MailJobs,
+  ReportPayload,
   ResetPasswordPayload,
   VerificationPayload,
 } from '@libs/jobs';
@@ -21,5 +22,10 @@ export class MailProcessor {
   @Process(MailJobs.Verification)
   async sendVerificationLink(job: Job<VerificationPayload>) {
     await this.mailService.sendVerificationEmail(job.data);
+  }
+
+  @Process(MailJobs.Report)
+  async sendReport(job: Job<ReportPayload>) {
+    await this.mailService.sendReportEmail(job.data);
   }
 }

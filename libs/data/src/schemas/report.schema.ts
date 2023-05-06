@@ -11,17 +11,22 @@ export enum MaliciousType {
 
 @Schema({ timestamps: true })
 export class Report {
+  id: string;
+
   @Prop()
   alias: string;
 
   @Prop()
-  absoluteUrl: string;
+  url: string;
 
   @Prop()
   message: string;
 
   @Prop()
   type: MaliciousType;
+
+  @Prop({ default: false })
+  solved: boolean;
 }
 
 export const ReportSchema = SchemaFactory.createForClass(Report);

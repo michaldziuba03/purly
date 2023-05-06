@@ -22,9 +22,9 @@ Under active development (early stage).
 - [x] Reset Password flow
 - [ ] Google Recaptcha support
 - [ ] Paid monthly subscriptions (Stripe)
-- [ ] URL shortening
+- [x] URL shortening
 - [ ] QR Codes generation
-- [ ] Reporting malicious URLs
+- [x] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
 - [x] Health checks

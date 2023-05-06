@@ -12,7 +12,7 @@ import {
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 import { LinkService } from './link.service';
 import { UserSession } from '../shared/decorators/user.decorator';
-import { ShortenLinkDto } from './dto/shorten-link.dto';
+import { ShortenLinkDto, PaginatedLinksQueryDto } from './dto';
 
 @Controller('links')
 export class LinkController {
@@ -28,9 +28,9 @@ export class LinkController {
   @UseGuards(AuthenticatedGuard)
   getShortenedLinks(
     @UserSession('id') userId: string,
-    @Query('page') page: string,
+    @Query() query: PaginatedLinksQueryDto,
   ) {
-    return this.linkService.getLinksByUser(userId, page);
+    return this.linkService.getLinksByUser(userId, query.limit, query.page);
   }
 
   @Get(':alias')

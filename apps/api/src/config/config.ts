@@ -15,6 +15,10 @@ export class Config implements RedisOptionsFactory {
     return this.nodeEnv === NodeEnv.DEV;
   }
 
+  get emailReport() {
+    return this.configService.get<string>('REPORT_MAIL');
+  }
+
   get port() {
     return this.configService.get<number>('PORT');
   }

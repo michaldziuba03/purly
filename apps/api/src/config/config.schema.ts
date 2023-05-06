@@ -14,4 +14,5 @@ export const ConfigSchema = joi.object().keys({
   API_PREFIX: joi.string().optional(),
   ENABLE_RECAPTCHA: joi.boolean().default(false),
   RECAPTCHA_SECRET: joi.string().optional(),
+  REPORT_MAIL: joi.string().email().optional(),
 });

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { ResetPasswordPayload, VerificationPayload } from '@libs/jobs';
+import {ReportPayload, ResetPasswordPayload, VerificationPayload} from '@libs/jobs';
 
 @Injectable()
 export class MailService {
@@ -28,6 +28,22 @@ export class MailService {
       context: {
         link: data.link,
         name: data.name,
+      },
+    });
+  }
+
+  sendReportEmail(data: ReportPayload) {
+    return this.mailerService.sendMail({
+      to: data.email,
+      subject: `Report: ${data.reportId} - ${data.alias}:${data.type}`,
+      text: `Alias: ${data.alias}\nType: ${data.type}\nURL: ${data.url}\nReport: ${data.reportId}\n\nMessage: ${data.message}`,
+      template: 'report',
+      context: {
+        reportId: data.reportId,
+        url: data.url,
+        alias: data.alias,
+        type: data.type,
+        message: data.message,
       },
     });
   }
