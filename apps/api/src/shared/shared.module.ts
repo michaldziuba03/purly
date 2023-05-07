@@ -13,6 +13,9 @@ import {
   ResetToken,
   ResetTokenRepository,
   ResetTokenSchema,
+  Transaction,
+  TransactionRepository,
+  TransactionSchema,
 } from '@libs/data';
 import { BullModule } from '@nestjs/bull';
 import { MAIL_QUEUE } from '@libs/jobs';
@@ -27,6 +30,7 @@ import { QueueService } from './queue.service';
       { name: ResetToken.name, schema: ResetTokenSchema },
       { name: Report.name, schema: ReportSchema },
       { name: Link.name, schema: LinkSchema },
+      { name: Transaction.name, schema: TransactionSchema },
     ]),
   ],
   providers: [
@@ -35,6 +39,7 @@ import { QueueService } from './queue.service';
     ReportRepository,
     LinkRepository,
     QueueService,
+    TransactionRepository,
   ],
   exports: [
     AccountRepository,
@@ -42,6 +47,7 @@ import { QueueService } from './queue.service';
     ReportRepository,
     LinkRepository,
     QueueService,
+    TransactionRepository,
   ],
 })
 export class SharedModule {}

@@ -10,8 +10,8 @@ export * from './repositories/report.repository';
 export * from './schemas/link.schema';
 export * from './repositories/link.repository';
 
-export * from './schemas/stripe-event.schema';
-export * from './repositories/stripe-event.repository';
+export * from './schemas/./transaction.schema';
+export * from './repositories/transaction.repository';
 
 export * from './schemas/plan.schema';
 export * from './repositories/plan.repository';

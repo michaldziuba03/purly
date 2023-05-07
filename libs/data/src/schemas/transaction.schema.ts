@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-export type StripeEventDocument = HydratedDocument<StripeEvent>;
+export type TransactionDocument = HydratedDocument<Transaction>;
 
-@Schema({ timestamps: true, collection: 'stripe_events' })
-export class StripeEvent {
+@Schema({ timestamps: true })
+export class Transaction {
   @Prop({ unique: true })
   eventId: string;
 
@@ -15,4 +15,4 @@ export class StripeEvent {
   payload?: object;
 }
 
-export const StripeEventSchema = SchemaFactory.createForClass(StripeEvent);
+export const TransactionSchema = SchemaFactory.createForClass(Transaction);

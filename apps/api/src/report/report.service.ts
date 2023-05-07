@@ -34,7 +34,7 @@ export class ReportService {
     const alias = this.getAliasFromUrl(data.url);
     const linkExists = await this.linkRepository.exists({ alias });
     if (!linkExists) {
-      throw new NotFoundException();
+      throw new NotFoundException('Link not found');
     }
 
     const report = await this.reportRepository.create({

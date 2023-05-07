@@ -10,6 +10,8 @@ import { HealthModule } from './health/health.module';
 import { BullModule } from '@nestjs/bull';
 import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
+import { PlanModule } from './plan/plan.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { ReportModule } from './report/report.module';
     HealthModule,
     LinkModule,
     ReportModule,
+    PlanModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [],

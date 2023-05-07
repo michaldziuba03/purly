@@ -1,9 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export enum Plans {
-  BASIC = 'basic',
-  PRO = 'pro',
+export enum PaymentGateway {
+  STRIPE = 'stripe',
 }
 
 export type PlanDocument = HydratedDocument<Plan>;
@@ -11,7 +10,10 @@ export type PlanDocument = HydratedDocument<Plan>;
 @Schema({ timestamps: true })
 export class Plan {
   @Prop({ unique: true })
-  name: Plans;
+  name: string;
+
+  @Prop()
+  quota: number;
 
   @Prop()
   displayName: string;
@@ -30,6 +32,9 @@ export class Plan {
 
   @Prop()
   currency: string;
+
+  @Prop({ default: PaymentGateway.STRIPE })
+  gateway: PaymentGateway;
 }
 
 export const PlanSchema = SchemaFactory.createForClass(Plan);

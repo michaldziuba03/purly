@@ -1,11 +1,16 @@
 import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { transform } from "../transform";
+import { TransactionSession } from "../transaction.session";
+
+interface IOptions {
+  trx?: TransactionSession;
+}
 
 export abstract class BaseRepository<TDoc extends Document, TEntity> {
   protected constructor(
     protected readonly model: Model<TDoc>,
-    protected readonly entity: ClassConstructor<TEntity>
+    protected readonly entity: ClassConstructor<TEntity>,
   ) {}
 
   protected mapEntity(data: object | object[]) {
@@ -18,8 +23,11 @@ export abstract class BaseRepository<TDoc extends Document, TEntity> {
     return plainToInstance(this.entity, data);
   }
 
-  async create(data: Partial<TDoc>) {
-    const result = await this.model.create([data]);
+  async create(data: Partial<TDoc>, options: IOptions = {}) {
+    const result = await this.model.create([data], {
+      session: options.trx?.session,
+    });
+
     if (!result.length) {
       return;
     }
@@ -27,9 +35,10 @@ export abstract class BaseRepository<TDoc extends Document, TEntity> {
     return this.mapEntity(result[0].toObject());
   }
 
-  async updateOne(query: FilterQuery<TDoc>, data: UpdateQuery<TDoc>) {
+  async updateOne(query: FilterQuery<TDoc>, data: UpdateQuery<TDoc>, options: IOptions = {}) {
       const result = await this.model.updateOne(query, data, {
         lean: true,
+        session: options.trx?.session,
       });
 
       return Boolean(result.modifiedCount);

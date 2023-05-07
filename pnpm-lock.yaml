@@ -16,9 +16,12 @@ importers:
 
   apps/api:
     dependencies:
+      '@golevelup/nestjs-stripe':
+        specifier: ^0.6.1
+        version: 0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1)(stripe@11.18.0)
       '@libs/data':
         specifier: workspace:*
-        version: file:libs/data(@nestjs/common@9.4.0)(@nestjs/mongoose@9.2.2)
+        version: link:../../libs/data
       '@libs/jobs':
         specifier: workspace:*
         version: link:../../libs/jobs
@@ -4160,6 +4163,43 @@ packages:
   /@fal-works/esbuild-plugin-global-externals@2.1.2:
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
     dev: true
+
+  /@golevelup/nestjs-common@1.4.4:
+    resolution: {integrity: sha512-NTjtOhHTMuGwiR3lmBQKKaRr++mHQEsh8AxtaH+/EWOYKMK2Cv/8duaH9MQ0hI3TwnouyaA5IRxYR1ZCUyNXOQ==}
+    dependencies:
+      nanoid: 3.3.6
+    dev: false
+
+  /@golevelup/nestjs-discovery@3.0.0:
+    resolution: {integrity: sha512-ZvkXtobTKxXB1LJanP/l6Z/Fing88IMBr3uabQpU2IWjfsstjh02qYDSU2cfD6CSmNldX5ewW5Pd+SdK2lU8Sw==}
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+
+  /@golevelup/nestjs-modules@0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-E0STg8In8fhIivnGDJAA70+XLPHzK5bMTkCnif9FbZ8waTYDQ3T/QQL0h73k+CUFeznn1hmuEW14sNaE+8cd7w==}
+    peerDependencies:
+      '@nestjs/common': ^9.x
+      rxjs: ^7.x
+    dependencies:
+      '@nestjs/common': 9.4.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      lodash: 4.17.21
+      rxjs: 7.8.1
+    dev: false
+
+  /@golevelup/nestjs-stripe@0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1)(stripe@11.18.0):
+    resolution: {integrity: sha512-5RVaD+AVA7gy6GZRH6cF1Oka3NmIXkiZ/R+tODpP67IaOjaEP8kUF0ZaAJipS54m4o4nsXyTMlKkyJA+ekiflA==}
+    peerDependencies:
+      stripe: ^11.12.0
+    dependencies:
+      '@golevelup/nestjs-common': 1.4.4
+      '@golevelup/nestjs-discovery': 3.0.0
+      '@golevelup/nestjs-modules': 0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1)
+      stripe: 11.18.0
+    transitivePeerDependencies:
+      - '@nestjs/common'
+      - rxjs
+    dev: false
 
   /@hapi/hoek@9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -17598,24 +17638,6 @@ packages:
       nan: 2.17.0
       node-gyp-build: 4.6.0
       shelljs: 0.8.5
-    dev: false
-
-  file:libs/data(@nestjs/common@9.4.0)(@nestjs/mongoose@9.2.2):
-    resolution: {directory: libs/data, type: directory}
-    id: file:libs/data
-    name: '@libs/data'
-    version: 1.0.0
-    peerDependencies:
-      '@nestjs/common': ^9.0.0
-      '@nestjs/mongoose': ^9.2.1
-    dependencies:
-      '@nestjs/common': 9.4.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/mongoose': 9.2.2(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(mongoose@6.11.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      class-transformer: 0.5.1
-      mongoose: 6.11.0
-    transitivePeerDependencies:
-      - aws-crt
-      - supports-color
     dev: false
 
   file:libs/jobs:

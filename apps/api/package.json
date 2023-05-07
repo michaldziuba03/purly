@@ -27,6 +27,7 @@
     }
   },
   "dependencies": {
+    "@golevelup/nestjs-stripe": "^0.6.1",
     "@libs/data": "workspace:*",
     "@libs/jobs": "workspace:*",
     "@md03/passport-facebook": "^1.0.0",
