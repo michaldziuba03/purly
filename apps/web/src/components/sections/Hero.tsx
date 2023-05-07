@@ -10,7 +10,7 @@ import { projectName } from "@/vars";
 export const Hero: React.FC = () => {
     return (
         <Container>
-            <div className='flex flex-col items-center mx-auto max-w-4xl py-8 lg:py-16 xl:py-20'>
+            <div className='flex flex-col items-center mx-auto max-w-4xl py-8 lg:py-16 xl:py-20 2xl:py-24'>
                 <Title className='text-center'>Increase and track your network with
                     <GradientText> Open Source</GradientText>.
                 </Title>
@@ -27,7 +27,7 @@ export const Hero: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='mt-16 flex flex-col items-center gap-4'>
+                <div className='mt-16 2xl:mt-20 flex flex-col items-center gap-4'>
                     <div className='animate-bounce'>
                         <MouseIcon />
                     </div>

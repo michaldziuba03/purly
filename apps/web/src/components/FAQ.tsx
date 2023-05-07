@@ -28,9 +28,7 @@ interface DisclosurePanelProps {
 const DisclosurePanel: React.FC<DisclosurePanelProps> = ({ text }) => {
     return (
         <Disclosure.Panel className='py-8 md:px-16 px-10'>
-            <span className='px-2 sm:text-sm'>
-                { text }
-            </span>
+            <span className='px-2 text-sm md:text-base'>{ text }</span>
         </Disclosure.Panel>
     )
 }
