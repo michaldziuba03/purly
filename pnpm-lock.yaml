@@ -16,12 +16,9 @@ importers:
 
   apps/api:
     dependencies:
-      '@golevelup/nestjs-stripe':
-        specifier: ^0.6.1
-        version: 0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1)(stripe@11.18.0)
       '@libs/data':
         specifier: workspace:*
-        version: link:../../libs/data
+        version: file:libs/data(@nestjs/common@9.4.0)(@nestjs/mongoose@9.2.2)
       '@libs/jobs':
         specifier: workspace:*
         version: link:../../libs/jobs
@@ -49,6 +46,9 @@ importers:
       '@nestjs/core':
         specifier: ^9.4.0
         version: 9.4.0(@nestjs/common@9.4.0)(@nestjs/platform-express@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/event-emitter':
+        specifier: ^1.4.1
+        version: 1.4.1(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13)
       '@nestjs/mongoose':
         specifier: ^9.2.2
         version: 9.2.2(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(mongoose@6.11.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
@@ -4164,43 +4164,6 @@ packages:
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
     dev: true
 
-  /@golevelup/nestjs-common@1.4.4:
-    resolution: {integrity: sha512-NTjtOhHTMuGwiR3lmBQKKaRr++mHQEsh8AxtaH+/EWOYKMK2Cv/8duaH9MQ0hI3TwnouyaA5IRxYR1ZCUyNXOQ==}
-    dependencies:
-      nanoid: 3.3.6
-    dev: false
-
-  /@golevelup/nestjs-discovery@3.0.0:
-    resolution: {integrity: sha512-ZvkXtobTKxXB1LJanP/l6Z/Fing88IMBr3uabQpU2IWjfsstjh02qYDSU2cfD6CSmNldX5ewW5Pd+SdK2lU8Sw==}
-    dependencies:
-      lodash: 4.17.21
-    dev: false
-
-  /@golevelup/nestjs-modules@0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-E0STg8In8fhIivnGDJAA70+XLPHzK5bMTkCnif9FbZ8waTYDQ3T/QQL0h73k+CUFeznn1hmuEW14sNaE+8cd7w==}
-    peerDependencies:
-      '@nestjs/common': ^9.x
-      rxjs: ^7.x
-    dependencies:
-      '@nestjs/common': 9.4.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      lodash: 4.17.21
-      rxjs: 7.8.1
-    dev: false
-
-  /@golevelup/nestjs-stripe@0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1)(stripe@11.18.0):
-    resolution: {integrity: sha512-5RVaD+AVA7gy6GZRH6cF1Oka3NmIXkiZ/R+tODpP67IaOjaEP8kUF0ZaAJipS54m4o4nsXyTMlKkyJA+ekiflA==}
-    peerDependencies:
-      stripe: ^11.12.0
-    dependencies:
-      '@golevelup/nestjs-common': 1.4.4
-      '@golevelup/nestjs-discovery': 3.0.0
-      '@golevelup/nestjs-modules': 0.6.1(@nestjs/common@9.4.0)(rxjs@7.8.1)
-      stripe: 11.18.0
-    transitivePeerDependencies:
-      - '@nestjs/common'
-      - rxjs
-    dev: false
-
   /@hapi/hoek@9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
     dev: false
@@ -5043,6 +5006,19 @@ packages:
       uid: 2.0.2
     transitivePeerDependencies:
       - encoding
+
+  /@nestjs/event-emitter@1.4.1(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(reflect-metadata@0.1.13):
+    resolution: {integrity: sha512-PmLpzMYgEKJNxOUrRjb6kNSm2PC6J+BeLTuF/bkYViGM/mVGvYOgU5jq8DQnXmiSmDmyWN+tO2cHSnR7odJJRA==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
+      reflect-metadata: ^0.1.12
+    dependencies:
+      '@nestjs/common': 9.4.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 9.4.0(@nestjs/common@9.4.0)(@nestjs/platform-express@9.4.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      eventemitter2: 6.4.9
+      reflect-metadata: 0.1.13
+    dev: false
 
   /@nestjs/mapped-types@1.2.2(@nestjs/common@9.4.0)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13):
     resolution: {integrity: sha512-3dHxLXs3M0GPiriAcCFFJQHoDFUuzTD5w6JDhE7TyfT89YKpe6tcCCIqOZWdXmt9AZjjK30RkHRSFF+QEnWFQg==}
@@ -10160,6 +10136,10 @@ packages:
   /etag@1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
+
+  /eventemitter2@6.4.9:
+    resolution: {integrity: sha512-JEPTiaOt9f04oa6NOkc4aH+nVp5I3wEjpHbIPqfgCdD5v5bUzy7xQqwcVO2aDQgOWhI28da57HksMrzK9HlRxg==}
+    dev: false
 
   /events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
@@ -16463,6 +16443,30 @@ packages:
       webpack: 5.80.0
     dev: true
 
+  /terser-webpack-plugin@5.3.8(webpack@5.82.0):
+    resolution: {integrity: sha512-WiHL3ElchZMsK27P8uIUh4604IgJyAW47LVXGbEoB21DbQcZ+OuMpGjVYnEUaqcWM6dO8uS2qUbA7LSCWqvsbg==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.18
+      jest-worker: 27.5.1
+      schema-utils: 3.1.2
+      serialize-javascript: 6.0.1
+      terser: 5.17.1
+      webpack: 5.82.0
+    dev: true
+
   /terser@5.17.1:
     resolution: {integrity: sha512-hVl35zClmpisy6oaoKALOpS0rDYLxRFLHhRuDlEGTKey9qHjS1w9GMORjuwIMt70Wan4lwsLYyWDVnWgF+KUEw==}
     engines: {node: '>=10'}
@@ -16673,7 +16677,7 @@ packages:
       micromatch: 4.0.5
       semver: 7.5.0
       typescript: 4.9.5
-      webpack: 5.82.0(esbuild@0.17.18)
+      webpack: 5.82.0
     dev: true
 
   /ts-node@10.9.1(@types/node@16.18.25)(typescript@4.9.5):
@@ -17329,6 +17333,46 @@ packages:
       - uglify-js
     dev: true
 
+  /webpack@5.82.0:
+    resolution: {integrity: sha512-iGNA2fHhnDcV1bONdUu554eZx+XeldsaeQ8T67H6KKHl2nUSwX8Zm7cmzOA46ox/X1ARxf7Bjv8wQ/HsB5fxBg==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.4
+      '@types/estree': 1.0.1
+      '@webassemblyjs/ast': 1.11.5
+      '@webassemblyjs/wasm-edit': 1.11.5
+      '@webassemblyjs/wasm-parser': 1.11.5
+      acorn: 8.8.2
+      acorn-import-assertions: 1.8.0(acorn@8.8.2)
+      browserslist: 4.21.5
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.13.0
+      es-module-lexer: 1.2.1
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.1.2
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.8(webpack@5.82.0)
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+    dev: true
+
   /webpack@5.82.0(esbuild@0.17.18):
     resolution: {integrity: sha512-iGNA2fHhnDcV1bONdUu554eZx+XeldsaeQ8T67H6KKHl2nUSwX8Zm7cmzOA46ox/X1ARxf7Bjv8wQ/HsB5fxBg==}
     engines: {node: '>=10.13.0'}
@@ -17638,6 +17682,24 @@ packages:
       nan: 2.17.0
       node-gyp-build: 4.6.0
       shelljs: 0.8.5
+    dev: false
+
+  file:libs/data(@nestjs/common@9.4.0)(@nestjs/mongoose@9.2.2):
+    resolution: {directory: libs/data, type: directory}
+    id: file:libs/data
+    name: '@libs/data'
+    version: 1.0.0
+    peerDependencies:
+      '@nestjs/common': ^9.0.0
+      '@nestjs/mongoose': ^9.2.1
+    dependencies:
+      '@nestjs/common': 9.4.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/mongoose': 9.2.2(@nestjs/common@9.4.0)(@nestjs/core@9.4.0)(mongoose@6.11.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      class-transformer: 0.5.1
+      mongoose: 6.11.0
+    transitivePeerDependencies:
+      - aws-crt
+      - supports-color
     dev: false
 
   file:libs/jobs:

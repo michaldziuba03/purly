@@ -1,50 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import {
-  TransactionManager,
-  TransactionRepository,
-  TransactionSession,
-} from '@libs/data';
-
-type IdempotentCallback = (trx: TransactionSession) => any;
-
-interface GenericEvent {
-  id: string;
-  type: string;
-  payload: object;
-}
+import Stripe from 'stripe';
+import { TransactionManager, TransactionRepository } from '@libs/data';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { createEventName } from './stripe.utils';
 
 @Injectable()
-export class TransactionService {
+export class StripeService {
   constructor(
     private readonly transactionRepository: TransactionRepository,
     private readonly transactionManager: TransactionManager,
+    private readonly emitter: EventEmitter2,
   ) {}
 
-  async runOnce(event: GenericEvent, cb: IdempotentCallback) {
+  async handleEvent(evt: Stripe.Event) {
     const trx = await this.transactionManager.create();
-
     try {
       await this.transactionRepository.create(
         {
-          eventId: event.id,
-          eventType: event.type,
-          payload: event.payload,
+          eventId: evt.id,
+          eventType: evt.type,
+          payload: evt.data.object,
         },
         {
           trx,
         },
       );
-
-      const result = await cb(trx);
+      // returns array of resolved values from listeners
+      await this.emitter.emitAsync(
+        createEventName(evt.type),
+        evt.data.object,
+        trx,
+      );
 
       await this.transactionManager.commit(trx);
       await this.transactionManager.end(trx);
-
-      return result;
     } catch (err) {
       await this.transactionManager.abort(trx);
       await this.transactionManager.end(trx);
-
       this.handleFailure(err);
     }
   }

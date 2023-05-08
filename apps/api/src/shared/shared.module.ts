@@ -14,6 +14,7 @@ import {
   ResetTokenRepository,
   ResetTokenSchema,
   Transaction,
+  TransactionManager,
   TransactionRepository,
   TransactionSchema,
 } from '@libs/data';
@@ -34,6 +35,7 @@ import { QueueService } from './queue.service';
     ]),
   ],
   providers: [
+    TransactionManager,
     AccountRepository,
     ResetTokenRepository,
     ReportRepository,
@@ -42,6 +44,7 @@ import { QueueService } from './queue.service';
     TransactionRepository,
   ],
   exports: [
+    TransactionManager,
     AccountRepository,
     ResetTokenRepository,
     ReportRepository,

@@ -11,11 +11,13 @@ import { BullModule } from '@nestjs/bull';
 import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { PlanModule } from './plan/plan.module';
-import { TransactionModule } from './transaction/transaction.module';
+import { StripeModule } from './stripe/stripe.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
     ConfigModule,
+    EventEmitterModule.forRoot(),
     RedisModule.forRootAsync({ useExisting: Config }),
     MongooseModule.forRootAsync({
       inject: [Config],
@@ -36,7 +38,7 @@ import { TransactionModule } from './transaction/transaction.module';
     LinkModule,
     ReportModule,
     PlanModule,
-    TransactionModule,
+    StripeModule,
   ],
   controllers: [],
   providers: [],

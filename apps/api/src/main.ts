@@ -7,7 +7,7 @@ import { setupSession } from './auth/session/session.setup';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    rawBody: true, // essential for stripe webhook
+    rawBody: true, // important for StripeWebhook controller
   });
   const config = app.get<Config>(Config);
   app.enableCors();
