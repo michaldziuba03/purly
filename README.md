@@ -30,5 +30,22 @@ Under active development (early stage).
 - [x] Health checks
 - [ ] Caching
 
+## Development
+#### 1. Install dependencies like: Docker, Node.js, pnpm and stripe-cli
+```sh
+# Run databases and services
+$ docker compose up
+```
+#### 2. Run applications (api, worker and frontend web app)
+```sh
+$ pnpm --filter @apps/* start:dev
+```
+#### 3. Forward Stripe webhook locally
+```
+$ stripe login
+$ stripe listen --forward-to localhost:8000/api/stripe/webhook
+```
+> Stripe CLI will give you webhook signing secret like `whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`. Save this value in .env as **STRIPE_WEBHOOK_SECRET** and restart API. CLI gives you the same secret so no need to repeat this step every time you run listen command.
+
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
