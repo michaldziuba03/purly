@@ -20,8 +20,8 @@ Under active development (early stage).
 - [ ] Social Authentication (Google, GitHub)
 - [x] Email & Password Authentication
 - [x] Reset Password flow
-- [ ] Google Recaptcha support
-- [ ] Paid monthly subscriptions (Stripe)
+- [x] Google Recaptcha support
+- [x] Paid monthly subscriptions (Stripe)
 - [x] URL shortening
 - [ ] QR Codes generation
 - [x] Reporting malicious URLs
