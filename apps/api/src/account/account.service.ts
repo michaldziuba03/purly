@@ -17,7 +17,7 @@ export class AccountService {
 
   @StripeEventHandler(StripeEvents.UpdateSubscription)
   async updateSubscribedPlan(payload, trx: TransactionSession) {
-    // stripe should resend the event on error:
+    // stripe should resend the event on error after some time:
     throw new BadRequestException('Not implemented yet!');
   }
 }

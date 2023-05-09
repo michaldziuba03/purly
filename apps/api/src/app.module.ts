@@ -13,6 +13,7 @@ import { ReportModule } from './report/report.module';
 import { PlanModule } from './plan/plan.module';
 import { StripeModule } from './stripe/stripe.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { BillingModule } from './billing/billing.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     ReportModule,
     PlanModule,
     StripeModule,
+    BillingModule,
   ],
   controllers: [],
   providers: [],

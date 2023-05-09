@@ -50,7 +50,7 @@ export class Config implements RedisOptionsFactory {
   }
 
   get stripeSecret() {
-    return this.configService.get<string>('STRIPE_SECRET_KEY');
+    return this.configService.get<string>('STRIPE_SECRET');
   }
 
   get stripeWebhookSecret() {
