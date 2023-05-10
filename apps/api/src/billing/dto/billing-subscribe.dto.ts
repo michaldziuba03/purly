@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { Trim } from '../../shared/utils';
+import { IsIn } from 'class-validator';
+import { PRICES } from '../../stripe/stripe.constants';
 
 export class BillingSubscribeDto {
-  @IsString()
-  @Trim()
-  @IsNotEmpty()
+  @IsIn(PRICES, {
+    message: 'Invalid price id',
+  })
   priceId: string;
 }

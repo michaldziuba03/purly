@@ -16,7 +16,8 @@ async function bootstrap() {
     new ValidationPipe({
       transform: true,
       whitelist: true,
-      stopAtFirstError: true,
+      stopAtFirstError: !config.isDev,
+      disableErrorMessages: !config.isDev,
     }),
   );
 

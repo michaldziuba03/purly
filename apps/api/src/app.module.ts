@@ -10,7 +10,6 @@ import { HealthModule } from './health/health.module';
 import { BullModule } from '@nestjs/bullmq';
 import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
-import { PlanModule } from './plan/plan.module';
 import { StripeModule } from './stripe/stripe.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { BillingModule } from './billing/billing.module';
@@ -39,7 +38,6 @@ import Redis from 'ioredis';
     HealthModule,
     LinkModule,
     ReportModule,
-    PlanModule,
     StripeModule,
     BillingModule,
   ],
