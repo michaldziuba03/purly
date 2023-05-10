@@ -56,3 +56,7 @@ Currently project is in early stage of development and many things are changing 
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
+
+## Contributors
+
+![contributors](https://contributors-img.web.app/image?repo=michaldziuba03/url-shortener)
