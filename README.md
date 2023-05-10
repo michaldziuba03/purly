@@ -14,6 +14,7 @@ Under active development (early stage).
 - Next.js
 - React
 - Docker
+- BullMQ
 
 ## Features
 - [x] Email Verification

@@ -7,13 +7,14 @@ import { SharedModule } from './shared/shared.module';
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { HealthModule } from './health/health.module';
-import { BullModule } from '@nestjs/bull';
+import { BullModule } from '@nestjs/bullmq';
 import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { PlanModule } from './plan/plan.module';
 import { StripeModule } from './stripe/stripe.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { BillingModule } from './billing/billing.module';
+import Redis from 'ioredis';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { BillingModule } from './billing/billing.module';
     BullModule.forRootAsync({
       inject: [Config],
       useFactory: (config: Config) => ({
-        url: config.createRedisOptions().connectUrl,
+        connection: new Redis(config.createRedisOptions().connectUrl),
       }),
     }),
     SharedModule,

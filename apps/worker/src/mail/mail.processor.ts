@@ -1,6 +1,6 @@
-import { Process, Processor } from '@nestjs/bull';
+import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { MailService } from './mail.service';
-import { Job } from 'bull';
+import { Job } from 'bullmq';
 import {
   MAIL_QUEUE,
   MailJobs,
@@ -8,23 +8,35 @@ import {
   ResetPasswordPayload,
   VerificationPayload,
 } from '@libs/jobs';
+import {Logger} from "@nestjs/common";
 
 @Processor(MAIL_QUEUE)
-export class MailProcessor {
-  constructor(private readonly mailService: MailService) {}
+export class MailProcessor extends WorkerHost {
+  constructor(private readonly mailService: MailService) {
+    super();
+  }
 
-  @Process(MailJobs.Reset)
+  process(job: Job) {
+    // switch statement to handle named jobs just like in legacy Bull.js
+    Logger.log(`Mail processor got job: ${job.name}`, 'Mailer queue');
+    switch (job.name) {
+      case MailJobs.Reset:
+        return this.sendResetLink(job);
+      case MailJobs.Verification:
+        return this.sendVerificationLink(job);
+      case MailJobs.Report:
+        return this.sendReport(job);
+    }
+  }
+
   async sendResetLink(job: Job<ResetPasswordPayload>) {
-    console.log(job);
     await this.mailService.sendResetEmail(job.data);
   }
 
-  @Process(MailJobs.Verification)
   async sendVerificationLink(job: Job<VerificationPayload>) {
     await this.mailService.sendVerificationEmail(job.data);
   }
 
-  @Process(MailJobs.Report)
   async sendReport(job: Job<ReportPayload>) {
     await this.mailService.sendReportEmail(job.data);
   }

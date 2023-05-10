@@ -21,9 +21,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependenciesMeta": {
-    "@nestjs/bull": {
-      "injected": true
-    },
     "@libs/jobs": {
       "injected": true
     }
@@ -31,12 +28,12 @@
   "dependencies": {
     "@libs/jobs": "workspace:*",
     "@nestjs-modules/mailer": "^1.8.1",
-    "@nestjs/bull": "^0.6.3",
+    "@nestjs/bullmq": "^1.1.0",
     "@nestjs/common": "^9.4.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.4.0",
     "@nestjs/platform-express": "^9.4.0",
-    "bull": "^4.10.4",
+    "bullmq": "^3.13.2",
     "handlebars": "^4.7.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

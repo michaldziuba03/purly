@@ -6,8 +6,8 @@ import {
   VerificationPayload,
   ReportPayload,
 } from '@libs/jobs';
-import { InjectQueue } from '@nestjs/bull';
-import { Queue } from 'bull';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export class QueueService {

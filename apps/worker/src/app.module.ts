@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MailModule } from './mail/mail.module';
-import { BullModule } from '@nestjs/bull';
-import { ConfigModule, ConfigService} from '@nestjs/config';
+import { BullModule } from '@nestjs/bullmq';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -9,7 +9,7 @@ import { ConfigModule, ConfigService} from '@nestjs/config';
     BullModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        redis: {
+        connection: {
           host: config.get('REDIS_HOST'),
           port: config.get('REDIS_PORT'),
         },

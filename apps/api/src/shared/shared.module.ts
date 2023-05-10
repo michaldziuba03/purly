@@ -18,7 +18,7 @@ import {
   TransactionRepository,
   TransactionSchema,
 } from '@libs/data';
-import { BullModule } from '@nestjs/bull';
+import { BullModule } from '@nestjs/bullmq';
 import { MAIL_QUEUE } from '@libs/jobs';
 import { QueueService } from './queue.service';
 
