@@ -44,6 +44,7 @@ export class AuthService {
       picture: generateGravatar(data.email),
       verificationToken,
       verificationExpiration: Date.now() + this.VERIFICATION_TIME,
+      plan: 'free',
     });
 
     this.queueService.sendVerificationEmail({

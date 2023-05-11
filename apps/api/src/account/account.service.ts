@@ -1,7 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { AccountRepository, TransactionSession } from '@libs/data';
+import { Injectable } from '@nestjs/common';
+import { AccountRepository } from '@libs/data';
 import { UpdateAccountDTO } from './dto/update-account.dto';
-import { StripeEventHandler, StripeEvents } from '../stripe/stripe.utils';
 
 @Injectable()
 export class AccountService {
@@ -13,11 +12,5 @@ export class AccountService {
 
   updateAccount(userId: string, data: UpdateAccountDTO) {
     return this.accountRepository.findByIdAndUpdate(userId, data);
-  }
-
-  @StripeEventHandler(StripeEvents.UpdateSubscription)
-  async updateSubscribedPlan(payload, trx: TransactionSession) {
-    // stripe should resend the event on error after some time:
-    throw new BadRequestException('Not implemented yet!');
   }
 }

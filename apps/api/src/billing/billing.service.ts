@@ -1,7 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectStripe } from '../stripe/stripe.provider';
 import Stripe from 'stripe';
-import { Account, AccountRepository } from '@libs/data';
+import { Account, AccountRepository, TransactionSession } from '@libs/data';
+import { StripeEventHandler, StripeEvents } from '../stripe/stripe.utils';
+import { getPlanByPriceId } from '../stripe/stripe.constants';
 
 @Injectable()
 export class BillingService {
@@ -10,6 +12,51 @@ export class BillingService {
     private readonly stripe: Stripe,
     private readonly accountRepository: AccountRepository,
   ) {}
+
+  private getPlanForSubscription(payload: Stripe.Subscription) {
+    const priceId = payload.items.data[0].price.id;
+    if (!priceId) {
+      // log and report case like this.
+      throw new BadRequestException('Price ID is required');
+    }
+
+    return getPlanByPriceId(priceId);
+  }
+
+  @StripeEventHandler(StripeEvents.UpdateSubscription)
+  async updateSubscribedPlan(
+    payload: Stripe.Subscription,
+    trx: TransactionSession,
+  ) {
+    const plan = this.getPlanForSubscription(payload);
+    await this.accountRepository.updateOne(
+      {
+        billingId: payload.customer.toString(),
+      },
+      {
+        plan: plan.id,
+      },
+      { trx },
+    );
+  }
+
+  @StripeEventHandler(StripeEvents.DeleteSubscription)
+  async cancelSubscription(
+    payload: Stripe.Subscription,
+    trx: TransactionSession,
+  ) {
+    await this.accountRepository.updateOne(
+      {
+        billingId: payload.customer.toString(),
+      },
+      {
+        plan: 'free',
+      },
+      {
+        trx,
+      },
+    );
+  }
 
   private async createCustomer(account: Account) {
     const customer = await this.stripe.customers.create({
