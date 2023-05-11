@@ -58,5 +58,6 @@ Currently project is in early stage of development and many things are changing 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contributors
-
-![contributors](https://contributors-img.web.app/image?repo=michaldziuba03/url-shortener)
+<a href="https://github.com/michaldziuba03/url-shortener/graphs/contributors">
+  <img alt="contributors" src="https://contributors-img.web.app/image?repo=michaldziuba03/url-shortener" />
+</a>
