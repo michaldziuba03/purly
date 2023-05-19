@@ -1,4 +1,4 @@
-## Statisitcs architecture (draft)
+## Statistics architecture (draft)
 When user clicks link we want to redirect them and also track number of redirections.
 
 ### Stats schema to reduce cost of reads
@@ -11,8 +11,8 @@ As I consider click as high volume event - I don't want to store each event indi
   "total": 340,
   "countries": {
     "PL": 201,
-    "EN": 105,
-    "UK": 3,
+    "GB": 105,
+    "UA": 3,
     "RU": 5,
     "IL": 26
   },
@@ -43,3 +43,9 @@ I plan to utilize BullMQ and delay feature + cache to reduce number of writes.
 ### Problems with my design
 1. Hard to ensure idempotence in queues - job can be processed multiple times so in some cases application may show inaccurate stats.
 2. Possible data loss for cache - longer delay before updating = bigger data loss.
+
+
+### Details how to get device information
+1. I plan to get IP location with library [geoip-country
+](https://www.npmjs.com/package/geoip-country)
+2. I plan to get info like OS, Browser by parsing `User-Agent` header with library [ua-parser-js](https://www.npmjs.com/package/ua-parser-js)
