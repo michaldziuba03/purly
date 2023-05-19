@@ -25,10 +25,10 @@ As I consider click as high volume event - I don't want to store each event indi
   "browsers": {
     "chrome": 302,
     "firefox": 38
-  }
-},
-"createdAt": "2023-05-19T13:50:50.375+00:00",
-"updatedAt": "2023-05-19T16:30:26.375+00:00"
+  },
+  "createdAt": "2023-05-19T13:50:50.375+00:00",
+  "updatedAt": "2023-05-19T16:30:26.375+00:00"
+ }
 ```
 `timestamp` & `aliasRef` will be compound unique index and data will be updated with upsert.
 
@@ -37,7 +37,7 @@ I plan to utilize BullMQ and delay feature + cache to reduce number of writes.
 
 1. User clicks link
 2. Application updates cached stats for specific day "stats:aaMz2:19-05-2023". I think HASH will be most convenient data type for storing this in Redis.
-3. Application assigns unique job id "stats:aaMz2:19-05-2023" and put job to the queue with defined delay. I want to use [Throttle pattern](https://docs.bullmq.io/patterns/throttle-jobs) to ensure that one job will be inserted to queue (for example if single link gets 2000 click, only 1 event will be inserted to queue in specific time span).
+3. Application assigns unique job id "stats:aaMz2:19-05-2023" and put job to the queue with defined delay. I want to use [Throttle pattern](https://docs.bullmq.io/patterns/throttle-jobs) to ensure that one job will be inserted to queue (for example if single link gets 2000 clicks, only 1 event will be inserted to queue in specific time span).
 4. Worker will persist cached stats in MongoDB
 
 ### Problems with my design
