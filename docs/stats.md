@@ -6,11 +6,12 @@ I decided to try database **DESIGNED** for aggregating high volume data like lin
 
 Current schema I plan to introduce is very simple.
 ```sql
-CREATE TABLE stats
+CREATE TABLE clicks
 (
     alias String,
     timestamp DateTime,
     referer String,
+    browser String,
     os String,
     country String
 )
