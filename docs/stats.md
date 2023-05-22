@@ -19,7 +19,7 @@ ENGINE = MergeTree
 PRIMARY KEY (alias, timestamp)
 ```
 
- I have no idea how to perform batch processing with BullMQ like in Kafka - but I don't want to introduce Kafka so I decided to use async inserts so ClickHouse database will buffer all inserts and flash them to disk on interval. It's fine for me. 
+ I have no idea how to perform batch processing with BullMQ like in Kafka (well, actually it's possible only in [BullMQ Pro Batches processing](https://docs.bullmq.io/bullmq-pro/batches)) - but I don't want to introduce Kafka so I decided to use async inserts so ClickHouse database will buffer all inserts and flash them to disk on interval. It's fine for me. 
  
 Clicks for last 30 days query for link with alias `X92Am`:
 ```sql
