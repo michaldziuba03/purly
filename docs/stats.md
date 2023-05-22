@@ -9,7 +9,7 @@ Current schema I plan to introduce is very simple.
 CREATE TABLE clicks
 (
     alias String,
-    timestamp DateTime,
+    timestamp Date,
     referer String,
     browser String,
     os String,
@@ -20,6 +20,21 @@ PRIMARY KEY (alias, timestamp)
 ```
 
  I have no idea how to perform batch processing with BullMQ like in Kafka - but I don't want to introduce Kafka so I decided to use async inserts so ClickHouse database will buffer all inserts and flash them to disk on interval. It's fine for me. 
+ 
+Clicks for last 30 days query for link with alias `X92Am`:
+```sql
+SELECT 
+    timestamp, 
+    count(*) as views 
+FROM clicks 
+WHERE alias='X92Am' 
+GROUP BY timestamp 
+ORDER BY timestamp DESC 
+LIMIT 30
+```
+
+![image](https://github.com/michaldziuba03/url-shortener/assets/43048524/9254fb1c-b886-4348-a3bd-c0c6918d656b)
+
 
 ### Details how to get device information
 1. I plan to get IP location with library [geoip-country
