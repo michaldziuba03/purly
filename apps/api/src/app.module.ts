@@ -13,6 +13,8 @@ import { ReportModule } from './report/report.module';
 import { StripeModule } from './stripe/stripe.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { BillingModule } from './billing/billing.module';
+import { ClickHouseModule } from '@md03/nestjs-clickhouse';
+import { StatsModule } from './stats/stats.module';
 import Redis from 'ioredis';
 
 @Module({
@@ -25,6 +27,9 @@ import Redis from 'ioredis';
       useFactory: (config: Config) => {
         return { uri: config.mongoURI };
       },
+    }),
+    ClickHouseModule.forRootAsync({
+      useExisting: Config,
     }),
     BullModule.forRootAsync({
       inject: [Config],
@@ -40,6 +45,7 @@ import Redis from 'ioredis';
     ReportModule,
     StripeModule,
     BillingModule,
+    StatsModule,
   ],
   controllers: [],
   providers: [],

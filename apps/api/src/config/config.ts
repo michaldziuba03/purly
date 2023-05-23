@@ -2,9 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IORedisOptions, RedisOptionsFactory } from '@mich4l/nestjs-redis';
 import { NodeEnv } from './config.types';
+import {
+  ClickHouseOptions,
+  ClickHouseOptionsFactory,
+} from '@md03/nestjs-clickhouse';
 
 @Injectable()
-export class Config implements RedisOptionsFactory {
+export class Config implements RedisOptionsFactory, ClickHouseOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
 
   get nodeEnv() {
@@ -46,6 +50,14 @@ export class Config implements RedisOptionsFactory {
   createRedisOptions(): IORedisOptions {
     return {
       connectUrl: this.configService.get<string>('REDIS_URI'),
+    };
+  }
+
+  createClickHouseOptions(): ClickHouseOptions {
+    return {
+      host: this.configService.get<string>('CLICKHOUSE_HOST'),
+      username: this.configService.get<string>('CLICKHOUSE_USER'),
+      password: this.configService.get<string>('CLICKHOUSE_PASS'),
     };
   }
 

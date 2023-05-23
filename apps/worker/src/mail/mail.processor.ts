@@ -8,7 +8,7 @@ import {
   ResetPasswordPayload,
   VerificationPayload,
 } from '@libs/jobs';
-import {Logger} from "@nestjs/common";
+import { Logger } from '@nestjs/common';
 
 @Processor(MAIL_QUEUE)
 export class MailProcessor extends WorkerHost {
@@ -17,8 +17,8 @@ export class MailProcessor extends WorkerHost {
   }
 
   process(job: Job) {
-    // switch statement to handle named jobs just like in legacy Bull.js
     Logger.log(`Mail processor got job: ${job.name}`, 'Mailer queue');
+    // switch statement to handle named jobs just like in legacy Bull.js
     switch (job.name) {
       case MailJobs.Reset:
         return this.sendResetLink(job);

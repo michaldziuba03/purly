@@ -16,5 +16,8 @@ export * from './repositories/transaction.repository';
 export * from './schemas/plan.schema';
 export * from './repositories/plan.repository';
 
+export * from './repositories/stats.repository';
+export * from './schemas/stats.schema';
+
 export * from './transaction.manager';
 export * from './transaction.session';

@@ -8,19 +8,23 @@
   "author": "Michał Dziuba",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "build:watch": "tsc --watch"
   },
   "peerDependencies": {
     "@nestjs/common": "^9.0.0",
-    "@nestjs/mongoose": "^9.2.1"
+    "@nestjs/mongoose": "^9.2.1",
+    "@md03/nestjs-clickhouse": "^1.0.0"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
-    "mongoose": "^6.8.3"
+    "mongoose": "^6.8.3",
+    "@clickhouse/client": "^0.0.16"
   },
   "devDependencies": {
     "@nestjs/common": "^9.4.0",
     "@nestjs/mongoose": "^9.2.1",
-    "typescript": "^5.0.3"
+    "typescript": "^5.0.3",
+    "@md03/nestjs-clickhouse": "^1.0.0"
   }
 }

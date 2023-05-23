@@ -7,18 +7,18 @@ services:
     restart: always
     hostname: zoo1
     ports:
-      - 2181:2181
+      - "2181:2181"
   zoonav:
     image: elkozmon/zoonavigator
     restart: always
     hostname: zoonav
     ports:
-      - 9000:9000
+      - "9000:9000"
   redis:
     image: redis:alpine
     restart: always
     ports:
-      - 6379:6379
+      - "6379:6379"
 
   mongodb:
     image: md03/mongo-replica
@@ -27,3 +27,10 @@ services:
     restart: always
     networks:
       - mongo-net
+
+  stats-db:
+    image: clickhouse/clickhouse-server
+    ports:
+      - "8123:8123"
+      - "19000:9000"
+    restart: always
