@@ -23,17 +23,38 @@ PRIMARY KEY (alias, timestamp)
  
 Clicks for last 30 days query for link with alias `X92Am`:
 ```sql
-SELECT 
-    timestamp, 
-    count(*) as views 
-FROM clicks 
-WHERE alias='X92Am' 
-GROUP BY timestamp 
-ORDER BY timestamp DESC 
+SELECT
+    timestamp,
+    count(timestamp) AS views
+FROM clicks
+WHERE alias = 'X92Am'
+GROUP BY timestamp
+ORDER BY timestamp DESC WITH FILL STEP -1
 LIMIT 30
 ```
-
-![image](https://github.com/michaldziuba03/url-shortener/assets/43048524/9254fb1c-b886-4348-a3bd-c0c6918d656b)
+```
+┌──timestamp─┬─views─┐
+│ 2023-05-22 │    10 │
+│ 2023-05-21 │     3 │
+│ 2023-05-20 │     0 │
+│ 2023-05-19 │     2 │
+│ 2023-05-18 │     1 │
+│ 2023-05-17 │     0 │
+│ 2023-05-16 │     0 │
+│ 2023-05-15 │     0 │
+│ 2023-05-14 │     0 │
+│ 2023-05-13 │     0 │
+│ 2023-05-12 │     0 │
+│ 2023-05-11 │     0 │
+│ 2023-05-10 │     0 │
+│ 2023-05-09 │     0 │
+│ 2023-05-08 │     0 │
+│ 2023-05-07 │     0 │
+│ 2023-05-06 │     1 │
+│ 2023-05-05 │     0 │
+│ 2023-05-04 │     2 │
+└────────────┴───────┘
+```
 
 
 ### Details how to get device information
