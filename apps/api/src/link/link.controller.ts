@@ -15,10 +15,14 @@ import { LinkService } from './link.service';
 import { UserSession } from '../shared/decorators/user.decorator';
 import { ShortenLinkDto, PaginatedLinksQueryDto } from './dto';
 import { Request } from 'express';
+import { QueueService } from '../shared/queue.service';
 
 @Controller('links')
 export class LinkController {
-  constructor(private readonly linkService: LinkService) {}
+  constructor(
+    private readonly linkService: LinkService,
+    private readonly queueService: QueueService,
+  ) {}
 
   @Post()
   @UseGuards(AuthenticatedGuard)
@@ -53,11 +57,12 @@ export class LinkController {
       throw new NotFoundException('Link not found');
     }
 
-    // Most challenging part: design time-series stats for high-volume data
-    // 1. Precompute stats on daily-window and cache in Redis
-    // 2. Insert job with aggregation:dd-mm-yyyy as unique id to BullMQ with delay to persist cached stats in MongoDB
-    // 3. Create similar flow for consuming subscription usage as well
-    // 4. Try to ensure idempotency what is the hardest part actually due to distributed nature
+    this.queueService.recordClick({
+      alias: link.alias,
+      ua: req.headers['user-agent'],
+      referer: req.headers['referer'],
+      ip: req.ip,
+    });
 
     return req.res.redirect(link.url);
   }

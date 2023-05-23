@@ -5,6 +5,8 @@ import {
   ResetPasswordPayload,
   VerificationPayload,
   ReportPayload,
+  RecordClickPayload,
+  CLICK_QUEUE,
 } from '@libs/jobs';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
@@ -14,6 +16,8 @@ export class QueueService {
   constructor(
     @InjectQueue(MAIL_QUEUE)
     private readonly mailQueue: Queue,
+    @InjectQueue(CLICK_QUEUE)
+    private readonly clicksQueue: Queue,
   ) {}
 
   sendResetEmail(payload: ResetPasswordPayload) {
@@ -26,5 +30,9 @@ export class QueueService {
 
   sendReportEmail(payload: ReportPayload) {
     return this.mailQueue.add(MailJobs.Report, payload, { attempts: 2 });
+  }
+
+  recordClick(payload: RecordClickPayload) {
+    return this.clicksQueue.add('click', payload);
   }
 }

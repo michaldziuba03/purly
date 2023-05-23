@@ -8,7 +8,8 @@
   "author": "Michał Dziuba",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "build:watch": "tsc --watch"
   },
   "devDependencies": {
     "typescript": "^5.0.4"

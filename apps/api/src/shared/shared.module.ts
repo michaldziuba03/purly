@@ -19,13 +19,14 @@ import {
   TransactionSchema,
 } from '@libs/data';
 import { BullModule } from '@nestjs/bullmq';
-import { MAIL_QUEUE } from '@libs/jobs';
+import { CLICK_QUEUE, MAIL_QUEUE } from '@libs/jobs';
 import { QueueService } from './queue.service';
 
 @Global()
 @Module({
   imports: [
     BullModule.registerQueue({ name: MAIL_QUEUE }),
+    BullModule.registerQueue({ name: CLICK_QUEUE }),
     MongooseModule.forFeature([
       { name: Account.name, schema: AccountSchema },
       { name: ResetToken.name, schema: ResetTokenSchema },
