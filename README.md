@@ -32,11 +32,16 @@ Under active development (early stage).
 - [ ] Caching
 
 ## Development
-#### 1. Install dependencies like: Docker, Node.js, pnpm and stripe-cli
+#### 1. Run databases and services
 ```sh
-$ pnpm install
 $ docker compose up
 ```
+#### 2. Run setup script
+```sh
+# will install depedencies and create .env file
+$ npm run setup
+```
+
 #### 2. Run applications (api, worker and frontend web app)
 ```sh
 $ npm run serve
