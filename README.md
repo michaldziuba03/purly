@@ -39,7 +39,7 @@ $ docker compose up
 ```
 #### 2. Run applications (api, worker and frontend web app)
 ```sh
-$ npm run start
+$ npm run serve
 ```
 #### 3. Forward Stripe webhook locally
 ```sh
