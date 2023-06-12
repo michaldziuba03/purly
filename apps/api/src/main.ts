@@ -1,35 +1,20 @@
+/**
+ * This is not a production server yet!
+ * This is only a minimal backend to get started.
+ */
+
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Config } from './config/config';
-import { ValidationPipe } from '@nestjs/common';
-import helmet from 'helmet';
-import { setupSession } from './auth/session/session.setup';
+
+import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    rawBody: true, // important for StripeWebhook controller
-  });
-  const config = app.get<Config>(Config);
-  app.enableCors();
-  app.enableShutdownHooks();
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      stopAtFirstError: !config.isDev,
-      disableErrorMessages: !config.isDev,
-    }),
-  );
-
-  if (config.apiPrefix) {
-    app.setGlobalPrefix(config.apiPrefix);
-  }
-
-  // Middlewares:
-  app.use(helmet());
-  setupSession(app, config);
-
-  await app.listen(config.port);
+  const app = await NestFactory.create(AppModule);
+  const globalPrefix = 'api';
+  app.setGlobalPrefix(globalPrefix);
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
 }
 
 bootstrap();

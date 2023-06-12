@@ -1,36 +1,53 @@
 version: '3.6'
-networks:
-  mongo-net:
+
 services:
-  zoo1:
-    image: zookeeper
+  main-db:
+    image: postgres:alpine
     restart: always
-    hostname: zoo1
     ports:
-      - "2181:2181"
+      - "5432:5432"
+
+  stats-db:
+    image: clickhouse/clickhouse-server
+    restart: always
+    ports:
+      - "8123:8123"
+      - "19000:9000"
+
+  in-memory:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
   zoonav:
     image: elkozmon/zoonavigator
     restart: always
     hostname: zoonav
     ports:
       - "9000:9000"
-  redis:
-    image: redis:alpine
-    restart: always
-    ports:
-      - "6379:6379"
 
-  mongodb:
-    image: md03/mongo-replica
-    ports:
-      - "27017:27017"
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
     restart: always
-    networks:
-      - mongo-net
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
 
-  stats-db:
-    image: clickhouse/clickhouse-server
-    ports:
-      - "8123:8123"
-      - "19000:9000"
+  broker:
+    image: confluentinc/cp-kafka:7.3.2
     restart: always
+    container_name: broker
+    ports:
+      - '9092:9092'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1

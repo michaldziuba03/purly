@@ -1,5 +1,5 @@
 # Stripe
-We use Stripe to handle payments and metered subscriptions.
+We use Stripe to handle payments for subscriptions.
 
 ## Configuration
 

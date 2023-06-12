@@ -1,24 +1,77 @@
 {
-	"name": "url-shortener",
-	"author": "Michał Dziuba",
-	"description": "URL Shortener built with Node.js, Zookeeper, Redis and MongoDB",
-	"repository": {
-		"url": "https://github.com/michaldziuba03/url-shortener"
-	},
-	"homepage": "https://github.com/michaldziuba03/url-shortener",
-	"devDependencies": {
-		"@commitlint/cli": "^17.6.3",
-		"@commitlint/config-conventional": "^17.6.3",
-		"husky": "^8.0.3"
-	},
-	"scripts": {
-		"prepare": "husky install",
-		"lint:staged": "pnpm --filter * lint:staged",
-		"build:libs": "pnpm --filter @libs/* build"
-	},
-	"commitlint": {
-		"extends": [
-			"@commitlint/config-conventional"
-		]
-	}
+  "name": "@purly/source",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start:dev": "nx run-many --t serve",
+    "start:api": "nx serve api",
+    "prepare": "husky install",
+    "lint:staged": "lint-staged"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "apps/**/*.{ts,js,tsx}": [
+      "prettier --ignore-path ./.prettierignore --write",
+      "eslint"
+    ],
+    "libs/**/*.{ts,js,tsx}": [
+      "prettier --ignore-path ./.prettierignore --write",
+      "eslint"
+    ]
+  },
+  "dependencies": {
+    "@md03/nestjs-clickhouse": "^1.0.0",
+    "@mich4l/nestjs-redis": "^1.1.0",
+    "@nestjs/common": "^9.1.1",
+    "@nestjs/core": "^9.1.1",
+    "@nestjs/platform-express": "^9.1.1",
+    "@nestjs/typeorm": "^9.0.1",
+    "argon2": "^0.30.3",
+    "axios": "^1.0.0",
+    "handlebars": "^4.7.7",
+    "hashids": "^2.3.0",
+    "ioredis": "^5.3.2",
+    "nodemailer": "^6.9.3",
+    "pg": "^8.11.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0",
+    "stripe": "^12.9.0",
+    "tslib": "^2.3.0",
+    "typeorm": "^0.3.16"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
+    "@nestjs/schematics": "^9.1.0",
+    "@nestjs/testing": "^9.1.1",
+    "@nx/eslint-plugin": "16.3.2",
+    "@nx/jest": "16.3.2",
+    "@nx/js": "16.3.2",
+    "@nx/linter": "16.3.2",
+    "@nx/nest": "16.3.2",
+    "@nx/node": "16.3.2",
+    "@nx/webpack": "16.3.2",
+    "@nx/workspace": "16.3.2",
+    "@types/jest": "^29.4.0",
+    "@types/node": "~18.7.1",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "~8.15.0",
+    "eslint-config-prettier": "8.1.0",
+    "husky": "^8.0.3",
+    "jest": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
+    "lint-staged": "^13.2.2",
+    "nx": "16.3.2",
+    "nx-cloud": "latest",
+    "prettier": "^2.6.2",
+    "ts-jest": "^29.1.0",
+    "ts-node": "10.9.1",
+    "typescript": "~5.0.2"
+  }
 }
