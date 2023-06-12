@@ -4,6 +4,8 @@ services:
   main-db:
     image: postgres:alpine
     restart: always
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
 

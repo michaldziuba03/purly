@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { PostgresModule } from '@purly/postgres';
 
 @Module({
-  imports: [],
+  imports: [PostgresModule],
   controllers: [],
   providers: [],
 })

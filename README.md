@@ -1,5 +1,5 @@
-# URL shortener
-Under active development (early stage).
+# purly ✂
+Distrubuted URL shortener. Under active development (early stage).
 
 ## Screenshots - current state
 > Homepage
@@ -8,28 +8,30 @@ Under active development (early stage).
 
 ## Tech stack
 - Node.js
-- Nest.js
+- NestJS
 - PostgreSQL
 - Redis
 - Next.js
 - React
 - Docker
 - Kafka
+- Zookeeper
 
 ## Features
-- [x] Email Verification
+- [ ] Email Verification
 - [ ] Social Authentication (Google, GitHub)
-- [x] Email & Password Authentication
-- [x] Reset Password flow
-- [x] Google Recaptcha support
-- [x] Paid monthly subscriptions (Stripe)
-- [x] URL shortening
+- [ ] Email & Password Authentication
+- [ ] Reset Password flow
+- [ ] Google Recaptcha support
+- [ ] Paid monthly subscriptions (Stripe)
+- [ ] URL shortening
 - [ ] QR Codes generation
-- [x] Reporting malicious URLs
+- [ ] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
-- [x] Health checks
+- [ ] Health checks
 - [ ] Caching
+- [ ] Link in bio
 
 ## Development
 #### 1. Run databases and services
@@ -42,11 +44,11 @@ $ docker compose up
 $ npm run setup
 ```
 
-#### 2. Run applications (api, worker and frontend web app)
+#### 3. Run applications (api, worker and frontend web app)
 ```sh
 $ npm run serve
 ```
-#### 3. Forward Stripe webhook locally
+#### 4. Forward Stripe webhook locally
 ```sh
 $ stripe login # only once - stripe will remember your session
 $ stripe listen --forward-to localhost:8000/api/stripe/webhook
