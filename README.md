@@ -9,12 +9,12 @@ Under active development (early stage).
 ## Tech stack
 - Node.js
 - Nest.js
-- MongoDB
+- PostgreSQL
 - Redis
 - Next.js
 - React
 - Docker
-- BullMQ
+- Kafka
 
 ## Features
 - [x] Email Verification
