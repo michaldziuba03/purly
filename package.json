@@ -4,9 +4,13 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start:dev": "nx run-many --t serve",
+    "start": "nx run-many --target=serve",
     "start:api": "nx serve api",
+    "build": "nx run-many --target=build --all",
+    "build:api": "nx build api",
     "prepare": "husky install",
+    "lint": "nx run-many --target=lint",
+    "lint:api": "nx lint api",
     "lint:staged": "lint-staged"
   },
   "commitlint": {
