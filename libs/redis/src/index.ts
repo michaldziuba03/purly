@@ -1,1 +1,1 @@
-export * from './lib/redis.module';
+export * from './redis.module';

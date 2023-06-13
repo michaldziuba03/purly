@@ -4,9 +4,11 @@ import {
   Controller,
   Get,
   Post,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import { Login } from './usecases/login.usecase';
 import { Register } from './usecases/register.usecase';
 import { OAuth2 } from './usecases/oauth2.usecase';
@@ -27,20 +29,27 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  register(@Body() body: RegisterDto) {
-    return this.registerUsecase.execute({
+  async register(@Body() body: RegisterDto, @Req() req: Request) {
+    const user = await this.registerUsecase.execute({
       email: body.email,
       name: body.name,
       password: body.password,
     });
+
+    await this.createSession(req, user.id);
+
+    return user;
   }
 
   @Post('login')
-  login(@Body() body: LoginDto) {
-    return this.loginUsecase.execute({
+  async login(@Req() req: Request, @Body() body: LoginDto) {
+    const user = await this.loginUsecase.execute({
       email: body.email,
       password: body.password,
     });
+    await this.createSession(req, user.id);
+
+    return user;
   }
 
   // OAuth2 redirects and callbacks:
@@ -52,9 +61,12 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(AuthGuard(Providers.GITHUB))
-  async githubCallback(@UserSession() profile: OAuthProfile) {
-    const user = await this.oauthUsecase.execute(profile);
-    return user;
+  async githubCallback(
+    @Req() req: Request,
+    @UserSession() profile: OAuthProfile
+  ) {
+    const userId = await this.oauthUsecase.execute(profile);
+    await this.createSession(req, userId);
   }
 
   @Get('google')
@@ -65,8 +77,34 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard(Providers.GOOGLE))
-  async googleCallback(@UserSession() profile: OAuthProfile) {
-    const user = await this.oauthUsecase.execute(profile);
-    return user;
+  async googleCallback(
+    @Req() req: Request,
+    @UserSession() profile: OAuthProfile
+  ) {
+    const userId = await this.oauthUsecase.execute(profile);
+    await this.createSession(req, userId);
+  }
+
+  // Session related methods:
+  @Post('logout')
+  async logout(@Req() req: Request) {
+    await new Promise<void>((resolve, reject) => {
+      req.logOut({ keepSessionInfo: false }, (err) => {
+        if (err) return reject(err);
+        resolve();
+      });
+    });
+
+    req.session.cookie.maxAge = 0;
+  }
+
+  private createSession(req: Request, userId: string) {
+    return new Promise<void>((resolve, reject) => {
+      req.login({ id: userId }, (err) => {
+        if (err) return reject(err);
+
+        return resolve();
+      });
+    });
   }
 }

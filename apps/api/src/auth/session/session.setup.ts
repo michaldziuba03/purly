@@ -19,7 +19,6 @@ export function setupSession(app: INestApplication) {
       },
       store: new RedisStore({
         client: redisClient,
-        prefix: 'session',
       }),
     })
   );

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { PostgresModule } from '@purly/postgres';
+import { RedisModule } from '@purly/redis';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PostgresModule, AuthModule],
+  imports: [RedisModule, PostgresModule, AuthModule],
   controllers: [],
   providers: [],
 })

@@ -6,10 +6,12 @@ import { OAuth2 } from './usecases/oauth2.usecase';
 import { AuthService } from './auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
+import { SessionSerializer } from './session/session.serializer';
 
 @Module({
   providers: [
     AuthService,
+    SessionSerializer,
     Login,
     Register,
     OAuth2,
