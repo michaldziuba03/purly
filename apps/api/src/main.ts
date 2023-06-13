@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
+import { setupSession } from './auth/session/session.setup';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,7 +22,8 @@ async function bootstrap() {
   );
 
   app.use(helmet());
-  const port = process.env.PORT || 3000;
+  setupSession(app);
+  const port = process.env.PORT || 8000;
   await app.listen(port);
 }
 
