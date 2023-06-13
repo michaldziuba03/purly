@@ -19,8 +19,8 @@ Distrubuted URL shortener. Under active development (early stage).
 
 ## Features
 - [ ] Email Verification
-- [ ] Social Authentication (Google, GitHub)
-- [ ] Email & Password Authentication
+- [x] Social Authentication (Google, GitHub)
+- [x] Email & Password Authentication
 - [ ] Reset Password flow
 - [ ] Google Recaptcha support
 - [ ] Paid monthly subscriptions (Stripe)

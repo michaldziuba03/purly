@@ -3,3 +3,6 @@ export * from './postgres.module';
 export * from './repositories/user.repository';
 export * from './entities/user.entity';
 export * from './entities/account.entity';
+
+export * from './repositories/link.repository';
+export * from './entities/link.entity';

@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@purly/postgres": ["libs/postgres/src/index.ts"]
+      "@purly/postgres": ["libs/postgres/src/index.ts"],
+      "@purly/redis": ["libs/redis/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { Account } from './account.entity';
 import { TimestampEntity } from './timestamp.entity';
 
@@ -20,6 +21,7 @@ export class User extends TimestampEntity {
   isVerified: boolean;
 
   @Column({ nullable: true })
+  @Exclude({ toPlainOnly: true })
   password?: string;
 
   @Column({ nullable: true })

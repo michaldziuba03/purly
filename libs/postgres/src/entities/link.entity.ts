@@ -7,6 +7,9 @@ export class Link extends TimestampEntity {
   alias: string;
 
   @Column()
+  url: string;
+
+  @Column()
   name: string;
 
   @Column({ default: false })
