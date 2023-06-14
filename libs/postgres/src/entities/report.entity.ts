@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { TimestampEntity } from './timestamp.entity';
+import { Link } from './link.entity';
 
 @Entity('reports')
 export class Report extends TimestampEntity {
@@ -12,9 +19,16 @@ export class Report extends TimestampEntity {
   @Column()
   url: string;
 
-  @Column()
+  @Column({ name: 'destination_url' })
+  destinationUrl: string;
+
+  @Column({ default: '' })
   message: string;
 
   @Column()
   solved: boolean;
+
+  @ManyToOne(() => Link, (link) => link.alias)
+  @JoinColumn({ name: 'alias' })
+  link: Link;
 }

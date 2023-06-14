@@ -24,25 +24,7 @@ export class LinkRepository {
     return result.affected > 0;
   }
 
-  async archiveLink(alias: string): Promise<boolean> {
-    const result = await this.linkCtx.update(
-      { alias },
-      {
-        isArchived: true,
-      }
-    );
-
-    return result.affected > 0;
-  }
-
-  async unarchiveLink(alias: string): Promise<boolean> {
-    const result = await this.linkCtx.update(
-      { alias },
-      {
-        isArchived: false,
-      }
-    );
-
-    return result.affected > 0;
+  exists(alias: string) {
+    return this.linkCtx.exist({ where: { alias } });
   }
 }

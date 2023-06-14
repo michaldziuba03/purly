@@ -26,7 +26,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [ ] Paid monthly subscriptions (Stripe)
 - [x] URL shortening
 - [ ] QR Codes generation
-- [ ] Reporting malicious URLs
+- [x] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
 - [ ] Health checks

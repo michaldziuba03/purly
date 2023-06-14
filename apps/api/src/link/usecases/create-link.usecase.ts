@@ -19,11 +19,13 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
   ) {}
 
   async execute(command: ICreateLinkCommand) {
-    await this.tryToInsert({
+    const link = await this.tryToInsert({
       name: command.name,
       userId: command.userId,
       url: command.url,
     });
+
+    return link;
   }
 
   async tryToInsert(command: ICreateLinkCommand) {
