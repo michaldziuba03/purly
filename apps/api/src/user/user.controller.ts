@@ -1,10 +1,12 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   NotFoundException,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserSession } from '../shared/user.decorator';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -13,6 +15,7 @@ import { UpdateProfile } from './usecases/update-profile.usecase';
 import { GetProfile } from './usecases/get-profile.usecase';
 
 @Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthenticatedGuard)
 export class UserController {
   constructor(
@@ -22,7 +25,7 @@ export class UserController {
 
   @Post('me')
   async updateProfile(
-    @UserSession() userId: string,
+    @UserSession('id') userId: string,
     @Body() data: UpdateProfileDto
   ) {
     const success = await this.updateProfileUsecase.execute({

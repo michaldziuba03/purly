@@ -5,12 +5,14 @@ import {
   PASSWORD_MAX,
   PASSWORD_MIN,
 } from '../../user/user.constants';
+import { Trim } from '../../shared/trim.transformer';
 
 export class RegisterDto {
   @IsEmail()
   email: string;
 
   @IsString()
+  @Trim()
   @Length(NAME_MIN, NAME_MAX)
   name: string;
 
