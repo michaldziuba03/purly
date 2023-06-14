@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Providers, UserRepository } from '@purly/postgres';
 import { AuthService } from '../auth.service';
+import { Usecase } from '../../shared/base.usecase';
 
-interface OAuth2Command {
+interface IOAuth2Command {
   email: string;
   name: string;
   picture?: string;
@@ -11,13 +12,13 @@ interface OAuth2Command {
 }
 
 @Injectable()
-export class OAuth2 {
+export class OAuth2 implements Usecase<IOAuth2Command> {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly authService: AuthService
   ) {}
 
-  async execute(command: OAuth2Command): Promise<string> {
+  async execute(command: IOAuth2Command): Promise<string> {
     const userId = await this.userRepository.findIdByAccount(
       command.provider,
       command.subject

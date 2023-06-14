@@ -1,20 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserRepository } from '@purly/postgres';
 import { AuthService } from '../auth.service';
+import { Usecase } from '../../shared/base.usecase';
 
-interface LoginCommand {
+interface ILoginCommand {
   email: string;
   password: string;
 }
 
 @Injectable()
-export class Login {
+export class Login implements Usecase<ILoginCommand> {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly authService: AuthService
   ) {}
 
-  async execute(command: LoginCommand) {
+  async execute(command: ILoginCommand) {
     const user = await this.userRepository.findByEmail(command.email);
     if (!user) {
       throw new BadRequestException('Invalid email or password');

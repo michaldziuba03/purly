@@ -19,22 +19,22 @@ export class LinkRepository {
     return result.affected > 0;
   }
 
-  async setArchived(alias: string): Promise<boolean> {
+  async archiveLink(alias: string): Promise<boolean> {
     const result = await this.linkCtx.update(
       { alias },
       {
-        archived: true,
+        isArchived: true,
       }
     );
 
     return result.affected > 0;
   }
 
-  async unsetArchived(alias: string): Promise<boolean> {
+  async unarchiveLink(alias: string): Promise<boolean> {
     const result = await this.linkCtx.update(
       { alias },
       {
-        archived: false,
+        isArchived: false,
       }
     );
 
