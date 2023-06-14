@@ -3,10 +3,10 @@ import { PostgresModule } from '@purly/postgres';
 import { RedisModule } from '@purly/redis';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { AliasModule } from './alias/alias.module';
+import { LinkModule } from './link/link.module';
 
 @Module({
-  imports: [RedisModule, PostgresModule, AuthModule, UserModule, AliasModule],
+  imports: [RedisModule, PostgresModule, AuthModule, UserModule, LinkModule],
   controllers: [],
   providers: [],
 })

@@ -24,7 +24,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [ ] Reset Password flow
 - [ ] Google Recaptcha support
 - [ ] Paid monthly subscriptions (Stripe)
-- [ ] URL shortening
+- [x] URL shortening
 - [ ] QR Codes generation
 - [ ] Reporting malicious URLs
 - [ ] Rate Limiting

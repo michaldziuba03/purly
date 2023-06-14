@@ -11,11 +11,16 @@ export class LinkRepository {
   ) {}
 
   create(data: Partial<Link>): Promise<Link> {
-    return this.linkCtx.save(data);
+    const link = this.linkCtx.create(data);
+    return this.linkCtx.save(link);
   }
 
-  async deleteByAlias(alias: string): Promise<boolean> {
-    const result = await this.linkCtx.delete({ alias });
+  findByAlias(alias: string) {
+    return this.linkCtx.findOneBy({ alias });
+  }
+
+  async delete(alias: string, userId: string): Promise<boolean> {
+    const result = await this.linkCtx.delete({ alias, userId });
     return result.affected > 0;
   }
 

@@ -5,7 +5,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import Zk from 'zookeeper';
-import { AbstractGenerator } from './abstract.generator';
+import { AliasFactory } from './alias.factory';
 import Hashids from 'hashids';
 
 const ZK_EPHEMERAL_SEQUENTIAL = 3; // flag for created znode
@@ -18,8 +18,8 @@ interface ICounter {
 }
 
 @Injectable()
-export class SequentialGenerator
-  extends AbstractGenerator
+export class SequentialAliasFactory
+  extends AliasFactory
   implements OnModuleInit, OnModuleDestroy
 {
   private readonly hashids: Hashids;
@@ -45,7 +45,7 @@ export class SequentialGenerator
     // TODO: change Zookeeper initiation - current method will be harder to test
     this.zk = new Zk(zkConfig);
     this.zk.once('connect', () => {
-      Logger.log('Zookeeper connected', SequentialGenerator.name);
+      Logger.log('Zookeeper connected', SequentialAliasFactory.name);
       this.setRange();
     });
 
@@ -54,7 +54,10 @@ export class SequentialGenerator
 
   onModuleDestroy() {
     this.zk.close();
-    Logger.log('Zookeeper disconnected gracefully', SequentialGenerator.name);
+    Logger.log(
+      'Zookeeper disconnected gracefully',
+      SequentialAliasFactory.name
+    );
   }
 
   private async setRange() {

@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Account } from './entities/account.entity';
 import { UserRepository } from './repositories/user.repository';
 import { Link } from './entities/link.entity';
+import { LinkRepository } from './repositories/link.repository';
 
 @Global()
 @Module({
@@ -16,7 +17,7 @@ import { Link } from './entities/link.entity';
     }),
     TypeOrmModule.forFeature([User, Account, Link]),
   ],
-  providers: [UserRepository],
-  exports: [UserRepository],
+  providers: [UserRepository, LinkRepository],
+  exports: [UserRepository, LinkRepository],
 })
 export class PostgresModule {}
