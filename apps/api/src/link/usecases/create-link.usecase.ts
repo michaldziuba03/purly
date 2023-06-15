@@ -1,8 +1,9 @@
 import { LinkRepository } from '@purly/postgres';
 import { Usecase } from '../../shared/base.usecase';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { AliasFactory } from '../factories/alias.factory';
 import { ALIAS_FACTORY } from '../factories/alias-factory.provider';
+import retry from 'async-retry';
 
 interface ICreateLinkCommand {
   userId: string;
@@ -18,8 +19,10 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
     private readonly linkRepository: LinkRepository
   ) {}
 
-  async execute(command: ICreateLinkCommand) {
-    const link = await this.tryToInsert({
+  private async createLink(command: ICreateLinkCommand) {
+    const alias = await this.aliasFactory.next();
+    const link = await this.linkRepository.create({
+      alias,
       name: command.name,
       userId: command.userId,
       url: command.url,
@@ -28,16 +31,24 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
     return link;
   }
 
-  async tryToInsert(command: ICreateLinkCommand) {
-    const alias = await this.aliasFactory.next();
-    const link = await this.linkRepository.create({
-      alias,
-      isArchived: false,
-      name: command.name,
-      url: command.url,
-      userId: command.userId,
-    });
+  async execute(command: ICreateLinkCommand) {
+    return retry(
+      async (bail) => {
+        try {
+          return await this.createLink(command);
+        } catch (err) {
+          if (this.linkRepository.isDuplicatedAliasError(err)) {
+            Logger.warn('Duplicated alias detected, retrying...');
+            throw err;
+          }
 
-    return link;
+          bail(err);
+        }
+      },
+      {
+        retries: 30,
+        factor: 0,
+      }
+    );
   }
 }

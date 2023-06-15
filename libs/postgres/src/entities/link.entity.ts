@@ -5,7 +5,7 @@ import { User } from './user.entity';
 
 @Entity('links')
 export class Link extends TimestampEntity {
-  @PrimaryColumn()
+  @PrimaryColumn({ unique: true })
   alias: string;
 
   @Column()

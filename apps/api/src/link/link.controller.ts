@@ -67,12 +67,24 @@ export class LinkController {
   }
 
   @Post(':alias')
-  updateLink(
+  async updateLink(
     @UserSession('id') userId: string,
     @Body() body: UpdateLinkDto,
     @Param('alias') alias: string
   ) {
-    throw new Error('Not implemented');
+    const isUpdated = await this.updateLinkUsecase.execute({
+      alias,
+      userId,
+      isArchived: body.isArchived,
+      name: body.name,
+      url: body.url,
+    });
+
+    if (!isUpdated) {
+      throw new NotFoundException();
+    }
+
+    return { success: isUpdated };
   }
 
   @Delete(':alias')

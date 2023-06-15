@@ -1,5 +1,12 @@
-import { IsOptional, IsString, IsUrl } from 'class-validator';
+import {
+  IsBoolean,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 import { Trim } from '../../shared/trim.transformer';
+import { LINK_NAME_MAX } from '../link.constants';
 
 export class UpdateLinkDto {
   @IsUrl()
@@ -7,7 +14,12 @@ export class UpdateLinkDto {
   url?: string;
 
   @IsString()
+  @MaxLength(LINK_NAME_MAX)
   @Trim()
   @IsOptional()
   name?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isArchived?: boolean;
 }
