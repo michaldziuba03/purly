@@ -20,6 +20,7 @@ import { UserSession } from '../shared/user.decorator';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { GetLink } from './usecases/get-link.usecase';
 import { GetLinksQueryDto } from './dto/get-links-query.dto';
+import { GetLinksList } from './usecases/get-links-list.usecase';
 
 @Controller('links')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -27,6 +28,7 @@ import { GetLinksQueryDto } from './dto/get-links-query.dto';
 export class LinkController {
   constructor(
     private readonly getLinkUsecase: GetLink,
+    private readonly getLinksListUsecase: GetLinksList,
     private readonly createLinkUsecase: CreateLink,
     private readonly deleteLinkUsecase: DeleteLink,
     private readonly updateLinkUsecase: UpdateLink
@@ -37,7 +39,9 @@ export class LinkController {
     @UserSession('id') userId: string,
     @Query() query: GetLinksQueryDto
   ) {
-    throw new Error('Not implemented');
+    return this.getLinksListUsecase.execute({
+      userId,
+    });
   }
 
   @Post()

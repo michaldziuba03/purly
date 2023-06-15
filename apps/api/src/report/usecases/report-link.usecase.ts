@@ -23,7 +23,7 @@ export class ReportLink implements Usecase<IReportLinkCommand> {
     const alias = this.getAliasFromUrl(command.url);
     const link = await this.linkRepository.findByAlias(alias);
     if (!link) {
-      throw new NotFoundException('We cannot find link you try to report');
+      throw new NotFoundException('Link not found');
     }
 
     const report = await this.reportRepository.create({

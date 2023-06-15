@@ -9,7 +9,7 @@ export class RandomAliasFactory extends AliasFactory {
     7
   );
 
-  next(): Promise<string> {
+  create(): Promise<string> {
     return this.nanoid();
   }
 }

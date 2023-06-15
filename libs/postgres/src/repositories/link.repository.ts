@@ -10,6 +10,13 @@ export class LinkRepository {
     private readonly linkCtx: Repository<Link>
   ) {}
 
+  async findAll(userId: string) {
+    return this.linkCtx.find({
+      where: { userId },
+      take: 100,
+    });
+  }
+
   async create(data: Partial<Link>): Promise<Link> {
     const result = await this.linkCtx.insert(data);
     const rawResult = result.raw[0];

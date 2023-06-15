@@ -84,7 +84,7 @@ export class SequentialAliasFactory
     return Number(path.replace(this.basePath, '')) + 1;
   }
 
-  async next(): Promise<string> {
+  async create(): Promise<string> {
     if (!this.counter) {
       throw new Error('Range is not initialized yet');
     }

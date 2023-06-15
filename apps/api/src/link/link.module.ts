@@ -5,11 +5,13 @@ import { UpdateLink } from './usecases/update-link.usecase';
 import { GetLink } from './usecases/get-link.usecase';
 import { LinkController } from './link.controller';
 import { provideAliasFactory } from './factories/alias-factory.provider';
+import { GetLinksList } from './usecases/get-links-list.usecase';
 
 @Module({
   controllers: [LinkController],
   providers: [
     GetLink,
+    GetLinksList,
     CreateLink,
     DeleteLink,
     UpdateLink,

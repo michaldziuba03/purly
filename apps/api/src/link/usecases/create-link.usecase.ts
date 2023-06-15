@@ -20,7 +20,7 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
   ) {}
 
   private async createLink(command: ICreateLinkCommand) {
-    const alias = await this.aliasFactory.next();
+    const alias = await this.aliasFactory.create();
     const link = await this.linkRepository.create({
       alias,
       name: command.name,
