@@ -30,6 +30,6 @@ export class ManageSubscriptions
       return_url: createClientUrl('/app/billing'),
     });
 
-    return session;
+    return session.url;
   }
 }
