@@ -1,4 +1,7 @@
+import { AbuseType } from '@purly/postgres';
 import {
+  IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -9,6 +12,12 @@ import {
 export class CreateReportDto {
   @IsUrl({ require_tld: false })
   url: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsEnum(AbuseType)
+  type: AbuseType;
 
   @IsString()
   @MaxLength(300)

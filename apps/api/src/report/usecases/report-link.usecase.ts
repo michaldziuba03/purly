@@ -5,10 +5,12 @@ import {
 } from '@nestjs/common';
 import { Usecase } from '../../shared/base.usecase';
 import { parse as parsePath } from 'path';
-import { LinkRepository, ReportRepository } from '@purly/postgres';
+import { AbuseType, LinkRepository, ReportRepository } from '@purly/postgres';
 
 interface IReportLinkCommand {
   url: string;
+  email: string;
+  type: AbuseType;
   message?: string;
 }
 
@@ -32,6 +34,8 @@ export class ReportLink implements Usecase<IReportLinkCommand> {
       url: command.url,
       destinationUrl: link.url,
       solved: false,
+      email: command.email,
+      type: command.type,
     });
 
     return report;

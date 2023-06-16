@@ -13,6 +13,8 @@ export class ReportController {
     return this.reportLinkUsecase.execute({
       url: body.url,
       message: body.message,
+      email: body.email,
+      type: body.type,
     });
   }
 }
