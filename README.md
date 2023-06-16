@@ -22,7 +22,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [x] Social Authentication (Google, GitHub)
 - [x] Email & Password Authentication
 - [ ] Reset Password flow
-- [ ] Google Recaptcha support
+- [x] Google Recaptcha support
 - [ ] Paid monthly subscriptions (Stripe)
 - [x] URL shortening
 - [ ] QR Codes generation

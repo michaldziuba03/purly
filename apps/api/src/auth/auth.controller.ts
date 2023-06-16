@@ -20,6 +20,7 @@ import { UserSession } from '../shared/user.decorator';
 import { OAuthProfile } from './auth.interface';
 import { GuestGuard } from './guards/guest.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
+import { RecaptchaGuard } from '../shared/recaptcha.guard';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -31,7 +32,7 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  @UseGuards(GuestGuard)
+  @UseGuards(GuestGuard, RecaptchaGuard)
   async register(@Body() body: RegisterDto, @Req() req: Request) {
     const user = await this.registerUsecase.execute({
       email: body.email,
@@ -45,7 +46,7 @@ export class AuthController {
   }
 
   @Post('login')
-  @UseGuards(GuestGuard)
+  @UseGuards(GuestGuard, RecaptchaGuard)
   async login(@Req() req: Request, @Body() body: LoginDto) {
     const user = await this.loginUsecase.execute({
       email: body.email,
