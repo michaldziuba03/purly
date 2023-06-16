@@ -6,9 +6,11 @@ import { UserModule } from './user/user.module';
 import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { BillingModule } from './billing/billing.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
+    HealthModule,
     RedisModule,
     PostgresModule,
     AuthModule,

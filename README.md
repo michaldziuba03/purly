@@ -29,7 +29,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [x] Reporting malicious URLs
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
-- [ ] Health checks
+- [x] Health checks
 - [ ] Caching
 - [ ] Link in bio
 

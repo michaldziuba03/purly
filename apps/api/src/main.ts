@@ -7,7 +7,9 @@ import { AppModule } from './app.module';
 import { setupSession } from './auth/session/session.setup';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true, // important for StripeWebhook controller
+  });
   const globalPrefix = 'api';
 
   app.setGlobalPrefix(globalPrefix);
