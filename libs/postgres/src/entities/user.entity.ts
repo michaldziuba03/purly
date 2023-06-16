@@ -3,6 +3,12 @@ import { Exclude } from 'class-transformer';
 import { Account } from './account.entity';
 import { TimestampEntity } from './timestamp.entity';
 
+export enum Plans {
+  FREE = 'free',
+  BASIC = 'basic',
+  ENTERPRISE = 'enterprise',
+}
+
 @Entity('users')
 export class User extends TimestampEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -24,8 +30,8 @@ export class User extends TimestampEntity {
   @Exclude({ toPlainOnly: true })
   password?: string;
 
-  @Column({ default: 'free' })
-  plan: string;
+  @Column({ default: Plans.FREE, enum: Plans })
+  plan: Plans;
 
   @Column({ name: 'billing_id', nullable: true })
   billingId?: string;

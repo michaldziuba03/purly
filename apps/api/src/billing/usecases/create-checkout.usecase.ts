@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Usecase } from '../../shared/base.usecase';
-import { User, UserRepository } from '@purly/postgres';
+import { Plans, User, UserRepository } from '@purly/postgres';
 import { InjectStripe } from '../stripe/stripe.provider';
 import Stripe from 'stripe';
 import { createClientUrl } from '../../shared/utils';
@@ -20,6 +20,12 @@ export class CreateCheckout implements Usecase<ICreateCheckoutCommand> {
 
   async execute(command: ICreateCheckoutCommand): Promise<string> {
     const user = await this.userRepository.findById(command.userId);
+    if (user.plan !== Plans.FREE) {
+      throw new BadRequestException(
+        'User has active subscription. Use /manage.'
+      );
+    }
+
     if (!user.billingId) {
       const billingId = await this.createCustomer(user);
       await this.userRepository.update(

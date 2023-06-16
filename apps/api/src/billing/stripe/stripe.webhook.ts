@@ -6,6 +6,7 @@ import {
   Req,
   NotFoundException,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { InjectStripe } from './stripe.provider';
 import Stripe from 'stripe';
@@ -49,6 +50,7 @@ export class StripeWebhook {
     }
 
     // Handle event :)
+    Logger.log(`Received event: ${event.type}`);
 
     return;
   }

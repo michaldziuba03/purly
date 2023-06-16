@@ -1,5 +1,7 @@
+import { Plans } from '@purly/postgres';
+
 interface IPlan {
-  id: 'basic' | 'enterprise';
+  id: Plans;
   name: string;
   priceId: string;
   quota: number;
@@ -8,14 +10,14 @@ interface IPlan {
 
 export const PLANS: IPlan[] = [
   {
-    id: 'basic',
+    id: Plans.BASIC,
     name: 'Basic',
     price: 7,
     quota: 40_000,
     priceId: process.env.STRIPE_BASIC_PRICE || 'price_1N6JxXJjAhwWPueyTv2izTKL',
   },
   {
-    id: 'enterprise',
+    id: Plans.ENTERPRISE,
     name: 'Enterprise',
     price: 100,
     quota: 1_100_000,
