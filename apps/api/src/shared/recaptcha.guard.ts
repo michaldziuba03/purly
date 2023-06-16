@@ -12,7 +12,7 @@ export class RecaptchaGuard implements CanActivate {
   private readonly VERIFY_URL =
     'https://www.google.com/recaptcha/api/siteverify';
 
-  get isEnabled() {
+  private get isEnabled() {
     return process.env.ENABLE_RECAPTCHA === 'true';
   }
 
