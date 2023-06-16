@@ -1,9 +1,8 @@
 import { IsIn } from 'class-validator';
-import { PRICES } from '../stripe/stripe.constants';
+import { PlansNames } from '../stripe/stripe.constants';
+import { Plans } from '@purly/postgres';
 
 export class CreateCheckoutDto {
-  @IsIn(PRICES, {
-    message: 'Invalid price id',
-  })
-  priceId: string;
+  @IsIn(PlansNames)
+  plan: Plans;
 }

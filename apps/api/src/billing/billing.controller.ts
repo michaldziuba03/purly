@@ -1,9 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import {
-  AuthenticatedGuard,
-  OptionalAuth,
-} from '../auth/guards/authenticated.guard';
-import { PLANS } from './stripe/stripe.constants';
+import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
 import { CreateCheckout } from './usecases/create-checkout.usecase';
 import { ManageSubscriptions } from './usecases/manage-subscriptions.usecase';
 import { CreateCheckoutDto } from './dto/create-checkout.dto';
@@ -24,7 +20,7 @@ export class BillingController {
   ) {
     const url = await this.createCheckoutUsecase.execute({
       userId,
-      priceId: body.priceId,
+      plan: body.plan,
     });
 
     return { url };
@@ -37,11 +33,5 @@ export class BillingController {
     });
 
     return { url };
-  }
-
-  @Get('plans')
-  @OptionalAuth()
-  getPlans() {
-    return PLANS;
   }
 }
