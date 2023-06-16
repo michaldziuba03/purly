@@ -3,6 +3,7 @@ import { Usecase } from '../../shared/base.usecase';
 import { User, UserRepository } from '@purly/postgres';
 import { InjectStripe } from '../stripe/stripe.provider';
 import Stripe from 'stripe';
+import { createClientUrl } from '../../shared/utils';
 
 interface ICreateCheckoutCommand {
   userId: string;
@@ -36,8 +37,8 @@ export class CreateCheckout implements Usecase<ICreateCheckoutCommand> {
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [{ price: command.priceId, quantity: 1 }],
-      success_url: 'http://localhost:3000/app/billing?state=success',
-      cancel_url: 'http://localhost:3000/app/billing?state=cancel',
+      success_url: createClientUrl('/app/billing?state=success'),
+      cancel_url: createClientUrl('/app/billing?state=cancel'),
     });
 
     return checkoutSession.url;
@@ -48,7 +49,7 @@ export class CreateCheckout implements Usecase<ICreateCheckoutCommand> {
       email: user.email,
       name: user.name,
       metadata: {
-        accountId: user.id,
+        userId: user.id,
       },
     });
 

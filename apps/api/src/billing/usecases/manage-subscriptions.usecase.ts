@@ -3,6 +3,7 @@ import { Usecase } from '../../shared/base.usecase';
 import { UserRepository } from '@purly/postgres';
 import Stripe from 'stripe';
 import { InjectStripe } from '../stripe/stripe.provider';
+import { createClientUrl } from '../../shared/utils';
 
 interface IManageSubscriptionsCommand {
   userId: string;
@@ -26,7 +27,7 @@ export class ManageSubscriptions
 
     const session = await this.stripe.billingPortal.sessions.create({
       customer: account.billingId,
-      return_url: 'http://localhost:3000/app/billing',
+      return_url: createClientUrl('/app/billing'),
     });
 
     return session;
