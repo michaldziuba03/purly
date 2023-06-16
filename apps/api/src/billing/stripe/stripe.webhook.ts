@@ -38,13 +38,13 @@ export class StripeWebhook {
       throw new BadRequestException('Missing signature');
     }
 
-    const evt = this.constructEvent(req.rawBody, signature);
-    if (!evt) {
+    const event = this.constructEvent(req.rawBody, signature);
+    if (!event) {
       throw new BadRequestException('Invalid event or signature');
     }
 
     // just ignore irrelevant events and return 2xx status
-    if (!this.relevantEvents.includes(evt.type as StripeEvents)) {
+    if (!this.relevantEvents.includes(event.type as StripeEvents)) {
       return;
     }
 

@@ -7,6 +7,7 @@ import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { BillingModule } from './billing/billing.module';
 import { HealthModule } from './health/health.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { HealthModule } from './health/health.module';
     LinkModule,
     ReportModule,
     BillingModule,
+    StatsModule,
   ],
   controllers: [],
   providers: [],
