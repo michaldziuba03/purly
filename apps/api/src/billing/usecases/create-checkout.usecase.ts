@@ -1,0 +1,57 @@
+import { Injectable } from '@nestjs/common';
+import { Usecase } from '../../shared/base.usecase';
+import { User, UserRepository } from '@purly/postgres';
+import { InjectStripe } from '../stripe/stripe.provider';
+import Stripe from 'stripe';
+
+interface ICreateCheckoutCommand {
+  userId: string;
+  priceId: string;
+}
+
+@Injectable()
+export class CreateCheckout implements Usecase<ICreateCheckoutCommand> {
+  constructor(
+    @InjectStripe()
+    private readonly stripe: Stripe,
+    private readonly userRepository: UserRepository
+  ) {}
+
+  async execute(command: ICreateCheckoutCommand): Promise<string> {
+    const user = await this.userRepository.findById(command.userId);
+    if (!user.billingId) {
+      const billingId = await this.createCustomer(user);
+      await this.userRepository.update(
+        { id: user.id },
+        {
+          billingId,
+        }
+      );
+
+      user.billingId = billingId;
+    }
+
+    const checkoutSession = await this.stripe.checkout.sessions.create({
+      customer: user.billingId,
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [{ price: command.priceId, quantity: 1 }],
+      success_url: 'http://localhost:3000/app/billing?state=success',
+      cancel_url: 'http://localhost:3000/app/billing?state=cancel',
+    });
+
+    return checkoutSession.url;
+  }
+
+  private async createCustomer(user: User) {
+    const customer = await this.stripe.customers.create({
+      email: user.email,
+      name: user.name,
+      metadata: {
+        accountId: user.id,
+      },
+    });
+
+    return customer.id;
+  }
+}

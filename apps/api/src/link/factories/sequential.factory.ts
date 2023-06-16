@@ -78,6 +78,8 @@ export class SequentialAliasFactory
       curr: start,
       end,
     };
+
+    Logger.log(this.counter, SequentialAliasFactory.name);
   }
 
   private parseSeq(path: string) {

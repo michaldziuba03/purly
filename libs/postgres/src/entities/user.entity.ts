@@ -24,8 +24,11 @@ export class User extends TimestampEntity {
   @Exclude({ toPlainOnly: true })
   password?: string;
 
-  @Column({ nullable: true })
-  subscribtion?: string;
+  @Column({ default: 'free' })
+  plan: string;
+
+  @Column({ name: 'billing_id', nullable: true })
+  billingId?: string;
 
   @OneToMany(() => Account, (account) => account.user)
   accounts: Account[];

@@ -12,8 +12,13 @@ export class LinkRepository {
 
   async findAll(userId: string) {
     return this.linkCtx.find({
-      where: { userId },
+      where: {
+        userId,
+      },
       take: 100,
+      order: {
+        createdAt: 'DESC',
+      },
     });
   }
 

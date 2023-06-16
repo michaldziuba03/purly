@@ -11,4 +11,13 @@ export class CreateLinkDto {
   @Trim()
   @IsOptional()
   name?: string;
+
+  @IsUrl({
+    require_protocol: false,
+    allow_query_components: false,
+    allow_trailing_dot: false,
+    disallow_auth: true,
+  })
+  @IsOptional()
+  domain?: string;
 }
