@@ -19,10 +19,10 @@ export const PLANS: IPlan[] = [
 
 export const PlansNames = PLANS.map((plan) => plan.name);
 
-export function getPlanByPriceId(priceId: string) {
-  return PLANS.find((plan) => plan.priceId === priceId);
+export function getNameByPriceId(priceId: string) {
+  return PLANS.find((plan) => plan.priceId === priceId).name;
 }
 
-export function getPriceIdByPlan(planName: Plans): string {
+export function getPriceIdByName(planName: Plans): string {
   return PLANS.find((plan) => plan.name === planName).priceId;
 }

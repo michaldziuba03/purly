@@ -14,6 +14,9 @@ export class Link extends TimestampEntity {
   @Column({ nullable: true })
   name?: string;
 
+  @Column({ nullable: true })
+  domain: string;
+
   @Column({ name: 'is_archived', default: false })
   isArchived: boolean;
 

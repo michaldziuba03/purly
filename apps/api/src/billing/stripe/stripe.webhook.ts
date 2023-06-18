@@ -10,6 +10,9 @@ import {
 } from '@nestjs/common';
 import { InjectStripe } from './stripe.provider';
 import Stripe from 'stripe';
+import { UpdateSubscription } from '../usecases/update-subscription.usecase';
+import { Plans } from '@purly/postgres';
+import { getNameByPriceId } from './stripe.constants';
 
 export enum StripeEvents {
   DeleteSubscription = 'customer.subscription.deleted',
@@ -20,10 +23,39 @@ export enum StripeEvents {
 export class StripeWebhook {
   constructor(
     @InjectStripe()
-    private readonly stripe: Stripe
+    private readonly stripe: Stripe,
+    private readonly updateSubscriptionUsecase: UpdateSubscription
   ) {}
 
   private readonly relevantEvents = Object.values(StripeEvents);
+
+  dispatchEvent(event: Stripe.Event) {
+    Logger.log(`Received event: ${event.type}`, StripeWebhook.name);
+    const data = event.data.object as Stripe.Subscription;
+
+    switch (event.type) {
+      case StripeEvents.UpdateSubscription:
+        return this.updateSubscriptionUsecase.execute({
+          billigId: data.customer.toString(),
+          plan: this.getPlanForSubscription(data),
+        });
+      case StripeEvents.DeleteSubscription:
+        return this.updateSubscriptionUsecase.execute({
+          billigId: data.customer.toString(),
+          plan: Plans.FREE,
+        });
+    }
+  }
+
+  private getPlanForSubscription(payload: Stripe.Subscription) {
+    const priceId = payload.items.data[0].price.id;
+    if (!priceId) {
+      // log and report case like this.
+      throw new BadRequestException('Price ID is required');
+    }
+
+    return getNameByPriceId(priceId);
+  }
 
   // webhook path is optional variable for webhook url obfuscation
   @Post(process.env.STRIPE_WEBHOOK_PATH)
@@ -49,10 +81,7 @@ export class StripeWebhook {
       return;
     }
 
-    // Handle event :)
-    Logger.log(`Received event: ${event.type}`);
-
-    return;
+    await this.dispatchEvent(event);
   }
 
   private constructEvent(payload: Buffer, signature: string) {

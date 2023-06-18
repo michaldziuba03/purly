@@ -4,7 +4,7 @@ import { Plans, User, UserRepository } from '@purly/postgres';
 import { InjectStripe } from '../stripe/stripe.provider';
 import Stripe from 'stripe';
 import { createClientUrl } from '../../shared/utils';
-import { getPriceIdByPlan } from '../stripe/stripe.constants';
+import { getPriceIdByName } from '../stripe/stripe.constants';
 
 interface ICreateCheckoutCommand {
   userId: string;
@@ -39,7 +39,7 @@ export class CreateCheckout implements Usecase<ICreateCheckoutCommand> {
       user.billingId = billingId;
     }
 
-    const priceId = getPriceIdByPlan(command.plan);
+    const priceId = getPriceIdByName(command.plan);
     const checkoutSession = await this.stripe.checkout.sessions.create({
       customer: user.billingId,
       mode: 'subscription',

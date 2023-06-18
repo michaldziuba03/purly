@@ -31,7 +31,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [ ] Statistics for shortened URLs
 - [x] Health checks
 - [ ] Caching
-- [ ] Link in bio
+- [x] Link in bio
 
 ## Development
 #### 1. Run databases and services
