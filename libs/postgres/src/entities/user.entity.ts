@@ -34,6 +34,7 @@ export class User extends TimestampEntity {
   plan: Plans;
 
   @Column({ name: 'billing_id', nullable: true })
+  @Exclude({ toPlainOnly: true })
   billingId?: string;
 
   @OneToMany(() => Account, (account) => account.user)

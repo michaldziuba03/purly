@@ -12,12 +12,15 @@ const sensitiveFields = [
   'auth',
   'jwt',
   'session',
+  'recaptcha',
+  'code', // for OAuth2 callbacks
 ];
 
 const REDACT_PATHS = [
   'req.headers.authorization',
   'req.headers.cookie',
   'res.headers["set-cookie"]',
+  'req.headers["stripe-signature"]',
 ];
 
 @Module({})
@@ -32,8 +35,10 @@ export class LoggerModule {
     const redactPaths = [
       ...REDACT_PATHS,
       ...sensitiveFields,
-      ...sensitiveFields.map((field) => `[*].${field}`),
       ...sensitiveFields.map((field) => `*.${field}`),
+      ...sensitiveFields.map((field) => `*.*.${field}`),
+      ...sensitiveFields.map((field) => `*.*.*.${field}`),
+      ...sensitiveFields.map((field) => `*.*.*.*.${field}`),
     ];
 
     return {
@@ -46,6 +51,8 @@ export class LoggerModule {
               censor: '[Filtered]',
               paths: redactPaths,
             },
+            wrapSerializers: true,
+            depthLimit: 5,
             base: {
               pid: process.pid,
             },

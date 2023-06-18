@@ -18,7 +18,6 @@ async function bootstrap() {
 
   const logger = app.get(Logger);
   app.useLogger(logger);
-  app.flushLogs();
 
   if (process.env.SENTRY_DSN) {
     Sentry.init({
