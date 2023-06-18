@@ -23,4 +23,12 @@ export class UpdateLinkDto extends UtmParamsDto {
   @IsBoolean()
   @IsOptional()
   isArchived?: boolean;
+
+  @IsUrl()
+  @IsOptional()
+  iosRedirect?: string;
+
+  @IsUrl()
+  @IsOptional()
+  androidRedirect?: string;
 }

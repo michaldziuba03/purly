@@ -21,4 +21,12 @@ export class CreateLinkDto extends UtmParamsDto {
   })
   @IsOptional()
   domain?: string;
+
+  @IsUrl()
+  @IsOptional()
+  iosRedirect?: string;
+
+  @IsUrl()
+  @IsOptional()
+  androidRedirect?: string;
 }

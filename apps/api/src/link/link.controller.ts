@@ -56,6 +56,8 @@ export class LinkController {
       utmMedium: body.utmMedium,
       utmTerm: body.utmTerm,
       utmSource: body.utmSource,
+      androidRedirect: body.androidRedirect,
+      iosRedirect: body.iosRedirect,
     });
   }
 
@@ -94,6 +96,8 @@ export class LinkController {
       utmMedium: body.utmMedium,
       utmTerm: body.utmTerm,
       utmSource: body.utmSource,
+      androidRedirect: body.androidRedirect,
+      iosRedirect: body.iosRedirect,
     });
 
     if (!isUpdated) {

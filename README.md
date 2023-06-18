@@ -28,6 +28,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [ ] QR Codes generation
 - [x] Reporting malicious URLs
 - [x] UTM Generator
+- [x] Mobile Redirects
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
 - [x] Health checks

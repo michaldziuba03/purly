@@ -9,6 +9,8 @@ interface IUpdateLinkCommand extends UtmParamsDto {
   name?: string;
   url?: string;
   isArchived?: boolean;
+  androidRedirect?: string;
+  iosRedirect?: string;
 }
 
 @Injectable()
@@ -26,6 +28,8 @@ export class UpdateLink implements Usecase<IUpdateLinkCommand> {
       utmMedium: command.utmMedium,
       utmTerm: command.utmTerm,
       utmSource: command.utmSource,
+      androidRedirect: command.androidRedirect,
+      iosRedirect: command.iosRedirect,
     });
   }
 }

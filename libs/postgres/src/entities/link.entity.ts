@@ -31,6 +31,12 @@ export class Link extends TimestampEntity {
   @Exclude({ toPlainOnly: true })
   userId: string;
 
+  @Column({ name: 'android_redirect', nullable: true })
+  androidRedirect?: string;
+
+  @Column({ name: 'ios_redirect', nullable: true })
+  iosRedirect?: string;
+
   @Column({ name: 'enable_utm', default: false })
   enableUtm: boolean;
 
