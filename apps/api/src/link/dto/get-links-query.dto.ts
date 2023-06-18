@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class GetLinksQueryDto {
   @Type(() => Number)
@@ -9,8 +9,7 @@ export class GetLinksQueryDto {
   @IsOptional()
   limit?: number = 30;
 
-  @Type(() => Number)
-  @IsInt()
+  @IsString()
   @IsOptional()
-  page?: number;
+  last?: string;
 }

@@ -32,6 +32,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [x] Health checks
 - [ ] Caching
 - [x] Link in bio
+- [x] Sentry integration for reporting non-standard erros
 
 ## Development
 #### 1. Run databases and services
