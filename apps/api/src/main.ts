@@ -12,11 +12,13 @@ import { SentryFilter } from './shared/sentry.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     rawBody: true, // important for StripeWebhook controller
+    bufferLogs: true,
   });
   const globalPrefix = 'api';
 
   const logger = app.get(Logger);
   app.useLogger(logger);
+  app.flushLogs();
 
   if (process.env.SENTRY_DSN) {
     Sentry.init({

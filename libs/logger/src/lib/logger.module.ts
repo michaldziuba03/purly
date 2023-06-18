@@ -36,8 +36,6 @@ export class LoggerModule {
       ...sensitiveFields.map((field) => `*.${field}`),
     ];
 
-    console.log(redactPaths);
-
     return {
       module: LoggerModule,
       imports: [
