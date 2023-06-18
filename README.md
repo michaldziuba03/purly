@@ -27,12 +27,13 @@ Distrubuted URL shortener. Under active development (early stage).
 - [x] URL shortening
 - [ ] QR Codes generation
 - [x] Reporting malicious URLs
+- [x] UTM Generator
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
 - [x] Health checks
 - [ ] Caching
 - [ ] Link in bio
-- [x] Sentry integration for reporting non-standard erros
+- [x] Sentry integration for reporting non-standard errors
 
 ## Development
 #### 1. Run databases and services

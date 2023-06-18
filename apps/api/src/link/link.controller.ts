@@ -50,6 +50,12 @@ export class LinkController {
       url: body.url,
       name: body.name,
       userId,
+      enableUtm: body.enableUtm,
+      utmCampaign: body.utmCampaign,
+      utmContent: body.utmCampaign,
+      utmMedium: body.utmMedium,
+      utmTerm: body.utmTerm,
+      utmSource: body.utmSource,
     });
   }
 
@@ -82,6 +88,12 @@ export class LinkController {
       isArchived: body.isArchived,
       name: body.name,
       url: body.url,
+      enableUtm: body.enableUtm,
+      utmCampaign: body.utmCampaign,
+      utmContent: body.utmCampaign,
+      utmMedium: body.utmMedium,
+      utmTerm: body.utmTerm,
+      utmSource: body.utmSource,
     });
 
     if (!isUpdated) {

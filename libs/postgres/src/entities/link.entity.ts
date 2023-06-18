@@ -30,4 +30,22 @@ export class Link extends TimestampEntity {
   @Column({ name: 'user_id' })
   @Exclude({ toPlainOnly: true })
   userId: string;
+
+  @Column({ name: 'enable_utm', default: false })
+  enableUtm: boolean;
+
+  @Column({ name: 'utm_source', nullable: true })
+  utmSource?: string;
+
+  @Column({ name: 'utm_medium', nullable: true })
+  utmMedium?: string;
+
+  @Column({ name: 'utm_campaign', nullable: true })
+  utmCampaign?: string;
+
+  @Column({ name: 'utm_term', nullable: true })
+  utmTerm?: string;
+
+  @Column({ name: 'utm_content', nullable: true })
+  utmContent?: string;
 }

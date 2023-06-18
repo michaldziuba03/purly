@@ -4,8 +4,9 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { AliasFactory } from '../factories/alias.factory';
 import { ALIAS_FACTORY } from '../factories/alias-factory.provider';
 import retry from 'async-retry';
+import { UtmParamsDto } from '../dto/utm-params.dto';
 
-interface ICreateLinkCommand {
+interface ICreateLinkCommand extends UtmParamsDto {
   userId: string;
   name?: string;
   url: string;
@@ -26,6 +27,12 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
       name: command.name,
       userId: command.userId,
       url: command.url,
+      enableUtm: command.enableUtm,
+      utmCampaign: command.utmCampaign,
+      utmContent: command.utmContent,
+      utmMedium: command.utmMedium,
+      utmSource: command.utmSource,
+      utmTerm: command.utmTerm,
     });
 
     return link;

@@ -7,8 +7,9 @@ import {
 } from 'class-validator';
 import { Trim } from '../../shared/trim.transformer';
 import { LINK_NAME_MAX } from '../link.constants';
+import { UtmParamsDto } from './utm-params.dto';
 
-export class UpdateLinkDto {
+export class UpdateLinkDto extends UtmParamsDto {
   @IsUrl()
   @IsOptional()
   url?: string;
