@@ -23,7 +23,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [x] Email & Password Authentication
 - [ ] Reset Password flow
 - [x] Google Recaptcha support
-- [ ] Paid monthly subscriptions (Stripe)
+- [x] Paid monthly subscriptions (Stripe)
 - [x] URL shortening
 - [ ] QR Codes generation
 - [x] Reporting malicious URLs
@@ -31,7 +31,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [ ] Statistics for shortened URLs
 - [x] Health checks
 - [ ] Caching
-- [x] Link in bio
+- [ ] Link in bio
 
 ## Development
 #### 1. Run databases and services
