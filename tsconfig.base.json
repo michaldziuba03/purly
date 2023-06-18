@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@purly/logger": ["libs/logger/src/index.ts"],
       "@purly/postgres": ["libs/postgres/src/index.ts"],
       "@purly/redis": ["libs/redis/src/index.ts"]
     }

@@ -5,13 +5,13 @@ import type { Request } from 'express';
 
 @Catch()
 export class SentryFilter extends BaseExceptionFilter {
-  private ignoreError(exception: unknown): boolean {
+  private isIgnorable(exception: unknown): boolean {
     // don't report to sentry regular http errors:
     return exception instanceof HttpException && exception.getStatus() < 500;
   }
 
-  catch(exception: any, host: ArgumentsHost): void {
-    if (!this.ignoreError(exception)) {
+  catch(exception: unknown, host: ArgumentsHost): void {
+    if (!this.isIgnorable(exception)) {
       captureException(exception, {
         user: this.getUser(host),
       });
