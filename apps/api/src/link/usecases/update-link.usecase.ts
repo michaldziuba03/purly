@@ -9,7 +9,7 @@ interface IUpdateLinkCommand extends UtmParamsDto {
   name?: string;
   expiresAt?: string;
   url?: string;
-  isArchived?: boolean;
+  isActive?: boolean;
   androidRedirect?: string;
   iosRedirect?: string;
 }
@@ -23,7 +23,7 @@ export class UpdateLink implements Usecase<IUpdateLinkCommand> {
       url: command.url,
       name: command.name,
       expiresAt: command.expiresAt ? new Date(command.expiresAt) : undefined,
-      isArchived: command.isArchived,
+      isActive: command.isActive,
       enableUtm: command.enableUtm,
       utmCampaign: command.utmCampaign,
       utmContent: command.utmCampaign,

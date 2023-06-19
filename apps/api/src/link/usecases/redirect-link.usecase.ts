@@ -24,6 +24,10 @@ export class RedirectLink implements Usecase<IRedirectLinkCommand> {
       return;
     }
 
+    if (!link.isActive) {
+      return;
+    }
+
     if (link.expiresAt && isAfter(new Date(), link.expiresAt)) {
       return;
     }

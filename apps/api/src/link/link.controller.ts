@@ -100,7 +100,7 @@ export class LinkController {
       name: body.name,
       expiresAt: body.expiresAt,
       userId,
-      isArchived: body.isArchived,
+      isActive: body.isActive,
       url: body.url,
       enableUtm: body.enableUtm,
       utmCampaign: body.utmCampaign,

@@ -20,8 +20,8 @@ export class Link extends TimestampEntity {
   @Column({ nullable: true })
   domain: string;
 
-  @Column({ name: 'is_archived', default: false })
-  isArchived: boolean;
+  @Column({ name: 'is_active', default: true })
+  isActive: boolean;
 
   @Column({ default: 0 })
   clicks: number;

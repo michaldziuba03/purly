@@ -27,7 +27,7 @@ export class UpdateLinkDto extends UtmParamsDto {
 
   @IsBoolean()
   @IsOptional()
-  isArchived?: boolean;
+  isActive?: boolean;
 
   @IsUrl()
   @IsOptional()

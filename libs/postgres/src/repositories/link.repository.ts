@@ -33,7 +33,7 @@ export class LinkRepository {
       alias: rawResult['alias'],
       url: rawResult['url'],
       name: rawResult['name'],
-      isArchived: rawResult['is_archived'],
+      isActive: rawResult['is_active'],
       clicks: rawResult['clicks'],
       createdAt: rawResult['created_at'],
       updatedAt: rawResult['updated_at'],
