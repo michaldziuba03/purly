@@ -106,6 +106,9 @@ dependencies:
   typeorm:
     specifier: ^0.3.16
     version: 0.3.16(ioredis@5.3.2)(pg@8.11.0)(ts-node@10.9.1)
+  ua-parser-js:
+    specifier: ^1.0.35
+    version: 1.0.35
   zookeeper:
     specifier: ^5.6.0
     version: 5.6.0
@@ -171,6 +174,9 @@ devDependencies:
   '@types/passport-google-oauth20':
     specifier: ^2.0.11
     version: 2.0.11
+  '@types/ua-parser-js':
+    specifier: ^0.7.36
+    version: 0.7.36
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.58.0
     version: 5.58.0(@typescript-eslint/parser@5.58.0)(eslint@8.15.0)(typescript@5.0.2)
@@ -3262,6 +3268,10 @@ packages:
 
   /@types/stack-utils@2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+    dev: true
+
+  /@types/ua-parser-js@0.7.36:
+    resolution: {integrity: sha512-N1rW+njavs70y2cApeIw1vLMYXRwfBy+7trgavGuuTfOd7j1Yh7QTRc/yqsPl6ncokt72ZXuxEU0PiCp9bSwNQ==}
     dev: true
 
   /@types/validator@13.7.17:
@@ -10060,6 +10070,10 @@ packages:
     resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
     engines: {node: '>=12.20'}
     hasBin: true
+
+  /ua-parser-js@1.0.35:
+    resolution: {integrity: sha512-fKnGuqmTBnIE+/KXSzCn4db8RTigUzw1AN0DmdU6hJovUTbYJKyqj+8Mt1c4VfRDnOVJnENmfYkIPZ946UrSAA==}
+    dev: false
 
   /uglify-js@3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}

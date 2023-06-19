@@ -4,10 +4,12 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   NotFoundException,
   Param,
   Post,
   Query,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -25,6 +27,7 @@ import { GetLink } from './usecases/get-link.usecase';
 import { GetLinksQueryDto } from './dto/get-links-query.dto';
 import { GetLinksList } from './usecases/get-links-list.usecase';
 import { RedirectLink } from './usecases/redirect-link.usecase';
+import type { Request } from 'express';
 
 @Controller('links')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -129,8 +132,20 @@ export class LinkController {
 
   @Get('r/:alias')
   @OptionalAuth()
-  redirect(@Param('alias') alias: string) {
-    const linkUrl = this.redirectLink.execute({ alias });
-    return linkUrl;
+  async redirect(
+    @Req() req: Request,
+    @Param('alias') alias: string,
+    @Headers('user-agent') userAgent?: string
+  ) {
+    const destination = await this.redirectLink.execute({
+      alias,
+      userAgent,
+    });
+
+    if (!destination) {
+      return req.res.redirect(process.env.CLIENT_URL);
+    }
+
+    return req.res.redirect(destination);
   }
 }
