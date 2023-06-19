@@ -29,6 +29,7 @@ import { GetLinksQueryDto } from './dto/get-links-query.dto';
 import { GetLinksList } from './usecases/get-links-list.usecase';
 import { RedirectLink } from './usecases/redirect-link.usecase';
 import type { Request } from 'express';
+import { getRefererHost } from '../shared/utils';
 
 @Controller('links')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -137,12 +138,14 @@ export class LinkController {
     @Req() req: Request,
     @Param('alias') alias: string,
     @Ip() remoteAddress: string,
+    @Headers('referer') referer?: string,
     @Headers('user-agent') userAgent?: string
   ) {
     const destination = await this.redirectLink.execute({
       alias,
       remoteAddress,
       userAgent,
+      referer: getRefererHost(referer),
     });
 
     if (!destination) {

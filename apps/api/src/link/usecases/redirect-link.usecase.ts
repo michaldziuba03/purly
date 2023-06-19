@@ -7,6 +7,7 @@ import { DetectDevice, OS } from '../../shared/detect-device';
 interface IRedirectLinkCommand {
   alias: string;
   remoteAddress: string;
+  referer?: string;
   userAgent?: string;
 }
 
