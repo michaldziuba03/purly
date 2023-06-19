@@ -9,6 +9,7 @@ import { UtmParamsDto } from '../dto/utm-params.dto';
 interface ICreateLinkCommand extends UtmParamsDto {
   userId: string;
   name?: string;
+  expiresAt?: string;
   url: string;
   androidRedirect?: string;
   iosRedirect?: string;
@@ -27,6 +28,7 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
     const link = await this.linkRepository.create({
       alias,
       name: command.name,
+      expiresAt: command.expiresAt ? new Date(command.expiresAt) : undefined,
       userId: command.userId,
       url: command.url,
       enableUtm: command.enableUtm,

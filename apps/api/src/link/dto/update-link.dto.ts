@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsDateString,
   IsOptional,
   IsString,
   IsUrl,
@@ -19,6 +20,10 @@ export class UpdateLinkDto extends UtmParamsDto {
   @Trim()
   @IsOptional()
   name?: string;
+
+  @IsDateString()
+  @IsOptional()
+  expiresAt?: string;
 
   @IsBoolean()
   @IsOptional()

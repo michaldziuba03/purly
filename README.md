@@ -29,6 +29,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [x] Reporting malicious URLs
 - [x] UTM Generator
 - [x] Mobile Redirects
+- [x] Link Redirect Expiration
 - [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
 - [x] Health checks

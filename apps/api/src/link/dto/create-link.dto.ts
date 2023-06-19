@@ -1,4 +1,10 @@
-import { IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
+import {
+  IsDateString,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+} from 'class-validator';
 import { Trim } from '../../shared/trim.transformer';
 import { LINK_NAME_MAX } from '../link.constants';
 import { UtmParamsDto } from './utm-params.dto';
@@ -12,6 +18,10 @@ export class CreateLinkDto extends UtmParamsDto {
   @Trim()
   @IsOptional()
   name?: string;
+
+  @IsDateString()
+  @IsOptional()
+  expiresAt?: string;
 
   @IsUrl({
     require_protocol: false,

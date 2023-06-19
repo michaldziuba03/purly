@@ -14,6 +14,9 @@ export class Link extends TimestampEntity {
   @Column({ nullable: true })
   name?: string;
 
+  @Column({ name: 'expires_at', nullable: true })
+  expiresAt: Date;
+
   @Column({ nullable: true })
   domain: string;
 

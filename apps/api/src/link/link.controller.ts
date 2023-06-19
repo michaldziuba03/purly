@@ -49,6 +49,7 @@ export class LinkController {
     return this.createLinkUsecase.execute({
       url: body.url,
       name: body.name,
+      expiresAt: body.expiresAt,
       userId,
       enableUtm: body.enableUtm,
       utmCampaign: body.utmCampaign,
@@ -86,9 +87,10 @@ export class LinkController {
   ) {
     const isUpdated = await this.updateLinkUsecase.execute({
       alias,
+      name: body.name,
+      expiresAt: body.expiresAt,
       userId,
       isArchived: body.isArchived,
-      name: body.name,
       url: body.url,
       enableUtm: body.enableUtm,
       utmCampaign: body.utmCampaign,
