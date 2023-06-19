@@ -6,10 +6,12 @@ import { GetLink } from './usecases/get-link.usecase';
 import { LinkController } from './link.controller';
 import { provideAliasFactory } from './factories/alias-factory.provider';
 import { GetLinksList } from './usecases/get-links-list.usecase';
+import { RedirectLink } from './usecases/redirect-link.usecase';
 
 @Module({
   controllers: [LinkController],
   providers: [
+    RedirectLink,
     GetLink,
     GetLinksList,
     CreateLink,

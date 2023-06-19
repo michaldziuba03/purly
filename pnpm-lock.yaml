@@ -46,6 +46,9 @@ dependencies:
   connect-redis:
     specifier: ^7.1.0
     version: 7.1.0(express-session@1.17.3)
+  date-fns:
+    specifier: ^2.30.0
+    version: 2.30.0
   express-session:
     specifier: ^1.17.3
     version: 1.17.3

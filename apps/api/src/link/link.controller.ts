@@ -14,13 +14,17 @@ import {
 import { CreateLink } from './usecases/create-link.usecase';
 import { DeleteLink } from './usecases/delete-link.usecase';
 import { UpdateLink } from './usecases/update-link.usecase';
-import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
+import {
+  AuthenticatedGuard,
+  OptionalAuth,
+} from '../auth/guards/authenticated.guard';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UserSession } from '../shared/user.decorator';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { GetLink } from './usecases/get-link.usecase';
 import { GetLinksQueryDto } from './dto/get-links-query.dto';
 import { GetLinksList } from './usecases/get-links-list.usecase';
+import { RedirectLink } from './usecases/redirect-link.usecase';
 
 @Controller('links')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -31,7 +35,8 @@ export class LinkController {
     private readonly getLinksListUsecase: GetLinksList,
     private readonly createLinkUsecase: CreateLink,
     private readonly deleteLinkUsecase: DeleteLink,
-    private readonly updateLinkUsecase: UpdateLink
+    private readonly updateLinkUsecase: UpdateLink,
+    private readonly redirectLink: RedirectLink
   ) {}
 
   @Get()
@@ -120,5 +125,12 @@ export class LinkController {
     });
 
     return { success: isDeleted };
+  }
+
+  @Get('r/:alias')
+  @OptionalAuth()
+  redirect(@Param('alias') alias: string) {
+    const linkUrl = this.redirectLink.execute({ alias });
+    return linkUrl;
   }
 }
