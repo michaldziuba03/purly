@@ -6,6 +6,7 @@ import { DetectDevice, OS } from '../../shared/detect-device';
 
 interface IRedirectLinkCommand {
   alias: string;
+  remoteAddress: string;
   userAgent?: string;
 }
 
@@ -26,7 +27,7 @@ export class RedirectLink implements Usecase<IRedirectLinkCommand> {
       return;
     }
 
-    const device = new DetectDevice(command.userAgent);
+    const device = new DetectDevice(command.userAgent, command.remoteAddress);
 
     if (link.androidRedirect && device.os === OS.ANDROID) {
       return link.androidRedirect;

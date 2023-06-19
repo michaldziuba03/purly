@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Headers,
+  Ip,
   NotFoundException,
   Param,
   Post,
@@ -135,10 +136,12 @@ export class LinkController {
   async redirect(
     @Req() req: Request,
     @Param('alias') alias: string,
+    @Ip() remoteAddress: string,
     @Headers('user-agent') userAgent?: string
   ) {
     const destination = await this.redirectLink.execute({
       alias,
+      remoteAddress,
       userAgent,
     });
 

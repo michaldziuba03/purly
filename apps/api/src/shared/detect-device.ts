@@ -1,4 +1,5 @@
 import { UAParser } from 'ua-parser-js';
+import * as geoip from 'geoip-country';
 
 export enum OS {
   LINUX = 'linux',
@@ -34,15 +35,16 @@ const distros = [
 
 export class DetectDevice {
   public readonly os: OS;
-  public readonly browser: string;
-  public readonly location?: string;
+  public readonly browser: Browser;
+  public readonly country?: string;
 
   private readonly parser: UAParser;
 
-  constructor(userAgent: string, ip?: string) {
+  constructor(userAgent: string, remoteAddress: string) {
     this.parser = new UAParser(userAgent);
     this.os = this.getOS();
     this.browser = this.getBrowser();
+    this.country = this.getCountry(remoteAddress);
   }
 
   private transform(value: string) {
@@ -96,6 +98,20 @@ export class DetectDevice {
         return Browser.OPERA;
       default:
         return Browser.UNKNOWN;
+    }
+  }
+
+  private getCountry(remoteAddress: string) {
+    const ip =
+      process.env.NODE_ENV === 'development' ? '207.97.227.239' : remoteAddress;
+
+    try {
+      const result = geoip.lookup(ip);
+      if (!result) return;
+
+      return result.country;
+    } catch (err) {
+      return;
     }
   }
 }
