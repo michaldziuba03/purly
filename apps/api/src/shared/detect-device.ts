@@ -9,28 +9,54 @@ export enum OS {
   UNKNOWN = 'unknown',
 }
 
-const distros = ['manjaro', 'ubuntu', 'fedora', 'gentoo', 'mint', 'debian'];
+export enum Browser {
+  CHROME = 'chrome',
+  FIREFOX = 'firefox',
+  BRAVE = 'brave',
+  EDGE = 'edge',
+  IE = 'ie',
+  SAFARI = 'safari',
+  CHROMIUM = 'chromium',
+  OPERA = 'opera',
+  UNKNOWN = 'unknown',
+}
+
+const distros = [
+  'manjaro',
+  'ubuntu',
+  'fedora',
+  'gentoo',
+  'mint',
+  'debian',
+  'centos',
+  'elementaryos',
+];
 
 export class DetectDevice {
   public readonly os: OS;
-  public readonly browser?: string;
+  public readonly browser: string;
+  public readonly location?: string;
 
   private readonly parser: UAParser;
 
-  constructor(userAgent: string) {
+  constructor(userAgent: string, ip?: string) {
     this.parser = new UAParser(userAgent);
     this.os = this.getOS();
+    this.browser = this.getBrowser();
+  }
+
+  private transform(value: string) {
+    return value.split(' ').join('').toLowerCase();
   }
 
   private getOS() {
-    const rawName = this.parser.getOS().name || OS.UNKNOWN;
-    const name = rawName.split(' ').join('').toLocaleLowerCase();
+    const os = this.transform(this.parser.getOS().name || OS.UNKNOWN);
 
-    if (distros.includes(name)) {
+    if (distros.includes(os)) {
       return OS.LINUX;
     }
 
-    switch (name) {
+    switch (os) {
       case OS.ANDROID:
         return OS.ANDROID;
       case OS.IOS:
@@ -43,6 +69,33 @@ export class DetectDevice {
         return OS.WINDOWS;
       default:
         return OS.UNKNOWN;
+    }
+  }
+
+  private getBrowser() {
+    const browser = this.transform(
+      this.parser.getBrowser().name || Browser.UNKNOWN
+    );
+
+    switch (browser) {
+      case Browser.BRAVE:
+        return Browser.BRAVE;
+      case Browser.CHROME:
+        return Browser.CHROME;
+      case Browser.CHROMIUM:
+        return Browser.CHROMIUM;
+      case Browser.EDGE:
+        return Browser.EDGE;
+      case Browser.FIREFOX:
+        return Browser.FIREFOX;
+      case Browser.IE:
+        return Browser.IE;
+      case Browser.SAFARI:
+        return Browser.SAFARI;
+      case Browser.OPERA:
+        return Browser.OPERA;
+      default:
+        return Browser.UNKNOWN;
     }
   }
 }
