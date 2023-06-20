@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PostgresModule } from '@purly/postgres';
 import { RedisModule } from '@purly/redis';
 import { AuthModule } from './auth/auth.module';
@@ -12,6 +13,7 @@ import { LoggerModule } from '@purly/logger';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     LoggerModule.forRoot(),
     HealthModule,
     RedisModule,

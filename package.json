@@ -35,6 +35,7 @@
     "@mich4l/nestjs-redis": "^1.1.0",
     "@nestjs/common": "^9.1.1",
     "@nestjs/core": "^9.1.1",
+    "@nestjs/event-emitter": "^2.0.0",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.1.1",
     "@nestjs/terminus": "^9.2.2",

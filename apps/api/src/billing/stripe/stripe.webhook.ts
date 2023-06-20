@@ -8,11 +8,10 @@ import {
   BadRequestException,
   Logger,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectStripe } from './stripe.provider';
 import Stripe from 'stripe';
-import { UpdateSubscription } from '../usecases/update-subscription.usecase';
-import { Plans } from '@purly/postgres';
-import { getNameByPriceId } from './stripe.constants';
+import { stripeEventName } from './stripe.event';
 
 export enum StripeEvents {
   DeleteSubscription = 'customer.subscription.deleted',
@@ -24,38 +23,10 @@ export class StripeWebhook {
   constructor(
     @InjectStripe()
     private readonly stripe: Stripe,
-    private readonly updateSubscriptionUsecase: UpdateSubscription
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   private readonly relevantEvents = Object.values(StripeEvents);
-
-  dispatchEvent(event: Stripe.Event) {
-    Logger.log(`Received event: ${event.type}`, StripeWebhook.name);
-    const data = event.data.object as Stripe.Subscription;
-
-    switch (event.type) {
-      case StripeEvents.UpdateSubscription:
-        return this.updateSubscriptionUsecase.execute({
-          billigId: data.customer.toString(),
-          plan: this.getPlanForSubscription(data),
-        });
-      case StripeEvents.DeleteSubscription:
-        return this.updateSubscriptionUsecase.execute({
-          billigId: data.customer.toString(),
-          plan: Plans.FREE,
-        });
-    }
-  }
-
-  private getPlanForSubscription(payload: Stripe.Subscription) {
-    const priceId = payload.items.data[0].price.id;
-    if (!priceId) {
-      // log and report case like this.
-      throw new BadRequestException('Price ID is required');
-    }
-
-    return getNameByPriceId(priceId);
-  }
 
   // webhook path is optional variable for webhook url obfuscation
   @Post(process.env.STRIPE_WEBHOOK_PATH)
@@ -81,7 +52,14 @@ export class StripeWebhook {
       return;
     }
 
-    await this.dispatchEvent(event);
+    Logger.log('Received event: ' + event.type, StripeWebhook.name);
+    // we use eventEmitter to decouple webhook and handling logic
+    // emitAsync will wait for all responsens and eventually throw error - it works like Promise.all()
+    await this.eventEmitter.emitAsync(
+      stripeEventName(event.type as StripeEvents),
+      event.data.object,
+      event.id
+    );
   }
 
   private constructEvent(payload: Buffer, signature: string) {
