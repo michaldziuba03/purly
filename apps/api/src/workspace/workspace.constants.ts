@@ -1,0 +1,2 @@
+export const WORKSPACE_NAME_MAX = 100;
+export const WORKSPACE_DESCRIPTION_MAX = 250;
