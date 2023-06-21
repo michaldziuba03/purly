@@ -10,6 +10,7 @@ import { BillingModule } from './billing/billing.module';
 import { HealthModule } from './health/health.module';
 import { StatsModule } from './stats/stats.module';
 import { LoggerModule } from '@purly/logger';
+import { BioModule } from './bio/bio.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { LoggerModule } from '@purly/logger';
     ReportModule,
     BillingModule,
     StatsModule,
+    BioModule,
   ],
   controllers: [],
   providers: [],

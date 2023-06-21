@@ -7,6 +7,8 @@ import { Link } from './entities/link.entity';
 import { LinkRepository } from './repositories/link.repository';
 import { ReportRepository } from './repositories/report.repository';
 import { Report } from './entities/report.entity';
+import { Bio, BioBlock } from './entities/bio.entity';
+import { BioRepository } from './repositories/bio.repository';
 
 @Global()
 @Module({
@@ -17,9 +19,9 @@ import { Report } from './entities/report.entity';
       synchronize: true,
       autoLoadEntities: true,
     }),
-    TypeOrmModule.forFeature([User, Account, Link, Report]),
+    TypeOrmModule.forFeature([User, Account, Link, Report, Bio, BioBlock]),
   ],
-  providers: [UserRepository, LinkRepository, ReportRepository],
-  exports: [UserRepository, LinkRepository, ReportRepository],
+  providers: [UserRepository, LinkRepository, ReportRepository, BioRepository],
+  exports: [UserRepository, LinkRepository, ReportRepository, BioRepository],
 })
 export class PostgresModule {}

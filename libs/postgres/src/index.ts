@@ -9,3 +9,6 @@ export * from './entities/link.entity';
 
 export * from './repositories/report.repository';
 export * from './entities/report.entity';
+
+export * from './repositories/bio.repository';
+export * from './entities/bio.entity';
