@@ -19,5 +19,6 @@ import { RedirectLink } from './usecases/redirect-link.usecase';
     UpdateLink,
     provideAliasFactory(),
   ],
+  exports: [CreateLink],
 })
 export class LinkModule {}

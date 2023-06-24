@@ -13,6 +13,7 @@ interface ICreateLinkCommand extends UtmParamsDto {
   url: string;
   androidRedirect?: string;
   iosRedirect?: string;
+  isButton?: boolean;
 }
 
 @Injectable()
@@ -39,6 +40,7 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
       utmTerm: command.utmTerm,
       androidRedirect: command.androidRedirect,
       iosRedirect: command.iosRedirect,
+      isButton: command.isButton,
     });
 
     return link;

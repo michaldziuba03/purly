@@ -34,6 +34,9 @@ export class Link extends TimestampEntity {
   @Exclude({ toPlainOnly: true })
   userId: string;
 
+  @Column({ name: 'is_button', default: false })
+  isButton: boolean; // if true, link is used as button in link-in-bio
+
   @Column({ name: 'android_redirect', nullable: true })
   androidRedirect?: string;
 

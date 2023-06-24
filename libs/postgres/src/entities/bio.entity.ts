@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BioBlock } from './bio-block.entity';
 
 @Entity('bio_pages')
 export class Bio {
@@ -6,6 +8,7 @@ export class Bio {
   id: string;
 
   @Column({ name: 'user_id', unique: true })
+  @Exclude({ toPlainOnly: true })
   userId: string;
 
   @Column({ unique: true })
@@ -19,29 +22,7 @@ export class Bio {
 
   @Column({ name: 'disable_watermark', default: false })
   disableWatermark: boolean; // option for paid users
-}
 
-export enum BlockTypes {
-  BUTTON = 'button',
-}
-
-@Entity('bio_blocks')
-export class BioBlock {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ enum: BlockTypes })
-  type: BlockTypes;
-
-  @Column({ name: 'bio_id' })
-  bioId: string;
-
-  @Column()
-  label: string;
-
-  @Column()
-  url: string;
-
-  @Column({ name: 'link_ref' })
-  linkRef: string;
+  @OneToMany(() => BioBlock, (block) => block.bio)
+  blocks: BioBlock[];
 }

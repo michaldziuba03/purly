@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Usecase } from '../../shared/base.usecase';
+import { BioRepository } from '@purly/postgres';
 
 interface IUpdateBioCommand {
   title?: string;
@@ -9,7 +10,14 @@ interface IUpdateBioCommand {
 
 @Injectable()
 export class UpdateBio implements Usecase<IUpdateBioCommand> {
-  execute(command: IUpdateBioCommand) {
-    return command;
+  constructor(private readonly bioRepository: BioRepository) {}
+
+  async execute(command: IUpdateBioCommand): Promise<boolean> {
+    const result = await this.bioRepository.updateByUser(command.userId, {
+      title: command.title,
+      description: command.description,
+    });
+
+    return result.affected > 0;
   }
 }
