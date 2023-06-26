@@ -12,17 +12,30 @@ import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
 import { UserSession } from '../shared/user.decorator';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import { CreateWorkspace } from './usecases/create-workspace.usecase';
+import { UpdateWorkspace } from './usecases/update-workspace.usecase';
+import { GetMembers } from './usecases/get-members.usecase';
 
 @Controller('workspaces')
 @UseGuards(AuthenticatedGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class WorkspaceController {
+  constructor(
+    private readonly createWorkspaceUsecase: CreateWorkspace,
+    private readonly updateWorkspaceUsecase: UpdateWorkspace,
+    private readonly getMembersUsecase: GetMembers
+  ) {}
+
   @Post()
   createWorkspace(
     @UserSession('id') userId: string,
     @Body() body: CreateWorkspaceDto
   ) {
-    return;
+    return this.createWorkspaceUsecase.execute({
+      userId,
+      name: body.name,
+      description: body.description,
+    });
   }
 
   @Get()
@@ -30,20 +43,24 @@ export class WorkspaceController {
     return [{}];
   }
 
-  @Get(':workspaceId')
-  getWorkspace(
-    @UserSession('id') userId: string,
-    @Param('workspaceId') workspaceId: string
-  ) {
-    return {};
+  @Get(':workspaceId/members')
+  getWorkspaceMembers(@Param('workspaceId') workspaceId: string) {
+    return this.getMembersUsecase.execute({ workspaceId });
   }
 
   @Post(':workspaceId')
-  updateWorkspace(
+  async updateWorkspace(
     @UserSession('id') userId: string,
     @Param('workspaceId') workspaceId: string,
     @Body() body: UpdateWorkspaceDto
   ) {
-    return;
+    const isUpdated = await this.updateWorkspaceUsecase.execute({
+      userId,
+      workspaceId,
+      name: body.name,
+      description: body.description,
+    });
+
+    return { success: isUpdated };
   }
 }

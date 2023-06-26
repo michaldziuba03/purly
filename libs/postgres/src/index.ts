@@ -12,3 +12,9 @@ export * from './entities/report.entity';
 
 export * from './repositories/bio.repository';
 export * from './entities/bio.entity';
+
+export * from './repositories/workspace.repository';
+export * from './entities/workspace.entity';
+
+export * from './repositories/member.repository';
+export * from './entities/member.entity';

@@ -8,6 +8,7 @@ import { UtmParamsDto } from '../dto/utm-params.dto';
 
 interface ICreateLinkCommand extends UtmParamsDto {
   userId: string;
+  workspaceId?: string;
   name?: string;
   expiresAt?: string;
   url: string;

@@ -10,6 +10,10 @@ import { Report } from './entities/report.entity';
 import { Bio } from './entities/bio.entity';
 import { BioRepository } from './repositories/bio.repository';
 import { BioBlock } from './entities/bio-block.entity';
+import { Workspace } from './entities/workspace.entity';
+import { WorkspaceRepository } from './repositories/workspace.repository';
+import { Member } from './entities/member.entity';
+import { MemberRepository } from './repositories/member.repository';
 
 @Global()
 @Module({
@@ -20,9 +24,32 @@ import { BioBlock } from './entities/bio-block.entity';
       synchronize: true,
       autoLoadEntities: true,
     }),
-    TypeOrmModule.forFeature([User, Account, Link, Report, Bio, BioBlock]),
+    TypeOrmModule.forFeature([
+      User,
+      Account,
+      Link,
+      Report,
+      Bio,
+      BioBlock,
+      Workspace,
+      Member,
+    ]),
   ],
-  providers: [UserRepository, LinkRepository, ReportRepository, BioRepository],
-  exports: [UserRepository, LinkRepository, ReportRepository, BioRepository],
+  providers: [
+    UserRepository,
+    LinkRepository,
+    ReportRepository,
+    BioRepository,
+    WorkspaceRepository,
+    MemberRepository,
+  ],
+  exports: [
+    UserRepository,
+    LinkRepository,
+    ReportRepository,
+    BioRepository,
+    WorkspaceRepository,
+    MemberRepository,
+  ],
 })
 export class PostgresModule {}

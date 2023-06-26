@@ -11,6 +11,7 @@ import { HealthModule } from './health/health.module';
 import { StatsModule } from './stats/stats.module';
 import { LoggerModule } from '@purly/logger';
 import { BioModule } from './bio/bio.module';
+import { WorkspaceModule } from './workspace/workspace.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { BioModule } from './bio/bio.module';
     BillingModule,
     StatsModule,
     BioModule,
+    WorkspaceModule,
   ],
   controllers: [],
   providers: [],

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('workspaces')
 export class Workspace {
@@ -8,6 +15,13 @@ export class Workspace {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ name: 'owner_id' })
+  ownerId: string;
+
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: 'owner_id' })
+  owner: User;
+
+  @Column({ default: '' })
   description: string;
 }
