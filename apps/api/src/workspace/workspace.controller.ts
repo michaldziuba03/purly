@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -15,6 +16,8 @@ import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { CreateWorkspace } from './usecases/create-workspace.usecase';
 import { UpdateWorkspace } from './usecases/update-workspace.usecase';
 import { GetMembers } from './usecases/get-members.usecase';
+import { DeleteWorkspace } from './usecases/delete-workspace.usecase';
+import { GetWorkspaces } from './usecases/get-workspaces.usecase';
 
 @Controller('workspaces')
 @UseGuards(AuthenticatedGuard)
@@ -23,6 +26,8 @@ export class WorkspaceController {
   constructor(
     private readonly createWorkspaceUsecase: CreateWorkspace,
     private readonly updateWorkspaceUsecase: UpdateWorkspace,
+    private readonly deleteWorkspaceUsecase: DeleteWorkspace,
+    private readonly getWorkspacesUsecase: GetWorkspaces,
     private readonly getMembersUsecase: GetMembers
   ) {}
 
@@ -40,7 +45,7 @@ export class WorkspaceController {
 
   @Get()
   getWorkspaces(@UserSession('id') userId: string) {
-    return [{}];
+    return this.getWorkspacesUsecase.execute({ userId });
   }
 
   @Get(':workspaceId/members')
@@ -62,5 +67,18 @@ export class WorkspaceController {
     });
 
     return { success: isUpdated };
+  }
+
+  @Delete(':workspaceId')
+  async deleteWorkspace(
+    @UserSession('id') userId: string,
+    @Param('workspaceId') workspaceId: string
+  ) {
+    const isDeleted = await this.deleteWorkspaceUsecase.execute({
+      userId,
+      workspaceId,
+    });
+
+    return { success: isDeleted };
   }
 }

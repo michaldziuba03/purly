@@ -15,7 +15,7 @@ export class WorkspaceRepository {
     const result = await this.workspaceCtx.insert(_workspace);
 
     return {
-      ...result.raw,
+      ...result.raw[0],
       ..._workspace,
     };
   }
@@ -27,6 +27,11 @@ export class WorkspaceRepository {
     const _workspace = this.workspaceCtx.create(data);
 
     const result = await this.workspaceCtx.update(filter, _workspace);
+    return result.affected > 0;
+  }
+
+  async deleteById(workspaceId: string, ownerId: string): Promise<boolean> {
+    const result = await this.workspaceCtx.delete({ id: workspaceId, ownerId });
     return result.affected > 0;
   }
 }
