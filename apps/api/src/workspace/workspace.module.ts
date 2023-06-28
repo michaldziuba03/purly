@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { WorkspaceController } from './workspace.controller';
 import { CreateWorkspace } from './usecases/create-workspace.usecase';
 import { UpdateWorkspace } from './usecases/update-workspace.usecase';
-import { GetMembers } from './usecases/get-members.usecase';
+import { GetMembers } from './usecases/members/get-members.usecase';
 import { DeleteWorkspace } from './usecases/delete-workspace.usecase';
 import { GetWorkspaces } from './usecases/get-workspaces.usecase';
+import { ChangePermission } from './usecases/members/change-permission.usecase';
+import { RemoveMember } from './usecases/members/remove-member.usecase';
+import { LeaveWorkspace } from './usecases/members/leave-workspace.usecase';
 
 @Module({
   controllers: [WorkspaceController],
@@ -13,7 +16,11 @@ import { GetWorkspaces } from './usecases/get-workspaces.usecase';
     UpdateWorkspace,
     DeleteWorkspace,
     GetWorkspaces,
+    // Membership management providers:
     GetMembers,
+    ChangePermission,
+    RemoveMember,
+    LeaveWorkspace,
   ],
 })
 export class WorkspaceModule {}

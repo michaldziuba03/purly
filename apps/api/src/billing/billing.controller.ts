@@ -49,6 +49,11 @@ export class BillingController {
     return { url };
   }
 
+  @Get('history')
+  async getBillingHistory(@UserSession('id') userId: string) {
+    throw new Error('Not implemented');
+  }
+
   @OnStripeEvent(StripeEvents.UpdateSubscription)
   async updateSubscription(payload: Stripe.Subscription) {
     await this.updateSubscriptionUsecase.execute({

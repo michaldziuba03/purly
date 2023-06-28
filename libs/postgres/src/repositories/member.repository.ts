@@ -63,4 +63,29 @@ export class MemberRepository {
 
     return workspaces;
   }
+
+  findMember(memberId: string, workspaceId: string) {
+    return this.memberCtx.findOneBy({
+      userId: memberId,
+      workspaceId,
+    });
+  }
+
+  async changePermission(
+    memberId: string,
+    workspaceId: string,
+    permission: Permissions
+  ): Promise<boolean> {
+    const result = await this.memberCtx.update(
+      {
+        userId: memberId,
+        workspaceId,
+      },
+      {
+        permission,
+      }
+    );
+
+    return result.affected > 0;
+  }
 }

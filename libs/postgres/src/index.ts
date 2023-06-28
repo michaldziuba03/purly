@@ -18,3 +18,6 @@ export * from './entities/workspace.entity';
 
 export * from './repositories/member.repository';
 export * from './entities/member.entity';
+
+export * from './repositories/billing.repository';
+export * from './entities/billing.entity';

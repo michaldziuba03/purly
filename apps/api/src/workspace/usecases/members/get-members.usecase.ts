@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MemberRepository } from '@purly/postgres';
-import { Usecase } from '../../shared/base.usecase';
+import { Usecase } from '../../../shared/base.usecase';
 
 interface IGetMembersCommand {
   workspaceId: string;

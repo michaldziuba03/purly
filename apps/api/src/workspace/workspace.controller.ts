@@ -15,7 +15,7 @@ import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { CreateWorkspace } from './usecases/create-workspace.usecase';
 import { UpdateWorkspace } from './usecases/update-workspace.usecase';
-import { GetMembers } from './usecases/get-members.usecase';
+import { GetMembers } from './usecases/members/get-members.usecase';
 import { DeleteWorkspace } from './usecases/delete-workspace.usecase';
 import { GetWorkspaces } from './usecases/get-workspaces.usecase';
 

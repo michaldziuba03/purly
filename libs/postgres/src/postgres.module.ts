@@ -14,6 +14,8 @@ import { Workspace } from './entities/workspace.entity';
 import { WorkspaceRepository } from './repositories/workspace.repository';
 import { Member } from './entities/member.entity';
 import { MemberRepository } from './repositories/member.repository';
+import { Billing } from './entities/billing.entity';
+import { BillingRepository } from './repositories/billing.repository';
 
 @Global()
 @Module({
@@ -33,6 +35,7 @@ import { MemberRepository } from './repositories/member.repository';
       BioBlock,
       Workspace,
       Member,
+      Billing,
     ]),
   ],
   providers: [
@@ -42,6 +45,7 @@ import { MemberRepository } from './repositories/member.repository';
     BioRepository,
     WorkspaceRepository,
     MemberRepository,
+    BillingRepository,
   ],
   exports: [
     UserRepository,
@@ -50,6 +54,7 @@ import { MemberRepository } from './repositories/member.repository';
     BioRepository,
     WorkspaceRepository,
     MemberRepository,
+    BillingRepository,
   ],
 })
 export class PostgresModule {}
