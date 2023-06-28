@@ -6,6 +6,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { MemberRepository } from '@purly/postgres';
+import { isBefore } from 'date-fns';
 import type { Request } from 'express';
 
 enum HttpMethods {
@@ -44,6 +45,10 @@ export class MembershipGuard implements CanActivate {
       throw new ForbiddenException(
         'You have no permission to access this workspace'
       );
+    }
+
+    if (member.bannedUntil && isBefore(new Date(), member.bannedUntil)) {
+      throw new ForbiddenException('You have been banned');
     }
 
     req.member = member;

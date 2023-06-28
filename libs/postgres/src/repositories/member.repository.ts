@@ -88,4 +88,18 @@ export class MemberRepository {
 
     return result.affected > 0;
   }
+
+  async banMember(memberId: string, workspaceId: string) {
+    const result = await this.memberCtx.update(
+      {
+        userId: memberId,
+        workspaceId,
+      },
+      {
+        bannedUntil: new Date(Date.now() + 24 * 3600 * 1000),
+      }
+    );
+
+    return result.affected > 0;
+  }
 }

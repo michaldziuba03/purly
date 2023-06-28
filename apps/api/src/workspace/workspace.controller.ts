@@ -24,6 +24,7 @@ import { RemoveMember } from './usecases/members/remove-member.usecase';
 import { Membership } from './framework/membership.decorator';
 import { Member } from '@purly/postgres';
 import { ChangePermissionDto } from './dto/change-permission.dto';
+import { BanMember } from './usecases/members/ban-member.usecase';
 
 @Controller('workspaces')
 @UseGuards(AuthenticatedGuard)
@@ -36,6 +37,7 @@ export class WorkspaceController {
     private readonly getWorkspacesUsecase: GetWorkspaces,
     private readonly getMembersUsecase: GetMembers,
     private readonly changePermissionUsecase: ChangePermission,
+    private readonly banMemberUsecase: BanMember,
     private readonly removeMemberUsecase: RemoveMember
   ) {}
 
@@ -93,7 +95,7 @@ export class WorkspaceController {
     return this.getMembersUsecase.execute({ workspaceId });
   }
 
-  @Post(':workspaceId/members/:memberId')
+  @Post(':workspaceId/members/:memberId/roles')
   @UseGuards(MembershipGuard)
   async changePermission(
     @Param('workspaceId') workspaceId: string,
@@ -110,6 +112,23 @@ export class WorkspaceController {
     });
 
     return { success: isChanged };
+  }
+
+  @Post(':workspaceId/members/:memberId/bans')
+  @UseGuards(MembershipGuard)
+  async banMember(
+    @Param('workspaceId') workspaceId: string,
+    @Param('memberId') memberId: string,
+    @Membership() membership: Member
+  ) {
+    const isBanned = await this.banMemberUsecase.execute({
+      userId: membership.userId,
+      userPermission: membership.permission,
+      memberId,
+      workspaceId,
+    });
+
+    return { success: isBanned };
   }
 
   @Delete(':workspaceId/members/:memberId')

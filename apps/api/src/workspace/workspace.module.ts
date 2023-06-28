@@ -8,6 +8,7 @@ import { GetWorkspaces } from './usecases/get-workspaces.usecase';
 import { ChangePermission } from './usecases/members/change-permission.usecase';
 import { RemoveMember } from './usecases/members/remove-member.usecase';
 import { LeaveWorkspace } from './usecases/members/leave-workspace.usecase';
+import { BanMember } from './usecases/members/ban-member.usecase';
 
 @Module({
   controllers: [WorkspaceController],
@@ -19,6 +20,7 @@ import { LeaveWorkspace } from './usecases/members/leave-workspace.usecase';
     // Membership management providers:
     GetMembers,
     ChangePermission,
+    BanMember,
     RemoveMember,
     LeaveWorkspace,
   ],

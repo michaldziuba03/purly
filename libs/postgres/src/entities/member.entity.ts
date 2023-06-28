@@ -29,6 +29,9 @@ export class Member extends TimestampEntity {
   @Column({ enum: Permissions })
   permission: Permissions;
 
+  @Column({ name: 'banned_until', nullable: true })
+  bannedUntil?: Date;
+
   @ManyToOne(() => Workspace, (workspace) => workspace.id)
   @JoinColumn({ name: 'workspace_id' })
   workspace: Workspace;
