@@ -18,6 +18,12 @@ import { UpdateWorkspace } from './usecases/update-workspace.usecase';
 import { GetMembers } from './usecases/members/get-members.usecase';
 import { DeleteWorkspace } from './usecases/delete-workspace.usecase';
 import { GetWorkspaces } from './usecases/get-workspaces.usecase';
+import { MembershipGuard } from './framework/membership.guard';
+import { ChangePermission } from './usecases/members/change-permission.usecase';
+import { RemoveMember } from './usecases/members/remove-member.usecase';
+import { Membership } from './framework/membership.decorator';
+import { Member } from '@purly/postgres';
+import { ChangePermissionDto } from './dto/change-permission.dto';
 
 @Controller('workspaces')
 @UseGuards(AuthenticatedGuard)
@@ -28,7 +34,9 @@ export class WorkspaceController {
     private readonly updateWorkspaceUsecase: UpdateWorkspace,
     private readonly deleteWorkspaceUsecase: DeleteWorkspace,
     private readonly getWorkspacesUsecase: GetWorkspaces,
-    private readonly getMembersUsecase: GetMembers
+    private readonly getMembersUsecase: GetMembers,
+    private readonly changePermissionUsecase: ChangePermission,
+    private readonly removeMemberUsecase: RemoveMember
   ) {}
 
   @Post()
@@ -48,12 +56,8 @@ export class WorkspaceController {
     return this.getWorkspacesUsecase.execute({ userId });
   }
 
-  @Get(':workspaceId/members')
-  getWorkspaceMembers(@Param('workspaceId') workspaceId: string) {
-    return this.getMembersUsecase.execute({ workspaceId });
-  }
-
   @Post(':workspaceId')
+  @UseGuards(MembershipGuard)
   async updateWorkspace(
     @UserSession('id') userId: string,
     @Param('workspaceId') workspaceId: string,
@@ -70,6 +74,7 @@ export class WorkspaceController {
   }
 
   @Delete(':workspaceId')
+  @UseGuards(MembershipGuard)
   async deleteWorkspace(
     @UserSession('id') userId: string,
     @Param('workspaceId') workspaceId: string
@@ -80,5 +85,47 @@ export class WorkspaceController {
     });
 
     return { success: isDeleted };
+  }
+
+  @Get(':workspaceId/members')
+  @UseGuards(MembershipGuard)
+  getWorkspaceMembers(@Param('workspaceId') workspaceId: string) {
+    return this.getMembersUsecase.execute({ workspaceId });
+  }
+
+  @Post(':workspaceId/members/:memberId')
+  @UseGuards(MembershipGuard)
+  async changePermission(
+    @Param('workspaceId') workspaceId: string,
+    @Param('memberId') memberId: string,
+    @Membership() membership: Member,
+    @Body() body: ChangePermissionDto
+  ) {
+    const isChanged = await this.changePermissionUsecase.execute({
+      memberId,
+      workspaceId,
+      memberPermission: body.permission,
+      userId: membership.userId,
+      userPermission: membership.permission,
+    });
+
+    return { success: isChanged };
+  }
+
+  @Delete(':workspaceId/members/:memberId')
+  @UseGuards(MembershipGuard)
+  async removeMember(
+    @Param('workspaceId') workspaceId: string,
+    @Param('memberId') memberId: string,
+    @Membership() membership: Member
+  ) {
+    const isRemoved = await this.removeMemberUsecase.execute({
+      memberId,
+      userId: membership.userId,
+      userPermission: membership.permission,
+      workspaceId,
+    });
+
+    return { success: isRemoved };
   }
 }

@@ -12,7 +12,7 @@ interface IChangePermissionCommand {
   userPermission: Permissions;
   workspaceId: string;
   memberId: string;
-  // new permission that current user wants to assign for worksapce member
+  // new permission that current user wants to assign for workspace member
   memberPermission: Permissions;
 }
 
@@ -37,6 +37,7 @@ export class ChangePermission implements Usecase<IChangePermissionCommand> {
       command.memberId,
       command.workspaceId
     );
+
     if (!member) {
       throw new NotFoundException('Workspace member not found');
     }

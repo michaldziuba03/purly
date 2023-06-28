@@ -26,6 +26,7 @@ export class RemoveMember implements Usecase<IRemoveMemberCommand> {
       command.memberId,
       command.workspaceId
     );
+
     if (!member) {
       throw new NotFoundException('Workspace member not found');
     }
