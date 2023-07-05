@@ -6,11 +6,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { MemberRepository } from '@purly/postgres';
+import { MemberRepository, Permissions } from '@purly/postgres';
 import { isUUID } from 'class-validator';
 import { isBefore } from 'date-fns';
 import type { Request } from 'express';
 import { MEMBER_ROLE } from './allowed-role.decorator';
+import { SKIP_MEMBERSHIP } from './skip-membership.decorator';
 
 enum HttpMethods {
   GET = 'GET',
@@ -33,7 +34,14 @@ export class MembershipGuard implements CanActivate {
   ) {}
 
   async canActivate(ctx: ExecutionContext) {
+    // ofter it's better to define guard on controller level and just exclude some endpoints
+    const canSkip = this.reflector.get(SKIP_MEMBERSHIP, ctx.getHandler());
+    if (canSkip) {
+      return true;
+    }
+
     const req = ctx.switchToHttp().getRequest();
+    // safe guard if someone will try to use this guard outside http context
     if (!req) {
       return false;
     }
@@ -47,13 +55,15 @@ export class MembershipGuard implements CanActivate {
       throw new BadRequestException('Workspace identifier must be a string');
     }
 
-    if (!isUUID(workspaceId)) {
-      throw new BadRequestException('Workspace identifier must be UUID format');
+    if (!isUUID(workspaceId, '4')) {
+      throw new BadRequestException(
+        'Workspace identifier must be valid UUID v4 format'
+      );
     }
 
     const user = req.user as { id: string };
     if (!user) {
-      // safe guard if someone forgot add to auth guard before membership guard
+      // safe guard if someone forgot to add auth guard before membership guard
       throw new UnauthorizedException('You must be authenticated');
     }
 
@@ -65,8 +75,9 @@ export class MembershipGuard implements CanActivate {
       );
     }
 
-    const allowedRole = this.reflector.get(MEMBER_ROLE, ctx.getHandler());
-    if (allowedRole && allowedRole < member.permission) {
+    const allowedRole =
+      this.reflector.get(MEMBER_ROLE, ctx.getHandler()) || Permissions.MEMBER;
+    if (allowedRole < member.permission) {
       throw new UnauthorizedException(
         'You have no permission to perform this action'
       );

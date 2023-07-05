@@ -22,12 +22,14 @@ import { MembershipGuard } from './framework/membership.guard';
 import { ChangePermission } from './usecases/members/change-permission.usecase';
 import { RemoveMember } from './usecases/members/remove-member.usecase';
 import { Membership } from './framework/membership.decorator';
-import { Member } from '@purly/postgres';
+import { Member, Permissions } from '@purly/postgres';
 import { ChangePermissionDto } from './dto/change-permission.dto';
 import { BanMember } from './usecases/members/ban-member.usecase';
+import { SkipMembershipCheck } from './framework/skip-membership.decorator';
+import { AllowedRole } from './framework/allowed-role.decorator';
 
 @Controller('workspaces')
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, MembershipGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class WorkspaceController {
   constructor(
@@ -42,6 +44,7 @@ export class WorkspaceController {
   ) {}
 
   @Post()
+  @SkipMembershipCheck()
   createWorkspace(
     @UserSession('id') userId: string,
     @Body() body: CreateWorkspaceDto
@@ -54,12 +57,13 @@ export class WorkspaceController {
   }
 
   @Get()
+  @SkipMembershipCheck()
   getWorkspaces(@UserSession('id') userId: string) {
     return this.getWorkspacesUsecase.execute({ userId });
   }
 
   @Post(':workspaceId')
-  @UseGuards(MembershipGuard)
+  @AllowedRole(Permissions.ADMIN)
   async updateWorkspace(
     @UserSession('id') userId: string,
     @Param('workspaceId') workspaceId: string,
@@ -76,7 +80,7 @@ export class WorkspaceController {
   }
 
   @Delete(':workspaceId')
-  @UseGuards(MembershipGuard)
+  @AllowedRole(Permissions.OWNER)
   async deleteWorkspace(
     @UserSession('id') userId: string,
     @Param('workspaceId') workspaceId: string
@@ -90,13 +94,13 @@ export class WorkspaceController {
   }
 
   @Get(':workspaceId/members')
-  @UseGuards(MembershipGuard)
+  @AllowedRole(Permissions.READONLY)
   getWorkspaceMembers(@Param('workspaceId') workspaceId: string) {
     return this.getMembersUsecase.execute({ workspaceId });
   }
 
   @Post(':workspaceId/members/:memberId/roles')
-  @UseGuards(MembershipGuard)
+  @AllowedRole(Permissions.ADMIN)
   async changePermission(
     @Param('workspaceId') workspaceId: string,
     @Param('memberId') memberId: string,
@@ -115,7 +119,7 @@ export class WorkspaceController {
   }
 
   @Post(':workspaceId/members/:memberId/bans')
-  @UseGuards(MembershipGuard)
+  @AllowedRole(Permissions.ADMIN)
   async banMember(
     @Param('workspaceId') workspaceId: string,
     @Param('memberId') memberId: string,
@@ -132,7 +136,7 @@ export class WorkspaceController {
   }
 
   @Delete(':workspaceId/members/:memberId')
-  @UseGuards(MembershipGuard)
+  @AllowedRole(Permissions.ADMIN)
   async removeMember(
     @Param('workspaceId') workspaceId: string,
     @Param('memberId') memberId: string,

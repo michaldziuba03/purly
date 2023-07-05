@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { MemberRepository, WorkspaceRepository } from '@purly/postgres';
 import { Usecase } from '../../shared/base.usecase';
 
@@ -15,6 +19,14 @@ export class DeleteWorkspace implements Usecase<IDeleteWorkspaceCommand> {
   ) {}
 
   async execute(command: IDeleteWorkspaceCommand) {
+    const membersCount = await this.memberRepository.countMembers(
+      command.workspaceId,
+      2
+    );
+    if (membersCount > 1) {
+      throw new BadRequestException('You cannot delete workspace with members');
+    }
+
     const membersDeleted = await this.memberRepository.deleteAllMembers(
       command.workspaceId
     );

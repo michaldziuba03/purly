@@ -54,11 +54,11 @@ export class MemberRepository {
     return members;
   }
 
-  async findWorkspaces(userId: string) {
+  async findWorkspaces(userId: string, limit: number) {
     const workspaces = await this.memberCtx.find({
       where: { userId },
       relations: { workspace: true },
-      take: 50,
+      take: limit,
     });
 
     return workspaces;

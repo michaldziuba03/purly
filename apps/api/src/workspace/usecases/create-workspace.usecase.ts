@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { WorkspaceRepository, MemberRepository } from '@purly/postgres';
 import { Usecase } from '../../shared/base.usecase';
+import { WORKSPACES_LIMIT } from '../workspace.constants';
 
 interface ICreateWorkspaceCommand {
   userId: string;
@@ -16,6 +17,14 @@ export class CreateWorkspace implements Usecase<ICreateWorkspaceCommand> {
   ) {}
 
   async execute(command: ICreateWorkspaceCommand) {
+    const workspacesCount = await this.memberRepository.countWorkspaces(
+      command.userId,
+      WORKSPACES_LIMIT
+    );
+    if (workspacesCount === WORKSPACES_LIMIT) {
+      throw new BadRequestException('You hit the limit of workspaces');
+    }
+
     const workspace = await this.workspaceRepository.create({
       ownerId: command.userId,
       name: command.name,

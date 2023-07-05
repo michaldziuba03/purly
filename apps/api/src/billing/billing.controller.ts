@@ -18,7 +18,7 @@ import { getNameByPriceId } from './stripe/stripe.constants';
 import { UpdateSubscription } from './usecases/update-subscription.usecase';
 import { Plans } from '@purly/postgres';
 
-@Controller('billing')
+@Controller('workspaces/:workspaceId/billing')
 @UseGuards(AuthenticatedGuard)
 export class BillingController {
   constructor(
@@ -27,7 +27,7 @@ export class BillingController {
     private readonly updateSubscriptionUsecase: UpdateSubscription
   ) {}
 
-  @Post('checkout')
+  @Post('upgrade')
   async createCheckout(
     @UserSession('id') userId: string,
     @Body() body: CreateCheckoutDto
@@ -42,6 +42,7 @@ export class BillingController {
 
   @Get('manage')
   async manageSubscriptions(@UserSession('id') userId: string) {
+    console.log('lol');
     const url = await this.manageSubscriptionsUsecase.execute({
       userId,
     });
