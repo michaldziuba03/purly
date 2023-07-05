@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Usecase } from '../../shared/base.usecase';
+import { Usecase } from '../../../shared/base.usecase';
 import { BioRepository } from '@purly/postgres';
-import { CreateLink } from '../../link/usecases/create-link.usecase';
+import { CreateLink } from '../../../link/usecases/create-link.usecase';
 
 interface IAddButtonCommand {
   label: string;

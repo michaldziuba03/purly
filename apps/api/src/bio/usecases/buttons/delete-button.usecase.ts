@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Usecase } from '../../shared/base.usecase';
+import { Usecase } from '../../../shared/base.usecase';
 import { BioRepository } from '@purly/postgres';
 
 interface IDeleteButtonCommand {
