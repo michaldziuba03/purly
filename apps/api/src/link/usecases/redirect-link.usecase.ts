@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { isAfter } from 'date-fns';
 import { Usecase } from '../../shared/base.usecase';
 import { GetLink } from './get-link.usecase';
 import { DetectDevice } from '../../shared/detect-device';
 import { UtmBuilder } from '../utm.builder';
+import { isExpired } from '../../shared/utils';
 
 interface IRedirectLinkCommand {
   alias: string;
@@ -29,11 +29,19 @@ export class RedirectLink implements Usecase<IRedirectLinkCommand> {
       return;
     }
 
-    if (link.expiresAt && isAfter(new Date(), link.expiresAt)) {
+    if (link.expiresAt && isExpired(link.expiresAt)) {
       return;
     }
 
     const device = new DetectDevice(command.userAgent, command.remoteAddress);
+
+    if (link.androidRedirect && device.isAndroid) {
+      return link.androidRedirect;
+    }
+
+    if (link.iosRedirect && device.isIOS) {
+      return link.iosRedirect;
+    }
 
     if (link.enableUtm) {
       return new UtmBuilder(link.url).buildLink({
@@ -43,14 +51,6 @@ export class RedirectLink implements Usecase<IRedirectLinkCommand> {
         utmSource: link.utmSource,
         utmTerm: link.utmTerm,
       });
-    }
-
-    if (link.androidRedirect && device.isAndroid) {
-      return link.androidRedirect;
-    }
-
-    if (link.iosRedirect && device.isIOS) {
-      return link.iosRedirect;
     }
 
     return link.url;
