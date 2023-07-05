@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { MemberRepository, WorkspaceRepository } from '@purly/postgres';
 import { Usecase } from '../../shared/base.usecase';
 
