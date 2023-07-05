@@ -1,4 +1,8 @@
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Usecase } from '../../../shared/base.usecase';
 import { MemberRepository, Permissions } from '@purly/postgres';
 
@@ -9,6 +13,7 @@ interface IBanMemberCommand {
   memberId: string;
 }
 
+@Injectable()
 export class BanMember implements Usecase<IBanMemberCommand> {
   constructor(private readonly memberRepository: MemberRepository) {}
 

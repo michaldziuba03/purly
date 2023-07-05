@@ -1,4 +1,5 @@
 import { isURL } from 'class-validator';
+import { isAfter } from 'date-fns';
 
 export function createClientUrl(path: string) {
   const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
@@ -22,4 +23,8 @@ export function getRefererHost(referer?: string) {
   }
 
   return hostname;
+}
+
+export function isExpired(date: Date) {
+  return isAfter(new Date(), date);
 }

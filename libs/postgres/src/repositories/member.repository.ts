@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Repository, LessThanOrEqual } from 'typeorm';
 import { Member, Permissions } from '../entities/member.entity';
 
 @Injectable()
@@ -101,5 +101,30 @@ export class MemberRepository {
     );
 
     return result.affected > 0;
+  }
+
+  // I limit count operations to save resources (in most cases we use count() to check limits)
+  countWorkspaces(userId: string, limit = 10) {
+    return this.memberCtx.count({
+      where: { userId },
+      take: limit,
+    });
+  }
+
+  countMembers(workspaceId: string, limit = 10) {
+    return this.memberCtx.count({
+      where: { workspaceId },
+      take: limit,
+    });
+  }
+
+  countAdmins(workspaceId: string, limit = 10) {
+    return this.memberCtx.count({
+      where: {
+        workspaceId,
+        permission: LessThanOrEqual(Permissions.ADMIN),
+      },
+      take: limit,
+    });
   }
 }

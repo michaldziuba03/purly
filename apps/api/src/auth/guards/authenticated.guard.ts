@@ -3,7 +3,7 @@ import type { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { SetMetadata } from '@nestjs/common';
 
-const OPTIONAL_AUTH = 'OPTIONAL_AUTH';
+const OPTIONAL_AUTH = Symbol('OPTIONAL_AUTH');
 export const OptionalAuth = () => SetMetadata(OPTIONAL_AUTH, true);
 
 @Injectable()

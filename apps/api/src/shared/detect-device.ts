@@ -40,6 +40,14 @@ export class DetectDevice {
 
   private readonly parser: UAParser;
 
+  get isAndroid() {
+    return this.os === OS.ANDROID;
+  }
+
+  get isIOS() {
+    return this.os === OS.IOS;
+  }
+
   constructor(userAgent: string, remoteAddress: string) {
     this.parser = new UAParser(userAgent);
     this.os = this.getOS();
