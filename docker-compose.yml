@@ -1,9 +1,12 @@
+# development docker compose config. Not intended for production:
 version: '3.6'
 
 services:
   main-db:
     image: postgres:alpine
     restart: always
+    volumes:
+       - db_volume:/data/postgres
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
@@ -55,3 +58,6 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+volumes:
+  db_volume:
