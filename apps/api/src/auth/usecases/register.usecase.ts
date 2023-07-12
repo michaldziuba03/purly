@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UserRepository } from '@purly/postgres';
+import { UserRepository } from '@purly/database';
 import { AuthService } from '../auth.service';
 import { Usecase } from '../../shared/base.usecase';
 
 interface IRegisterCommand {
   email: string;
-  name: string;
+  username: string;
   password: string;
 }
 
@@ -27,10 +27,9 @@ export class Register implements Usecase<IRegisterCommand> {
 
     const user = await this.userRepository.create({
       email: command.email,
-      name: command.name,
+      username: command.username,
       picture,
       password: passwordHash,
-      isVerified: false,
     });
 
     return user;

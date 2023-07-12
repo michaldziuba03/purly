@@ -1,0 +1,55 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1689112013091,
+      "tag": "0000_flimsy_blur",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1689112956697,
+      "tag": "0001_low_diamondback",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1689114945938,
+      "tag": "0002_concerned_jack_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1689117169333,
+      "tag": "0003_closed_starbolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1689141608677,
+      "tag": "0004_lame_cerise",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1689168400078,
+      "tag": "0005_powerful_colossus",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1689169291451,
+      "tag": "0006_daffy_pandemic",
+      "breakpoints": true
+    }
+  ]
+}

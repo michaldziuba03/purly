@@ -1,12 +1,15 @@
 {
-  "cSpell.enabled": true,
+  "cSpell.enabled": false,
   "cSpell.words": [
-    "pino",
-    "michał",
+    "distros",
     "dziuba",
+    "michał",
     "nestjs",
+    "pino",
     "purly",
     "tailwind",
-    ],
+    "usecase",
+    "usecases"
+  ],
   "vsicons.presets.nestjs": true
 }

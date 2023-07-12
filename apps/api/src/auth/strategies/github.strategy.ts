@@ -2,12 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Profile } from 'passport-github2';
 import { OAuthProfile } from '../auth.interface';
-import { Providers } from '@purly/postgres';
+import { OAuthProviders } from '@purly/database';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(
   Strategy,
-  Providers.GITHUB
+  OAuthProviders.GITHUB
 ) {
   constructor() {
     super({
@@ -28,9 +28,9 @@ export class GithubStrategy extends PassportStrategy(
 
     return {
       email,
-      provider: Providers.GITHUB,
-      subject: profile.id,
-      name: profile.displayName || profile.username,
+      providerName: OAuthProviders.GITHUB,
+      providerId: profile.id,
+      username: profile.displayName || profile.username,
       picture: this.getPhoto(profile.photos),
     };
   }

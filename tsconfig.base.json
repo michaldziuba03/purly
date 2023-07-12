@@ -15,9 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@purly/logger": ["libs/logger/src/index.ts"],
-      "@purly/postgres": ["libs/postgres/src/index.ts"],
-      "@purly/redis": ["libs/redis/src/index.ts"]
+      "@purly/database": ["libs/database/src/index.ts"],
+      "@purly/logger": ["libs/logger/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

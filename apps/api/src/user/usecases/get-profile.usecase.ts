@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '@purly/postgres';
+import { UserRepository } from '@purly/database';
 import { Usecase } from '../../shared/base.usecase';
 
 interface IGetProfileCommand {

@@ -4,13 +4,13 @@ import {
   Controller,
   Get,
   NotFoundException,
-  Post,
+  Patch,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserSession } from '../shared/user.decorator';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
+import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 import { UpdateProfile } from './usecases/update-profile.usecase';
 import { GetProfile } from './usecases/get-profile.usecase';
 
@@ -23,17 +23,17 @@ export class UserController {
     private readonly getProfileUsecase: GetProfile
   ) {}
 
-  @Post('me')
+  @Patch('me')
   async updateProfile(
     @UserSession('id') userId: string,
-    @Body() data: UpdateProfileDto
+    @Body() body: UpdateProfileDto
   ) {
-    const success = await this.updateProfileUsecase.execute({
+    const user = await this.updateProfileUsecase.execute({
       userId,
-      name: data.name,
+      username: body.username,
     });
 
-    return { success };
+    return user;
   }
 
   @Get('me')

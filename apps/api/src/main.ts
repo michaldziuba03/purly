@@ -2,12 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import * as Sentry from '@sentry/node';
 import { Logger } from 'nestjs-pino';
-
 import helmet from 'helmet';
 
 import { AppModule } from './app.module';
-import { setupSession } from './auth/session/session.setup';
 import { SentryFilter } from './shared/sentry.filter';
+import { setupSession } from './auth/session/session.setup';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

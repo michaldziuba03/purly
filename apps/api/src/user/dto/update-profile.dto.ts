@@ -6,5 +6,5 @@ export class UpdateProfileDto {
   @IsString()
   @Trim()
   @Length(NAME_MIN, NAME_MAX)
-  name: string;
+  username: string;
 }

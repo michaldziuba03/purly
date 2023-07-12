@@ -1,7 +1,6 @@
 import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { captureException, User } from '@sentry/node';
-import type { Request } from 'express';
 
 @Catch()
 export class SentryFilter extends BaseExceptionFilter {
@@ -25,7 +24,7 @@ export class SentryFilter extends BaseExceptionFilter {
       return;
     }
 
-    const req = host.switchToHttp().getRequest<Request>();
+    const req = host.switchToHttp().getRequest();
     const user = req.user as { id: string };
 
     return {

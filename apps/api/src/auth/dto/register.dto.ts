@@ -14,7 +14,7 @@ export class RegisterDto {
   @IsString()
   @Trim()
   @Length(NAME_MIN, NAME_MAX)
-  name: string;
+  username: string;
 
   @IsString()
   @Length(PASSWORD_MIN, PASSWORD_MAX)

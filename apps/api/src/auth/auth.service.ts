@@ -1,5 +1,5 @@
 import argon2 from 'argon2';
-import { createHash } from 'crypto';
+import { createHash, randomBytes } from 'crypto';
 
 export class AuthService {
   hashPassword(plain: string): Promise<string> {
@@ -13,5 +13,13 @@ export class AuthService {
   createGravatar(email: string): string {
     const hash = createHash('md5').update(email).digest('hex');
     return `https://www.gravatar.com/avatar/${hash}`;
+  }
+
+  generateRandomToken(len = 64) {
+    return randomBytes(len).toString('hex');
+  }
+
+  createSHA256(value: string) {
+    return createHash('sha256').update(value).digest('hex');
   }
 }

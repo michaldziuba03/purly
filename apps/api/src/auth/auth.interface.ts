@@ -1,9 +1,9 @@
-import { Providers } from '@purly/postgres';
+import { OAuthProviders } from '@purly/database';
 
 export interface OAuthProfile {
   picture?: string;
-  name: string;
+  username: string;
   email: string;
-  provider: Providers;
-  subject: string;
+  providerName: OAuthProviders;
+  providerId: string;
 }

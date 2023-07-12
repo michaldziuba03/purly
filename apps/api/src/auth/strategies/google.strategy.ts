@@ -2,12 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Profile } from 'passport-google-oauth20';
 import { OAuthProfile } from '../auth.interface';
-import { Providers } from '@purly/postgres';
+import { OAuthProviders } from '@purly/database';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(
   Strategy,
-  Providers.GOOGLE
+  OAuthProviders.GOOGLE
 ) {
   constructor() {
     super({
@@ -27,9 +27,9 @@ export class GoogleStrategy extends PassportStrategy(
 
     return {
       email,
-      provider: Providers.GOOGLE,
-      subject: profile.id,
-      name: profile.displayName,
+      providerName: OAuthProviders.GOOGLE,
+      providerId: profile.id,
+      username: profile.displayName,
       picture: this.getPhoto(profile.photos),
     };
   }
