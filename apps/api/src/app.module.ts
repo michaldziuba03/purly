@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { RedisModule } from '@mich4l/nestjs-redis';
 import { UserModule } from './user/user.module';
 import { WorkspaceModule } from './workspace/workspace.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { WorkspaceModule } from './workspace/workspace.module';
     DatabaseModule,
     RedisModule.forRoot({ connectUrl: process.env['REDIS_URI'] }),
     EventEmitterModule.forRoot(),
+    HealthModule,
     AuthModule,
     UserModule,
     WorkspaceModule,

@@ -192,6 +192,9 @@ devDependencies:
   '@types/express-session':
     specifier: ^1.17.7
     version: 1.17.7
+  '@types/geoip-country':
+    specifier: ^4.0.0
+    version: 4.0.0
   '@types/jest':
     specifier: ^29.4.0
     version: 29.4.0
@@ -4064,6 +4067,10 @@ packages:
       '@types/express-serve-static-core': 4.17.35
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.1
+
+  /@types/geoip-country@4.0.0:
+    resolution: {integrity: sha512-RngLyEh1cMcH/fphQa4+AiMJX+t0/kD/CijkRCgZzQWwFE5ZnSP/WxVhcMAHfTY7fNgZvWtkgeKBc96dsEss9Q==}
+    dev: true
 
   /@types/graceful-fs@4.1.6:
     resolution: {integrity: sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw==}
