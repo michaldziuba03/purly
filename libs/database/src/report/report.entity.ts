@@ -13,7 +13,10 @@ export enum AbuseType {
 
 export class Report {
   id: string;
+  alias: string;
   email: string;
+  message: string;
+  linkId: string;
   url: string;
   destination: string;
   isSolved: boolean;

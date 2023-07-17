@@ -4,6 +4,7 @@ import { UserRepository } from './user/user.repository';
 import { DatabaseHealthIndicator } from './database.health';
 import { WorkspaceRepository } from './workspace';
 import { LinkRepository } from './link';
+import { ReportRepository } from './report';
 
 @Global()
 @Module({
@@ -14,12 +15,14 @@ import { LinkRepository } from './link';
     UserRepository,
     WorkspaceRepository,
     LinkRepository,
+    ReportRepository,
   ],
   exports: [
     DatabaseHealthIndicator,
     UserRepository,
     WorkspaceRepository,
     LinkRepository,
+    ReportRepository,
   ],
 })
 export class DatabaseModule {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BaseRepository } from '../base.repository';
-import { InsertReport } from './report.entity';
+import { InsertReport, Report } from './report.entity';
 import { DatabaseContext, InjectDB } from '../database.provider';
 import { reports } from './report.schema';
 

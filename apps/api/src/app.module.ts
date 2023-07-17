@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { HealthModule } from './health/health.module';
 import { LinkModule } from './link/link.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { LinkModule } from './link/link.module';
     UserModule,
     WorkspaceModule,
     LinkModule,
+    ReportModule,
   ],
   controllers: [],
   providers: [],
