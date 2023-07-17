@@ -4,9 +4,8 @@ export class Link {
   url: string;
   workspaceId: string;
   name?: string;
-  expiresAt: Date;
+  expiresAt?: Date;
   isActive: boolean;
-  clicks: number;
   isButton: boolean;
   androidRedirect?: string;
   iosRedirect?: string;

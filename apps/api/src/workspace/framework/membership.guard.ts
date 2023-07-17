@@ -17,6 +17,7 @@ enum HttpMethods {
   POST = 'POST',
   PUT = 'PUT',
   PATCH = 'PATCH',
+  DELETE = 'DELETE',
 }
 
 const methodsWithBody: string[] = [
@@ -95,14 +96,10 @@ export class MembershipGuard implements CanActivate {
       return req.params.workspaceId;
     }
 
-    if (req.method === HttpMethods.GET) {
-      return req.query.workspaceId;
-    }
-
     if (methodsWithBody.includes(req.method)) {
       return req.body.workspaceId;
     }
 
-    return;
+    return req.query.workspaceId;
   }
 }
