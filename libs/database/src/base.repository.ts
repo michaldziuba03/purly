@@ -15,7 +15,7 @@ export class BaseRepository<TEntity extends object> {
     return plainToInstance(this.entity, data);
   }
 
-  protected mapMany(data: object[], entity: ClassConstructor<TEntity>) {
-    return plainToInstance(entity, data);
+  protected mapMany(data: object[]) {
+    return plainToInstance(this.entity, data);
   }
 }
