@@ -1,8 +1,9 @@
 import { Global, Module } from '@nestjs/common';
 import { DatabaseProvider } from './database.provider';
 import { UserRepository } from './user/user.repository';
-import { WorkspaceRepository } from './workspace';
 import { DatabaseHealthIndicator } from './database.health';
+import { WorkspaceRepository } from './workspace';
+import { LinkRepository } from './link';
 
 @Global()
 @Module({
@@ -12,7 +13,13 @@ import { DatabaseHealthIndicator } from './database.health';
     DatabaseHealthIndicator,
     UserRepository,
     WorkspaceRepository,
+    LinkRepository,
   ],
-  exports: [DatabaseHealthIndicator, UserRepository, WorkspaceRepository],
+  exports: [
+    DatabaseHealthIndicator,
+    UserRepository,
+    WorkspaceRepository,
+    LinkRepository,
+  ],
 })
 export class DatabaseModule {}

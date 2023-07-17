@@ -7,6 +7,7 @@ import { RedisModule } from '@mich4l/nestjs-redis';
 import { UserModule } from './user/user.module';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { HealthModule } from './health/health.module';
+import { LinkModule } from './link/link.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { HealthModule } from './health/health.module';
     AuthModule,
     UserModule,
     WorkspaceModule,
+    LinkModule,
   ],
   controllers: [],
   providers: [],
