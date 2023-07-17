@@ -5,6 +5,7 @@ import { LoggerModule } from '@purly/logger';
 import { AuthModule } from './auth/auth.module';
 import { RedisModule } from '@mich4l/nestjs-redis';
 import { UserModule } from './user/user.module';
+import { WorkspaceModule } from './workspace/workspace.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UserModule } from './user/user.module';
     EventEmitterModule.forRoot(),
     AuthModule,
     UserModule,
+    WorkspaceModule,
   ],
   controllers: [],
   providers: [],
