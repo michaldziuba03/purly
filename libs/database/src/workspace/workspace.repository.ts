@@ -28,6 +28,10 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
   async findByMember(memberId: string, limit = 10) {
     const workspaces = await this.db.query.workspacesMembers.findMany({
       where: eq(workspacesMembers.userId, memberId),
+      columns: {
+        createdAt: true,
+        role: true,
+      },
       limit,
       with: {
         workspace: true,
@@ -71,9 +75,20 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
 
   async findMembers(workspaceId: string) {
     const result = await this.db.query.workspacesMembers.findMany({
+      columns: {
+        workspaceId: true,
+        role: true,
+        createdAt: true,
+      },
       where: eq(workspacesMembers.workspaceId, workspaceId),
       with: {
-        user: true,
+        user: {
+          columns: {
+            id: true,
+            username: true,
+            picture: true,
+          },
+        },
       },
       limit: 100,
     });
