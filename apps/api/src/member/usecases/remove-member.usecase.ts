@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Usecase } from '../../../shared/base.usecase';
+import { Usecase } from '../../shared/base.usecase';
 import { WorkspaceRepository, MemberRole } from '@purly/database';
 
 interface IRemoveMemberCommand {

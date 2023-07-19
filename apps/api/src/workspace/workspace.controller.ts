@@ -22,8 +22,6 @@ import { Member, MemberRole } from '@purly/database';
 import { MembershipGuard } from './framework/membership.guard';
 import { SkipMembershipCheck } from './framework/skip-membership.decorator';
 import { Membership } from './framework/membership.decorator';
-import { GetMembers } from './usecases/members/get-members.usecase';
-import { RemoveMember } from './usecases/members/remove-member.usecase';
 import { LeaveWorkspace } from './usecases/leave-workspace.usecase';
 
 @Controller('workspaces')
@@ -34,8 +32,6 @@ export class WorkspaceController {
     private readonly createWorkspaceUsecase: CreateWorkspace,
     private readonly updateWorkspaceUsecase: UpdateWorkspace,
     private readonly getWorkspacesUsecase: GetWorkspaces,
-    private readonly getMembersUsecase: GetMembers,
-    private readonly removeMemberUsecase: RemoveMember,
     private readonly leaveWorkspaceUsecase: LeaveWorkspace
   ) {}
 
@@ -75,28 +71,6 @@ export class WorkspaceController {
   @Delete(':workspaceId/leave')
   async leaveWorkspace(@Membership() member: Member) {
     const isRemoved = await this.leaveWorkspaceUsecase.execute({
-      userId: member.userId,
-      workspaceId: member.workspaceId,
-      userRole: member.role,
-    });
-
-    return { success: isRemoved };
-  }
-
-  @Get(':workspaceId/members')
-  getWorkspaceMembers(@Membership() member: Member) {
-    return this.getMembersUsecase.execute({
-      workspaceId: member.workspaceId,
-    });
-  }
-
-  @Delete(':workspaceId/members/:memberId')
-  async removeWorkspaceMember(
-    @Membership() member: Member,
-    @Param('memberId') memberId: string
-  ) {
-    const isRemoved = await this.removeMemberUsecase.execute({
-      memberId,
       userId: member.userId,
       workspaceId: member.workspaceId,
       userRole: member.role,

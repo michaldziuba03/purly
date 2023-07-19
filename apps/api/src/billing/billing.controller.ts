@@ -37,22 +37,26 @@ export class BillingController {
 
   @Post('checkout')
   @AllowedRole(MemberRole.OWNER)
-  createCheckout(
+  async createCheckout(
     @Body() body: CreateCheckoutDto,
     @Membership() member: Member
   ) {
-    return this.createCheckoutUsecase.execute({
+    const url = await this.createCheckoutUsecase.execute({
       plan: body.plan,
       workspaceId: member.workspaceId,
     });
+
+    return { url };
   }
 
   @Get('manage')
   @AllowedRole(MemberRole.OWNER)
-  manageBilling(@Membership() member: Member) {
-    return this.manageBillingUsecase.execute({
+  async manageBilling(@Membership() member: Member) {
+    const url = await this.manageBillingUsecase.execute({
       workspaceId: member.workspaceId,
     });
+
+    return { url };
   }
 
   @Delete()

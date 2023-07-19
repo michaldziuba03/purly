@@ -5,10 +5,10 @@ import { DatabaseHealthIndicator } from './database.health';
 import { WorkspaceRepository } from './workspace';
 import { LinkRepository } from './link';
 import { ReportRepository } from './report';
+import { InviteRepository } from './invite';
 
 @Global()
 @Module({
-  controllers: [],
   providers: [
     DatabaseProvider,
     DatabaseHealthIndicator,
@@ -16,6 +16,7 @@ import { ReportRepository } from './report';
     WorkspaceRepository,
     LinkRepository,
     ReportRepository,
+    InviteRepository,
   ],
   exports: [
     DatabaseHealthIndicator,
@@ -23,6 +24,7 @@ import { ReportRepository } from './report';
     WorkspaceRepository,
     LinkRepository,
     ReportRepository,
+    InviteRepository,
   ],
 })
 export class DatabaseModule {}

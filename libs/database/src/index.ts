@@ -5,5 +5,6 @@ export * from './user';
 export * from './workspace';
 export * from './report';
 export * from './link';
+export * from './invite';
 
 export { MemberRole } from './schema';

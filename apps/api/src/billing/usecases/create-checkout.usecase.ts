@@ -38,16 +38,19 @@ export class CreateCheckout implements Usecase<ICreateCheckoutCommand> {
     }
 
     if (!workspace.billingId) {
-      const billingId = await this.createCustomer(command.workspaceId, {
+      const customer = await this.stripe.customers.create({
         name: workspace.name,
-        email: workspace.billingEmail,
+        metadata: {
+          workspaceId: command.workspaceId,
+        },
       });
 
       await this.workspaceRepository.updateById(command.workspaceId, {
-        billingId,
+        billingId: customer.id,
+        billingEmail: customer.email,
       });
 
-      workspace.billingId = billingId;
+      workspace.billingId = customer.id;
     }
 
     const priceId = getPriceIdByName(command.plan);
@@ -68,20 +71,5 @@ export class CreateCheckout implements Usecase<ICreateCheckoutCommand> {
     });
 
     return checkoutSession.url;
-  }
-
-  private async createCustomer(
-    workspaceId: string,
-    data: { name: string; email: string }
-  ) {
-    const customer = await this.stripe.customers.create({
-      email: data.email,
-      name: data.name,
-      metadata: {
-        workspaceId,
-      },
-    });
-
-    return customer.id;
   }
 }

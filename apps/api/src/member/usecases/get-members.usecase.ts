@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Usecase } from '../../../shared/base.usecase';
+import { Usecase } from '../../shared/base.usecase';
 import { WorkspaceRepository } from '@purly/database';
 
 interface IGetMembersCommand {

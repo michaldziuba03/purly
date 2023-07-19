@@ -10,6 +10,7 @@ import { HealthModule } from './health/health.module';
 import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { BillingModule } from './billing/billing.module';
+import { MemberModule } from './member/member.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { BillingModule } from './billing/billing.module';
     AuthModule,
     UserModule,
     WorkspaceModule,
+    MemberModule,
     BillingModule,
     LinkModule,
     ReportModule,
