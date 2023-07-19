@@ -17,6 +17,15 @@ export class InviteRepository extends BaseRepository<Invite> {
     return this.mapSingle(invite);
   }
 
+  async findByWorkspaceId(workspaceId: string) {
+    const result = await this.db.query.invites.findMany({
+      where: eq(invites.workspaceId, workspaceId),
+      limit: 50,
+    });
+
+    return this.mapMany(result);
+  }
+
   async findById(inviteId: string) {
     const result = await this.db.query.invites.findFirst({
       where: eq(invites.id, inviteId),

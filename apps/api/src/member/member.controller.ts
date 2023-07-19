@@ -6,27 +6,52 @@ import {
   Get,
   Param,
   Patch,
+  Post,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
-import { Member } from '@purly/database';
+import { Member, MemberRole } from '@purly/database';
 import { MembershipGuard } from '../workspace/framework/membership.guard';
 import { Membership } from '../workspace/framework/membership.decorator';
 import { GetMembers } from './usecases/get-members.usecase';
 import { RemoveMember } from './usecases/remove-member.usecase';
 import { ChangeRoleDto } from './dto/change-role.dto';
 import { ChangeRole } from './usecases/change-role.usecase';
+import { InviteMember } from './usecases/invite-member.usecase';
+import { InviteMemberDto } from './dto/invite-member.dto';
+import { AllowedRole } from '../workspace/framework/allowed-role.decorator';
+import { GetInvites } from './usecases/get-invites.usecase';
 
-@Controller('workspaces/:workspaceId/members')
+@Controller('members/:workspaceId')
 @UseGuards(AuthenticatedGuard, MembershipGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class MemberController {
   constructor(
+    private readonly inviteMemberUsecase: InviteMember,
+    private readonly getInvitesUsecase: GetInvites,
     private readonly getMembersUsecase: GetMembers,
     private readonly changeRoleUsecase: ChangeRole,
     private readonly removeMemberUsecase: RemoveMember
   ) {}
+
+  @Post('invites')
+  @AllowedRole(MemberRole.ADMIN)
+  inviteMember(@Body() body: InviteMemberDto, @Membership() member: Member) {
+    return this.inviteMemberUsecase.execute({
+      workspaceId: member.workspaceId,
+      userId: member.userId,
+      email: body.email,
+      role: body.role,
+    });
+  }
+
+  @Get('invites')
+  getInvites(@Membership() member: Member) {
+    return this.getInvitesUsecase.execute({
+      workspaceId: member.workspaceId,
+    });
+  }
 
   @Get()
   getMembers(@Membership() member: Member) {
@@ -36,6 +61,7 @@ export class MemberController {
   }
 
   @Patch(':memberId/roles')
+  @AllowedRole(MemberRole.ADMIN)
   async changeMemberRole(
     @Body() body: ChangeRoleDto,
     @Param('memberId') memberId: string,
@@ -53,6 +79,7 @@ export class MemberController {
   }
 
   @Delete(':memberId')
+  @AllowedRole(MemberRole.ADMIN)
   async removeMember(
     @Membership() member: Member,
     @Param('memberId') memberId: string
