@@ -25,6 +25,14 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
     return workspaces.count;
   }
 
+  async findById(workspaceId: string) {
+    const result = await this.db.query.workspaces.findFirst({
+      where: eq(workspaces.id, workspaceId),
+    });
+
+    return this.mapSingle(result);
+  }
+
   async findByMember(memberId: string, limit = 10) {
     const workspaces = await this.db.query.workspacesMembers.findMany({
       where: eq(workspacesMembers.userId, memberId),
@@ -60,6 +68,15 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
       .returning();
 
     return this.mapSingle(result);
+  }
+
+  async updatePlan(billingId: string, plan: string) {
+    const result = await this.db
+      .update(workspaces)
+      .set({ plan })
+      .where(eq(workspaces.billingId, billingId));
+
+    return result.rowCount > 0;
   }
 
   async findMember(workspaceId: string, memberId: string) {

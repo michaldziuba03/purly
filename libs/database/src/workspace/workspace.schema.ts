@@ -23,8 +23,9 @@ export const workspaces = pgTable(
   {
     id: uuid('id').primaryKey().primaryKey().defaultRandom(),
     name: varchar('name').notNull(),
-    tier: varchar('plan').notNull().default('free'),
+    plan: varchar('plan').notNull().default('free'),
     billingId: varchar('billing_id'),
+    billingEmail: varchar('billing_email'),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },

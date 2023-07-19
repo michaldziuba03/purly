@@ -18,4 +18,12 @@ export class ReportRepository extends BaseRepository<Report> {
 
     return this.mapSingle(result);
   }
+
+  async findAll() {
+    const result = await this.db.query.reports.findMany({
+      limit: 200,
+    });
+
+    return this.mapMany(result);
+  }
 }
