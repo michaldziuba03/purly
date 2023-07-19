@@ -3,7 +3,7 @@ import { BaseRepository } from '../base.repository';
 import { Invite } from './invite.entity';
 import { DatabaseContext, InjectDB } from '../database.provider';
 import { invites } from './invite.schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 @Injectable()
 export class InviteRepository extends BaseRepository<Invite> {
@@ -12,7 +12,11 @@ export class InviteRepository extends BaseRepository<Invite> {
   }
 
   async create(data: Invite) {
-    const invite = await this.db.insert(invites).values(data).returning();
+    const invite = await this.db
+      .insert(invites)
+      .values(data)
+      .onConflictDoNothing({ target: [invites.email, invites.workspaceId] })
+      .returning();
 
     return this.mapSingle(invite);
   }
@@ -26,18 +30,20 @@ export class InviteRepository extends BaseRepository<Invite> {
     return this.mapMany(result);
   }
 
-  async findById(inviteId: string) {
+  async findByToken(inviteToken: string) {
     const result = await this.db.query.invites.findFirst({
-      where: eq(invites.id, inviteId),
+      where: eq(invites.token, inviteToken),
     });
 
     return this.mapSingle(result);
   }
 
-  async delete(inviteId: string) {
+  async delete(email: string, workspaceId: string) {
     const result = await this.db
       .delete(invites)
-      .where(eq(invites.id, inviteId));
+      .where(
+        and(eq(invites.email, email), eq(invites.workspaceId, workspaceId))
+      );
 
     return result.rowCount > 0;
   }

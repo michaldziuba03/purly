@@ -22,6 +22,8 @@ import { InviteMember } from './usecases/invite-member.usecase';
 import { InviteMemberDto } from './dto/invite-member.dto';
 import { AllowedRole } from '../workspace/framework/allowed-role.decorator';
 import { GetInvites } from './usecases/get-invites.usecase';
+import { DeleteInvite } from './usecases/delete-invite.usecase';
+import { DeleteInviteDto } from './dto/delete-invite.dto';
 
 @Controller('members/:workspaceId')
 @UseGuards(AuthenticatedGuard, MembershipGuard)
@@ -30,6 +32,7 @@ export class MemberController {
   constructor(
     private readonly inviteMemberUsecase: InviteMember,
     private readonly getInvitesUsecase: GetInvites,
+    private readonly deleteInviteUsecase: DeleteInvite,
     private readonly getMembersUsecase: GetMembers,
     private readonly changeRoleUsecase: ChangeRole,
     private readonly removeMemberUsecase: RemoveMember
@@ -43,12 +46,21 @@ export class MemberController {
       userId: member.userId,
       email: body.email,
       role: body.role,
+      expiresAt: body.expiresAt,
     });
   }
 
   @Get('invites')
   getInvites(@Membership() member: Member) {
     return this.getInvitesUsecase.execute({
+      workspaceId: member.workspaceId,
+    });
+  }
+
+  @Post('invites/:inviteId/delete')
+  deleteInvite(@Body() body: DeleteInviteDto, @Membership() member: Member) {
+    return this.deleteInviteUsecase.execute({
+      email: body.email,
       workspaceId: member.workspaceId,
     });
   }

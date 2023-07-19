@@ -7,6 +7,7 @@ import { InviteMember } from './usecases/invite-member.usecase';
 import { InviteController } from './invite.controller';
 import { AcceptInvite } from './usecases/accept-invite.usecase';
 import { GetInvites } from './usecases/get-invites.usecase';
+import { DeleteInvite } from './usecases/delete-invite.usecase';
 
 @Module({
   controllers: [MemberController, InviteController],
@@ -17,6 +18,7 @@ import { GetInvites } from './usecases/get-invites.usecase';
     InviteMember,
     AcceptInvite,
     GetInvites,
+    DeleteInvite,
   ],
 })
 export class MemberModule {}

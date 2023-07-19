@@ -13,6 +13,7 @@ interface IInviteMemberCommand {
   userId: string;
   email: string;
   role: MemberRole;
+  expiresAt?: Date;
 }
 
 @Injectable()
@@ -27,15 +28,22 @@ export class InviteMember implements Usecase<IInviteMemberCommand> {
     await this.checkIsMember(command.email, command.workspaceId);
 
     const inviteToken = await nanoid(24);
-    await this.inviteRepository.create({
-      id: inviteToken,
+    const invite = await this.inviteRepository.create({
+      token: inviteToken,
       email: command.email,
       workspaceId: command.workspaceId,
       role: command.role,
+      expiresAt: command.expiresAt,
     });
+
+    if (!invite) {
+      throw new ConflictException('Email is already invited');
+    }
 
     // TODO: SEND NOTIFICATION WITH INVITE LINK
     console.log('Invite token:', inviteToken);
+
+    return invite;
   }
 
   private async checkIsMember(email: string, workspaceId: string) {

@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Usecase } from '../../shared/base.usecase';
 import {
+  Invite,
   InviteRepository,
   UserRepository,
   WorkspaceRepository,
 } from '@purly/database';
+import { isExpired } from '../../shared/utils';
 
 interface IAcceptInviteCommand {
   userId: string;
@@ -20,7 +22,7 @@ export class AcceptInvite implements Usecase<IAcceptInviteCommand> {
   ) {}
 
   async execute(command: IAcceptInviteCommand) {
-    const invite = await this.inviteRepository.findById(command.inviteToken);
+    const invite = await this.inviteRepository.findByToken(command.inviteToken);
     if (!invite) {
       throw new NotFoundException('Invite not found');
     }
@@ -34,6 +36,11 @@ export class AcceptInvite implements Usecase<IAcceptInviteCommand> {
       throw new NotFoundException('Invite not found');
     }
 
+    if (invite.expiresAt && isExpired(invite.expiresAt)) {
+      await this.clearInvite(invite);
+      throw new NotFoundException('Invite not found');
+    }
+
     const isAdded = await this.workspaceRepository.addMember(
       invite.workspaceId,
       user.id,
@@ -41,9 +48,13 @@ export class AcceptInvite implements Usecase<IAcceptInviteCommand> {
     );
 
     if (isAdded) {
-      await this.inviteRepository.delete(command.inviteToken);
+      await this.clearInvite(invite);
     }
 
     return isAdded;
+  }
+
+  private clearInvite(invite: Invite) {
+    return this.inviteRepository.delete(invite.email, invite.workspaceId);
   }
 }
