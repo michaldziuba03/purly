@@ -57,12 +57,18 @@ export class MemberController {
     });
   }
 
-  @Post('invites/:inviteId/delete')
-  deleteInvite(@Body() body: DeleteInviteDto, @Membership() member: Member) {
-    return this.deleteInviteUsecase.execute({
+  @Post('invites/delete')
+  @AllowedRole(MemberRole.ADMIN)
+  async deleteInvite(
+    @Body() body: DeleteInviteDto,
+    @Membership() member: Member
+  ) {
+    const isDeleted = await this.deleteInviteUsecase.execute({
       email: body.email,
       workspaceId: member.workspaceId,
     });
+
+    return { success: isDeleted };
   }
 
   @Get()
