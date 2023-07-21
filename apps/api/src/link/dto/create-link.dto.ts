@@ -2,7 +2,6 @@ import {
   IsDateString,
   IsOptional,
   IsString,
-  IsUUID,
   IsUrl,
   MaxLength,
 } from 'class-validator';
@@ -11,9 +10,6 @@ import { LINK_NAME_MAX } from '../link.constants';
 import { UtmParamsDto } from './utm-params.dto';
 
 export class CreateLinkDto extends UtmParamsDto {
-  @IsUUID('4')
-  workspaceId: string;
-
   @IsUrl()
   url: string;
 

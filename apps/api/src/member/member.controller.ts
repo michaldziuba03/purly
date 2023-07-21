@@ -1,7 +1,6 @@
 import {
   Body,
   ClassSerializerInterceptor,
-  Controller,
   Delete,
   Get,
   Param,
@@ -24,8 +23,9 @@ import { AllowedRole } from '../workspace/framework/allowed-role.decorator';
 import { GetInvites } from './usecases/get-invites.usecase';
 import { DeleteInvite } from './usecases/delete-invite.usecase';
 import { DeleteInviteDto } from './dto/delete-invite.dto';
+import { BaseController } from '../shared/base.controller';
 
-@Controller('members/:workspaceId')
+@BaseController('members')
 @UseGuards(AuthenticatedGuard, MembershipGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class MemberController {

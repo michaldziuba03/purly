@@ -42,7 +42,6 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
       utmTerm: command.utmTerm,
       androidRedirect: command.androidRedirect,
       iosRedirect: command.iosRedirect,
-      isButton: command.isButton,
     });
 
     return link;

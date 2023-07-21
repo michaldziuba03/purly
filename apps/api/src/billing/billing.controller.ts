@@ -2,13 +2,13 @@ import {
   BadRequestException,
   Body,
   ClassSerializerInterceptor,
-  Controller,
   Delete,
   Get,
   Post,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { BaseController } from '../shared/base.controller';
 import { CreateCheckout } from './usecases/create-checkout.usecase';
 import { ManageBilling } from './usecases/manage-billing.usecase';
 import { UpdatePlan } from './usecases/update-plan.usecase';
@@ -24,7 +24,7 @@ import { StripeEvents } from './stripe/stripe.webhook';
 import { Plans, getNameByPriceId } from './stripe/stripe.constants';
 import Stripe from 'stripe';
 
-@Controller('billing/:workspaceId')
+@BaseController('billing')
 @UseGuards(AuthenticatedGuard, MembershipGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class BillingController {

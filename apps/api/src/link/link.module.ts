@@ -6,9 +6,11 @@ import { DeleteLink } from './usecases/delete-link.usecase';
 import { ListLinks } from './usecases/list-links.usecase';
 import { RedirectLink } from './usecases/redirect-link.usecase';
 import { GetLink } from './usecases/get-link.usecase';
+import { LinkController } from './link.controller';
+import { RedirectController } from './redirect.controller';
 
 @Module({
-  controllers: [],
+  controllers: [LinkController, RedirectController],
   providers: [
     CreateLink,
     GetLink,
@@ -18,6 +20,5 @@ import { GetLink } from './usecases/get-link.usecase';
     RedirectLink,
     provideAliasFactory(),
   ],
-  exports: [],
 })
 export class LinkModule {}

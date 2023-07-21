@@ -4,9 +4,8 @@ export class Link {
   url: string;
   workspaceId: string;
   name?: string;
+  isActive?: boolean;
   expiresAt?: Date;
-  isActive: boolean;
-  isButton: boolean;
   androidRedirect?: string;
   iosRedirect?: string;
   enableUtm: boolean;
@@ -15,6 +14,8 @@ export class Link {
   utmCampaign?: string;
   utmTerm?: string;
   utmContent?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type InsertLink = Omit<Link, 'id'>;

@@ -25,7 +25,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [ ] Email Verification
 - [x] Social Authentication (Google, GitHub)
 - [x] Email & Password Authentication
-- [ ] Reset Password flow
+- [x] Reset Password flow
 - [x] Google Recaptcha support
 - [x] Paid monthly subscriptions (Stripe)
 - [x] URL shortening
@@ -39,31 +39,31 @@ Distrubuted URL shortener. Under active development (early stage).
 - [x] Health checks
 - [ ] Caching
 - [x] Link in bio
-- [ ] Workspaces
+- [x] Workspaces
 - [x] Sentry integration for reporting non-standard errors
 
 ## Development
 
-#### 1. Run databases and services
+### Run databases and services
 
 ```sh
 docker compose up
 ```
 
-#### 2. Run setup script
+### Run setup script
 
 ```sh
 # will install depedencies and create .env file
 $ npm run setup
 ```
 
-#### 3. Run applications (api, worker and frontend web app)
+### Run applications (api, worker and frontend web app)
 
 ```sh
 npm run serve
 ```
 
-#### 4. Forward Stripe webhook locally
+### Forward Stripe webhook locally
 
 ```sh
 stripe login # only once - stripe will remember your session

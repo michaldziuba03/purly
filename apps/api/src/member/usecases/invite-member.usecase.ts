@@ -27,7 +27,7 @@ export class InviteMember implements Usecase<IInviteMemberCommand> {
   async execute(command: IInviteMemberCommand) {
     await this.checkIsMember(command.email, command.workspaceId);
 
-    const inviteToken = await nanoid(24);
+    const inviteToken = await nanoid(32);
     const invite = await this.inviteRepository.create({
       token: inviteToken,
       email: command.email,
@@ -37,7 +37,7 @@ export class InviteMember implements Usecase<IInviteMemberCommand> {
     });
 
     if (!invite) {
-      throw new ConflictException('Email is already invited');
+      throw new ConflictException('User is already invited');
     }
 
     // TODO: SEND NOTIFICATION WITH INVITE LINK
