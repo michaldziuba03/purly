@@ -1,12 +1,6 @@
 # purly ✂
 
-Distrubuted URL shortener. Under active development (early stage).
-
-## Screenshots - current state
->
-> Homepage
-
-![image](https://user-images.githubusercontent.com/43048524/234128807-0ec69f73-b01d-49a3-9b10-2300d28e70e3.png)
+Scalable and distrubuted SaaS platform for managing your brand. Under active development (early stage).
 
 ## Tech stack
 
@@ -38,7 +32,7 @@ Distrubuted URL shortener. Under active development (early stage).
 - [ ] Statistics for shortened URLs
 - [x] Health checks
 - [ ] Caching
-- [x] Link in bio
+- [ ] Link in bio
 - [x] Workspaces
 - [x] Sentry integration for reporting non-standard errors
 
