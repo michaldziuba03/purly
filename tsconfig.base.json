@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@purly/broker": ["libs/broker/src/index.ts"],
       "@purly/database": ["libs/database/src/index.ts"],
       "@purly/logger": ["libs/logger/src/index.ts"]
     }
