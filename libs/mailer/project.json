@@ -1,32 +1,32 @@
 {
-  "name": "broker",
+  "name": "mailer",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/broker/src",
+  "sourceRoot": "libs/mailer/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/broker",
-        "tsConfig": "libs/broker/tsconfig.lib.json",
-        "packageJson": "libs/broker/package.json",
-        "main": "libs/broker/src/index.ts",
-        "assets": ["libs/broker/*.md"]
+        "outputPath": "dist/libs/mailer",
+        "tsConfig": "libs/mailer/tsconfig.lib.json",
+        "packageJson": "libs/mailer/package.json",
+        "main": "libs/mailer/src/index.ts",
+        "assets": ["libs/mailer/*.md"]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/broker/**/*.ts"]
+        "lintFilePatterns": ["libs/mailer/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/broker/jest.config.ts",
+        "jestConfig": "libs/mailer/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
