@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, lt } from 'drizzle-orm';
 import { DatabaseContext, InjectDB } from '../database.provider';
 import { oauthAccounts, resetTokens, users } from './user.schema';
 import { BaseRepository } from '../base.repository';
@@ -142,6 +142,14 @@ export class UserRepository extends BaseRepository<User> {
     const result = await this.db
       .delete(resetTokens)
       .where(eq(resetTokens.userId, userId));
+
+    return result.rowCount > 0;
+  }
+
+  async deleteExpiredTokens() {
+    const result = await this.db
+      .delete(resetTokens)
+      .where(lt(resetTokens.expiresAt, new Date()));
 
     return result.rowCount > 0;
   }
