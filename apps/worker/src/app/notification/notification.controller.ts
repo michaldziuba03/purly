@@ -1,46 +1,43 @@
-import { Controller } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { Controller, Logger } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { MailerService } from '@purly/mailer';
+import { User } from '@purly/database';
 
 @Controller()
 export class NotificationController {
   constructor(private readonly mailer: MailerService) {}
 
   @EventPattern('user.created')
-  sendWelcomeEmail() {
-    const username = 'Michał';
-    const email = 'mail@michaldziuba.dev';
+  sendWelcomeEmail(@Payload() data: User) {
+    Logger.log('Handling user.created');
+    console.log(data);
 
     this.mailer.sendMail(
       {
         template: 'welcome',
-        subject: `Welcome in Purly, ${name}`,
-        to: email,
+        subject: `Welcome in Purly, ${data.username}`,
+        to: data.email,
       },
       {
-        username,
-        email,
+        username: data.username,
+        email: data.email,
       }
     );
   }
 
   @EventPattern('user.password.reset')
-  sendResetEmail() {
-    const username = 'Michał';
-    const email = 'mail@michaldziuba.dev';
-    const resetLink =
-      'http://localhost:4200/auth/reset/2qfhqudhrfudrhgurehgerq2ew';
-
+  sendResetEmail(@Payload() data: any) {
+    Logger.log('Handling user.password.reset');
     this.mailer.sendMail(
       {
         template: 'reset-password',
-        subject: `Welcome in Purly, ${name}`,
-        to: email,
+        subject: `We got reset password request - Purly`,
+        to: data.email,
       },
       {
-        username,
-        email,
-        resetLink,
+        username: data.username,
+        email: data.email,
+        resetLink: data.resetLink,
       }
     );
   }

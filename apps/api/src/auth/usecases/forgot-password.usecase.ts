@@ -4,6 +4,7 @@ import { UserRepository } from '@purly/database';
 import { AuthService } from '../auth.service';
 import { createClientUrl } from '../../shared/utils';
 import { RESET_TOKEN_LIFETIME } from '../auth.constants';
+import { BrokerProducer } from '../../shared/broker.producer';
 
 interface IForgotPasswordCommand {
   email: string;
@@ -13,7 +14,8 @@ interface IForgotPasswordCommand {
 export class ForgotPassword implements Usecase<IForgotPasswordCommand> {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly brokerProducer: BrokerProducer
   ) {}
 
   async execute(command: IForgotPasswordCommand) {
@@ -36,6 +38,12 @@ export class ForgotPassword implements Usecase<IForgotPasswordCommand> {
       tokenHash,
       RESET_TOKEN_LIFETIME
     );
+
+    this.brokerProducer.emit('user.password.reset', {
+      resetLink,
+      ...user,
+    });
+
     console.log(resetLink);
   }
 }

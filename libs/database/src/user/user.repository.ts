@@ -3,7 +3,8 @@ import { and, eq } from 'drizzle-orm';
 import { DatabaseContext, InjectDB } from '../database.provider';
 import { oauthAccounts, resetTokens, users } from './user.schema';
 import { BaseRepository } from '../base.repository';
-import { InsertUser, OAuthProviders, User } from './user.entity';
+import { InsertUser, User } from './user.entity';
+import { OAuthProviders } from '@purly/shared';
 
 @Injectable()
 export class UserRepository extends BaseRepository<User> {

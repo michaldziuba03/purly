@@ -9,6 +9,6 @@ export class BrokerProducer {
   ) {}
 
   emit(pattern: string, data: object) {
-    return this.producer.emit(pattern, data);
+    return this.producer.emit(pattern, JSON.stringify(data));
   }
 }

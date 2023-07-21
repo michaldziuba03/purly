@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserRepository } from '@purly/database';
 import { AuthService } from '../auth.service';
 import { Usecase } from '../../shared/base.usecase';
+import { BrokerProducer } from '../../shared/broker.producer';
 
 interface IRegisterCommand {
   email: string;
@@ -13,7 +14,8 @@ interface IRegisterCommand {
 export class Register implements Usecase<IRegisterCommand> {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly brokerProducer: BrokerProducer
   ) {}
 
   async execute(command: IRegisterCommand) {
@@ -32,6 +34,7 @@ export class Register implements Usecase<IRegisterCommand> {
       password: passwordHash,
     });
 
+    this.brokerProducer.emit('user.created', user);
     return user;
   }
 }

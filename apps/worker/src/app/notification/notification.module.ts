@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MailerModule } from '@purly/mailer';
 import { join } from 'path';
+import { NotificationController } from './notification.controller';
 
 @Module({
+  controllers: [NotificationController],
   imports: [
     MailerModule.forRoot({
       templateDir: join(__dirname, 'assets'), // based on nx output in dist folder
