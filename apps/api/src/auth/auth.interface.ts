@@ -1,4 +1,4 @@
-import { OAuthProviders } from '@purly/database';
+import { OAuthProviders } from '@purly/shared';
 
 export interface OAuthProfile {
   picture?: string;

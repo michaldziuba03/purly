@@ -3,7 +3,6 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
-  Param,
   Post,
   Req,
   UseGuards,
@@ -15,7 +14,7 @@ import { Register } from './usecases/register.usecase';
 import { OAuth2 } from './usecases/oauth2.usecase';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { OAuthProviders } from '@purly/database';
+import { OAuthProviders } from '@purly/shared';
 import { AuthGuard } from '@nestjs/passport';
 import { UserSession } from '../shared/user.decorator';
 import { OAuthProfile } from './auth.interface';

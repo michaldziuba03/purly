@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, Profile } from 'passport-github2';
 import { OAuthProfile } from '../auth.interface';
-import { OAuthProviders } from '@purly/database';
+import { OAuthProviders } from '@purly/shared';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(

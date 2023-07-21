@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { User } from '../user';
-import { MemberRole } from './workspace.schema';
+import { MemberRole } from '@purly/shared';
 
 export class Workspace {
   id: string;

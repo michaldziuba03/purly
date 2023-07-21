@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { OAuthProviders, UserRepository } from '@purly/database';
+import { OAuthProviders } from '@purly/shared';
+import { UserRepository } from '@purly/database';
 import { AuthService } from '../auth.service';
 import { Usecase } from '../../shared/base.usecase';
 

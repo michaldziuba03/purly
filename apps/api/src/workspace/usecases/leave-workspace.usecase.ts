@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { MemberRole } from '@purly/shared';
 import { Usecase } from '../../shared/base.usecase';
-import { MemberRole, WorkspaceRepository } from '@purly/database';
+import { WorkspaceRepository } from '@purly/database';
 
 interface ILeaveWorkspaceCommand {
   workspaceId: string;

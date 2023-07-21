@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { MemberRole } from '@purly/database';
+import { MemberRole } from '@purly/shared';
 
 export const MEMBER_ROLE = Symbol('MEMBER_ROLE');
 

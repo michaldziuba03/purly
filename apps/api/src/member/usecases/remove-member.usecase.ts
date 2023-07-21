@@ -3,8 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { MemberRole } from '@purly/shared';
 import { Usecase } from '../../shared/base.usecase';
-import { WorkspaceRepository, MemberRole } from '@purly/database';
+import { WorkspaceRepository } from '@purly/database';
 
 interface IRemoveMemberCommand {
   userId: string;

@@ -4,6 +4,7 @@ import { Usecase } from '../../shared/base.usecase';
 import { DetectDevice } from '../../shared/detect-device';
 import { UtmBuilder } from '../utm.builder';
 import { isExpired } from '../../shared/utils';
+import { BrokerProducer } from '../../shared/broker.producer';
 
 interface IRedirectLinkCommand {
   alias: string;
@@ -14,7 +15,10 @@ interface IRedirectLinkCommand {
 
 @Injectable()
 export class RedirectLink implements Usecase<IRedirectLinkCommand> {
-  constructor(private readonly linkRepository: LinkRepository) {}
+  constructor(
+    private readonly linkRepository: LinkRepository,
+    private readonly brokerProducer: BrokerProducer
+  ) {}
 
   async execute(command: IRedirectLinkCommand): Promise<string> {
     const link = await this.linkRepository.findOneByAlias(command.alias);
@@ -32,6 +36,14 @@ export class RedirectLink implements Usecase<IRedirectLinkCommand> {
     }
 
     const device = new DetectDevice(command.userAgent, command.remoteAddress);
+
+    this.brokerProducer.emit('link.clicked', {
+      alias: command.alias,
+      os: device.os,
+      country: device.country,
+      browser: device.browser,
+      referer: command.referer,
+    });
 
     if (link.androidRedirect && device.isAndroid) {
       return link.androidRedirect;

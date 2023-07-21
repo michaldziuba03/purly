@@ -6,7 +6,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { WorkspaceRepository, MemberRole } from '@purly/database';
+import { MemberRole } from '@purly/shared';
+import { WorkspaceRepository } from '@purly/database';
 import { isUUID } from 'class-validator';
 import type { Request } from 'express';
 import { MEMBER_ROLE } from './allowed-role.decorator';

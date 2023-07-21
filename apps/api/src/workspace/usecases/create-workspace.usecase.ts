@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { WorkspaceRepository, MemberRole } from '@purly/database';
+import { MemberRole } from '@purly/shared';
+import { WorkspaceRepository } from '@purly/database';
 import { Usecase } from '../../shared/base.usecase';
 import { WORKSPACES_LIMIT } from '../workspace.constants';
 

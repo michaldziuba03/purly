@@ -1,4 +1,4 @@
-import { MemberRole } from '@purly/database';
+import { MemberRole } from '@purly/shared';
 import { IsDate, IsEmail, IsEnum, IsOptional } from 'class-validator';
 import { ToDate } from '../../shared/date.transformer';
 

@@ -1,3 +1,4 @@
+import { OAuthProviders } from '@purly/shared';
 import { Exclude, Type } from 'class-transformer';
 
 export class User {
@@ -25,11 +26,6 @@ export class InsertUser implements Partial<User> {
   username: string;
   password: string;
   picture: string;
-}
-
-export enum OAuthProviders {
-  GOOGLE = 'google',
-  GITHUB = 'github',
 }
 
 export class OAuthAccount {

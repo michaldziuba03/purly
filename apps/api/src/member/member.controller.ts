@@ -10,7 +10,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
-import { Member, MemberRole } from '@purly/database';
+import { MemberRole } from '@purly/shared';
+import { Member } from '@purly/database';
 import { MembershipGuard } from '../workspace/framework/membership.guard';
 import { Membership } from '../workspace/framework/membership.decorator';
 import { GetMembers } from './usecases/get-members.usecase';

@@ -4,12 +4,13 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Patch,
   Post,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { MemberRole } from '@purly/shared';
+import { Member } from '@purly/database';
 import { CreateWorkspace } from './usecases/create-workspace.usecase';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 import { UserSession } from '../shared/user.decorator';
@@ -18,7 +19,6 @@ import { GetWorkspaces } from './usecases/get-workspaces.usecase';
 import { UpdateWorkspace } from './usecases/update-workspace.usecase';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { AllowedRole } from './framework/allowed-role.decorator';
-import { Member, MemberRole } from '@purly/database';
 import { MembershipGuard } from './framework/membership.guard';
 import { SkipMembershipCheck } from './framework/skip-membership.decorator';
 import { Membership } from './framework/membership.decorator';
