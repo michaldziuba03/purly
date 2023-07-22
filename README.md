@@ -52,11 +52,13 @@ Project uses [Nx workspaces](https://nx.dev/) for building and handling monorepo
 docker compose up
 ```
 
-### Run setup script
+### Run setup scripts
 
 ```sh
 # will install depedencies and create .env file
 npm run setup
+# run migrations (will run migrations against database defined in env.POSTGRES_URI)
+npm run db:migrate
 ```
 
 ### Run applications (api, worker and frontend web app)

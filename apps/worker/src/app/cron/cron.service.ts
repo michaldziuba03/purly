@@ -11,7 +11,7 @@ export enum Durations {
 export class CronService {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly lockService: LockService
+    private readonly lockService: LockService // required by @Lock decorator
   ) {}
 
   // TODO: add option to customize cron expression from env variable

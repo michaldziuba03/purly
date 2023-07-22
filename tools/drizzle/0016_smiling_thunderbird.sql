@@ -1,1 +1,0 @@
-CREATE UNIQUE INDEX IF NOT EXISTS "invite_email_idx" ON "invites" ("email","workspace_id");

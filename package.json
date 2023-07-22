@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "private": true,
+  "nx": {},
   "scripts": {
     "setup": "npx pnpm install && shx cp -n .env.sample .env",
     "serve": "nx run-many --target=serve --all",
@@ -16,7 +17,9 @@
     "lint:api": "nx lint api",
     "lint:worker": "nx lint worker",
     "lint:staged": "lint-staged",
-    "db:generate": "drizzle-kit generate:pg --schema=./libs/database/src/schema.ts --out=./tools/drizzle",
+    "drizzle:cli": "ts-node --project ./tsconfig.base.json -r tsconfig-paths/register node_modules/drizzle-kit/index.cjs",
+    "db:generate": "npm run drizzle:cli -- generate:pg --schema=./libs/database/src/schema.ts --out=./tools/migrations",
+    "db:migrate": "nx run database:migrate",
     "nx": "nx"
   },
   "commitlint": {
@@ -142,6 +145,7 @@
     "shx": "^0.3.4",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "5.1.6"
   }
 }
