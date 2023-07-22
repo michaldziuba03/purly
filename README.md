@@ -69,6 +69,8 @@ npm run serve
 
 ### Forward Stripe webhook locally
 
+Purly uses `STRIPE_WEBHOOK_PATH` variable for webhook URL obfuscation. Don't forget to replace it in production with your own random value.
+
 ```sh
 stripe login # only once - stripe will remember your session
 stripe listen --forward-to localhost:8000/api/stripe/webhook/e7a42abb5d31ec92bdfeec3cb0a4fa1b
