@@ -42,6 +42,11 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - [ ] Link in bio
 - [x] Workspaces with members management
 
+### Todo
+- prevent sending same email multiple times (it may happen when worker crash before kafka client will commit offset)
+- write e2e tests
+- create CI pipeline
+
 ## Development
 
 Project uses [Nx workspaces](https://nx.dev/) for building and handling monorepo structure.
