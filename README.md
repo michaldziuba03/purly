@@ -82,6 +82,7 @@ Currently project is in early stage of development and many things are changing 
 
 1. Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commits and PRs.
 2. If you want to introduce bigger change I recommend to create issue first with feature request and get approval from mantainer :) Otherwise your pull request can be declined and you will waste your time.
+3. After changes in table schemas, run `db:generate` script to generate migrations and run `db:migrate` to run migration.
 
 ## License
 
