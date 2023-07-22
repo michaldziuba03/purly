@@ -1,6 +1,6 @@
 # purly ✂
 
-Scalable and distrubuted SaaS platform for managing your brand. Under active development (early stage).
+Scalable and distrubuted SaaS platform for managing your brand links. Under active development. Primary goal of this project is to create sample that **does more** than just simple CRUD.
 
 ## Tech stack
 
@@ -13,6 +13,14 @@ Scalable and distrubuted SaaS platform for managing your brand. Under active dev
 - Docker
 - Kafka
 - Zookeeper
+
+## Advanced concepts used in app
+
+- [x] Distributed locks (with redlock)
+- [x] Asynchronous messaging (with Kafka)
+- [ ] Caching
+- [ ] Rate-limiting
+- [x] Error monitoring (with Sentry)
 
 ## Features
 
@@ -28,13 +36,10 @@ Scalable and distrubuted SaaS platform for managing your brand. Under active dev
 - [x] UTM Generator
 - [x] Mobile Redirects
 - [x] Link Redirect Expiration
-- [ ] Rate Limiting
 - [ ] Statistics for shortened URLs
 - [x] Health checks
-- [ ] Caching
 - [ ] Link in bio
 - [x] Workspaces
-- [x] Sentry integration for reporting non-standard errors
 
 ## Development
 
@@ -48,7 +53,7 @@ docker compose up
 
 ```sh
 # will install depedencies and create .env file
-$ npm run setup
+npm run setup
 ```
 
 ### Run applications (api, worker and frontend web app)

@@ -31,7 +31,6 @@ export class ForgotPassword implements Usecase<IForgotPasswordCommand> {
     const token = this.authService.generateRandomToken();
     const resetLink = createClientUrl(`/auth/reset/${token}`);
 
-    // TODO: save to database and send notification
     const tokenHash = this.authService.createSHA256(token);
     await this.userRepository.saveResetToken(
       user.id,
@@ -43,7 +42,5 @@ export class ForgotPassword implements Usecase<IForgotPasswordCommand> {
       resetLink,
       ...user,
     });
-
-    console.log(resetLink);
   }
 }
