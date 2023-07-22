@@ -6,13 +6,14 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 
 - Node.js
 - NestJS
-- PostgreSQL
-- Redis
+- PostgreSQL ([Drizzle ORM](https://orm.drizzle.team/))
+- Redis ([ioredis](https://github.com/redis/ioredis))
 - Next.js
 - React
 - Docker
-- Kafka
-- Zookeeper
+- Kafka ([KafkaJS](https://kafka.js.org/))
+- Zookeeper ([node-zookeeper](https://github.com/yfinkelstein/node-zookeeper))
+- Clickhouse ([clickhouse-js](https://github.com/ClickHouse/clickhouse-js))
 
 ## Advanced concepts used in app
 
@@ -42,6 +43,8 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - [x] Workspaces with members management
 
 ## Development
+
+Project uses [Nx workspaces](https://nx.dev/) for building and handling monorepo structure.
 
 ### Run databases and services
 
@@ -81,9 +84,3 @@ Currently project is in early stage of development and many things are changing 
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contributors
-
-<a href="https://github.com/michaldziuba03/url-shortener/graphs/contributors">
-  <img alt="contributors" src="https://contributors-img.web.app/image?repo=michaldziuba03/url-shortener" />
-</a>
