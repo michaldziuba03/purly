@@ -17,8 +17,8 @@ export class CronService {
   // TODO: add option to customize cron expression from env variable
   @Cron(CronExpression.EVERY_5_MINUTES)
   @Lock('CRON_CLEAR_TOKENS', Durations.FIVE_MINUTES, {
-    letExpire: true, // don't release lock, wait for expiration
-    retries: 0, // no sense to retry scheduled for every 5 minutes task
+    letExpire: true, // don't release lock, wait for it's expiration
+    retries: 0,
   })
   async clearStaleToken() {
     Logger.log('Deleting stale reset tokens...');

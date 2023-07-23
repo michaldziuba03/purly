@@ -40,6 +40,7 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - [ ] Statistics for shortened URLs
 - [x] Health checks
 - [ ] Link in bio
+- [ ] Custom domains
 - [x] Workspaces with members management
 
 ## Development
