@@ -43,6 +43,11 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - [ ] Custom domains
 - [x] Workspaces with members management
 
+### Todo
+- prevent sending same email multiple times (it may happen when worker crash before kafka client will commit offset)
+- write e2e tests
+- create CI pipeline
+
 ## Development
 
 Project uses [Nx workspaces](https://nx.dev/) for building and handling monorepo structure.
@@ -69,6 +74,8 @@ npm run serve
 ```
 
 ### Forward Stripe webhook locally
+
+Purly uses `STRIPE_WEBHOOK_PATH` variable for webhook URL obfuscation. Don't forget to replace it in production with your own random value.
 
 ```sh
 stripe login # only once - stripe will remember your session
