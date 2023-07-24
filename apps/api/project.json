@@ -50,6 +50,22 @@
         ]
       }
     },
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "apps/api/jest-e2e.config.ts",
+        "runInBand": true,
+        "detectOpenHandles": true,
+        "passWithNoTests": true,
+        "testPathPattern": [".*.spec.ts$"]
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": [

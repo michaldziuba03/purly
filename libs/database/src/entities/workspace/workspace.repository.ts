@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MemberRole } from '@purly/shared';
-import { BaseRepository } from '../base.repository';
-import { DatabaseContext, InjectDB } from '../database.provider';
+import { BaseRepository } from '../../base.repository';
+import { DatabaseContext, InjectDB } from '../../providers/database.provider';
 import { InsertWorkspace, Workspace } from './workspace.entity';
 import { workspaces, workspacesMembers } from './workspace.schema';
 import { and, eq, sql } from 'drizzle-orm';

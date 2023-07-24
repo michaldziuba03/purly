@@ -1,15 +1,22 @@
-import { Global, Module } from '@nestjs/common';
-import { DatabaseProvider } from './database.provider';
-import { DatabaseHealthIndicator } from './database.health';
-import { UserRepository } from './user/user.repository';
-import { WorkspaceRepository } from './workspace';
-import { LinkRepository } from './link';
-import { ReportRepository } from './report';
-import { InviteRepository } from './invite';
+import { Global, Module, OnApplicationShutdown, Logger } from '@nestjs/common';
+import { DatabaseProvider } from './providers/database.provider';
+import { DatabaseHealthIndicator } from './providers/database.health';
+import { UserRepository } from './entities/user';
+import { WorkspaceRepository } from './entities/workspace';
+import { LinkRepository } from './entities/link';
+import { ReportRepository } from './entities/report';
+import { InviteRepository } from './entities/invite';
+import { ModuleRef } from '@nestjs/core';
+import {
+  ConnectionProvider,
+  injectConnectionToken,
+} from './providers/connection.provider';
+import { Pool } from 'pg';
 
 @Global()
 @Module({
   providers: [
+    ConnectionProvider,
     DatabaseProvider,
     DatabaseHealthIndicator,
     UserRepository,
@@ -19,6 +26,7 @@ import { InviteRepository } from './invite';
     InviteRepository,
   ],
   exports: [
+    ConnectionProvider,
     DatabaseHealthIndicator,
     UserRepository,
     WorkspaceRepository,
@@ -27,4 +35,13 @@ import { InviteRepository } from './invite';
     InviteRepository,
   ],
 })
-export class DatabaseModule {}
+export class DatabaseModule implements OnApplicationShutdown {
+  constructor(private readonly moduleRef: ModuleRef) {}
+
+  async onApplicationShutdown() {
+    const conn = this.moduleRef.get<Pool>(injectConnectionToken());
+    Logger.log('Closing database connection...', DatabaseModule.name);
+
+    await conn.end();
+  }
+}

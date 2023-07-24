@@ -1,10 +1,18 @@
 export * from './utils';
 export * from './database.module';
-export * from './database.health';
+export * from './providers/database.health';
 
 // resources exports:
-export * from './user';
-export * from './workspace';
-export * from './report';
-export * from './link';
-export * from './invite';
+export * from './entities/user';
+export * from './entities/workspace';
+export * from './entities/report';
+export * from './entities/link';
+export * from './entities/invite';
+
+export * from './migrator/run-migration';
+
+export {
+  DatabaseContext,
+  InjectDB,
+  injectDbToken,
+} from './providers/database.provider';

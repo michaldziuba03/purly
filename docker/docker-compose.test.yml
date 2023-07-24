@@ -4,7 +4,6 @@ version: '3.6'
 services:
   main-db-test:
     image: postgres:alpine
-    volumes:
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     restart: unless-stopped
@@ -26,7 +25,7 @@ services:
 
   zookeeper-test:
     image: confluentinc/cp-zookeeper:7.3.2
-    container_name: zookeeper
+    container_name: zookeeper-test
     restart: unless-stopped
     ports:
       - "2180:2181"
@@ -36,15 +35,15 @@ services:
 
   broker-test:
     image: confluentinc/cp-kafka:7.3.2
-    container_name: broker
+    container_name: broker-test
     restart: unless-stopped
     ports:
       - '9091:9092'
     depends_on:
-      - zookeeper
+      - zookeeper-test
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper-test:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9090,PLAINTEXT_INTERNAL://broker:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { and, eq, lt } from 'drizzle-orm';
-import { DatabaseContext, InjectDB } from '../database.provider';
+import { DatabaseContext, InjectDB } from '../../providers/database.provider';
 import { oauthAccounts, resetTokens, users } from './user.schema';
-import { BaseRepository } from '../base.repository';
+import { BaseRepository } from '../../base.repository';
 import { InsertUser, User } from './user.entity';
 import { OAuthProviders } from '@purly/shared';
 

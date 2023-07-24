@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { BaseRepository } from '../base.repository';
+import { BaseRepository } from '../../base.repository';
 import { InsertReport, Report } from './report.entity';
-import { DatabaseContext, InjectDB } from '../database.provider';
+import { DatabaseContext, InjectDB } from '../../providers/database.provider';
 import { reports } from './report.schema';
 
 @Injectable()

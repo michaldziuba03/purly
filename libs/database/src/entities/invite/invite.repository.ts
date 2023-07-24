@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { BaseRepository } from '../base.repository';
+import { BaseRepository } from '../../base.repository';
 import { Invite } from './invite.entity';
-import { DatabaseContext, InjectDB } from '../database.provider';
+import { DatabaseContext, InjectDB } from '../../providers/database.provider';
 import { invites } from './invite.schema';
 import { and, eq } from 'drizzle-orm';
 

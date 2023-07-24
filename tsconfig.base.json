@@ -19,7 +19,8 @@
       "@purly/in-memory": ["libs/in-memory/src/index.ts"],
       "@purly/logger": ["libs/logger/src/index.ts"],
       "@purly/mailer": ["libs/mailer/src/index.ts"],
-      "@purly/shared": ["libs/shared/src/index.ts"]
+      "@purly/shared": ["libs/shared/src/index.ts"],
+      "@purly/testing": ["libs/testing/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
