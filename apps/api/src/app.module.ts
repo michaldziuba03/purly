@@ -26,7 +26,7 @@ import { SharedModule } from './shared/shared.module';
             producerOnlyMode: true,
             client: {
               clientId: 'api-client',
-              brokers: ['localhost:9092'],
+              brokers: process.env.KAFKA_BROKERS.split(','),
             },
             producer: {
               allowAutoTopicCreation: true,

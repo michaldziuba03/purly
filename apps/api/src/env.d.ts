@@ -10,6 +10,7 @@ declare namespace NodeJS {
     POSTGRES_URI: string;
     ZOOKEEPER_URI?: string;
     REDIS_URI: string;
+    KAFKA_BROKERS: string;
     STRIPE_SECRET?: string;
     STRIPE_WEBHOOK_SECRET?: string;
     STRIPE_WEBHOOK_PATH?: string;

@@ -5,6 +5,12 @@ import { AppModule } from '../src/app.module';
 import { setupSession } from '../src/auth/session/session.setup';
 import { DatabaseContext, injectDbToken } from '@purly/database';
 import { DatabaseTestService } from '@purly/testing';
+import { ClientsModule } from '@nestjs/microservices';
+import { BrokerProducer } from '../src/shared/broker.producer';
+
+const BrokerProducerMock = {
+  emit: jest.fn(),
+};
 
 let server: Server;
 let app: INestApplication;
@@ -16,7 +22,12 @@ global.beforeAll(async () => {
   console.log('Bootstraping app...');
   const moduleRef = await Test.createTestingModule({
     imports: [AppModule],
-  }).compile();
+  })
+    .overrideModule(ClientsModule)
+    .useModule(null)
+    .overrideProvider(BrokerProducer)
+    .useValue(BrokerProducerMock)
+    .compile();
 
   app = moduleRef.createNestApplication();
   setupSession(app);
