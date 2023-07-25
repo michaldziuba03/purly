@@ -19,7 +19,6 @@ let dbCtx: DatabaseContext;
 const dbService = new DatabaseTestService();
 
 global.beforeAll(async () => {
-  console.log('Bootstraping app...');
   const moduleRef = await Test.createTestingModule({
     imports: [AppModule],
   })
@@ -55,7 +54,7 @@ global.afterAll(async () => {
   try {
     await dbService.dropTables(dbCtx);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   } finally {
     await app.close();
   }
