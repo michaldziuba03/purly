@@ -2,7 +2,7 @@ import { Session } from '../../../../api/e2e/helpers';
 import { CreateWorkspaceDto } from '../dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from '../dto/update-workspace.dto';
 
-describe('PUT /workspaces/:workspaceId', () => {
+describe('PATCH /workspaces/:workspaceId', () => {
   it('should successfully update workspace details', async () => {
     const session = new Session();
     await session.init();
