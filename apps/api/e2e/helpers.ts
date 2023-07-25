@@ -47,6 +47,7 @@ export class Session {
       get: hook('get'),
       put: hook('put'),
       delete: hook('delete'),
+      patch: hook('patch'),
     };
   }
 }
