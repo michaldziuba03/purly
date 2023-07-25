@@ -56,6 +56,7 @@ Project uses [Nx workspaces](https://nx.dev/) for building and handling monorepo
 ### Run databases and services
 
 ```sh
+cd docker
 docker compose up
 ```
 
