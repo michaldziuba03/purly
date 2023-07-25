@@ -3,8 +3,8 @@ import { MemberRole } from '@purly/shared';
 import { Usecase } from '../../shared/base.usecase';
 import {
   InviteRepository,
+  MemberRepository,
   UserRepository,
-  WorkspaceRepository,
 } from '@purly/database';
 import { nanoid } from 'nanoid/async';
 
@@ -21,7 +21,7 @@ export class InviteMember implements Usecase<IInviteMemberCommand> {
   constructor(
     private readonly inviteRepository: InviteRepository,
     private readonly userRepository: UserRepository,
-    private readonly workspaceRepository: WorkspaceRepository
+    private readonly memberRepository: MemberRepository
   ) {}
 
   async execute(command: IInviteMemberCommand) {
@@ -52,7 +52,7 @@ export class InviteMember implements Usecase<IInviteMemberCommand> {
       return;
     }
 
-    const member = await this.workspaceRepository.findMember(
+    const member = await this.memberRepository.findMember(
       workspaceId,
       invitee.id
     );

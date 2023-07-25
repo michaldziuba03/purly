@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { MemberRole } from '@purly/shared';
-import { WorkspaceRepository } from '@purly/database';
+import { MemberRepository, WorkspaceRepository } from '@purly/database';
 import { Usecase } from '../../shared/base.usecase';
 import { WORKSPACES_LIMIT } from '../workspace.constants';
 
@@ -12,7 +12,10 @@ interface ICreateWorkspaceCommand {
 
 @Injectable()
 export class CreateWorkspace implements Usecase<ICreateWorkspaceCommand> {
-  constructor(private readonly workspaceRepository: WorkspaceRepository) {}
+  constructor(
+    private readonly workspaceRepository: WorkspaceRepository,
+    private readonly memberRepository: MemberRepository
+  ) {}
 
   async execute(command: ICreateWorkspaceCommand) {
     const workspacesCount = await this.workspaceRepository.countByMemberId(
@@ -27,7 +30,7 @@ export class CreateWorkspace implements Usecase<ICreateWorkspaceCommand> {
       name: command.name,
     });
 
-    await this.workspaceRepository.addMember(
+    await this.memberRepository.addMember(
       workspace.id,
       command.userId,
       MemberRole.OWNER

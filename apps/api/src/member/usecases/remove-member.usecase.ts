@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { MemberRole } from '@purly/shared';
 import { Usecase } from '../../shared/base.usecase';
-import { WorkspaceRepository } from '@purly/database';
+import { MemberRepository } from '@purly/database';
 
 interface IRemoveMemberCommand {
   userId: string;
@@ -16,14 +16,14 @@ interface IRemoveMemberCommand {
 
 @Injectable()
 export class RemoveMember implements Usecase<IRemoveMemberCommand> {
-  constructor(private readonly workspaceRepository: WorkspaceRepository) {}
+  constructor(private readonly memberRepository: MemberRepository) {}
 
   async execute(command: IRemoveMemberCommand) {
     if (command.memberId === command.userId) {
       throw new ForbiddenException('You cannot remove yourself from workspace');
     }
 
-    const member = await this.workspaceRepository.findMember(
+    const member = await this.memberRepository.findMember(
       command.memberId,
       command.workspaceId
     );
@@ -38,7 +38,7 @@ export class RemoveMember implements Usecase<IRemoveMemberCommand> {
       );
     }
 
-    const isRemoved = await this.workspaceRepository.removeMember(
+    const isRemoved = await this.memberRepository.removeMember(
       command.workspaceId,
       command.memberId
     );

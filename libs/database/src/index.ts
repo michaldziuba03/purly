@@ -8,6 +8,7 @@ export * from './entities/workspace';
 export * from './entities/report';
 export * from './entities/link';
 export * from './entities/invite';
+export * from './entities/member';
 
 export * from './migrator/run-migration';
 

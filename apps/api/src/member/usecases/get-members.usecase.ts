@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Usecase } from '../../shared/base.usecase';
-import { WorkspaceRepository } from '@purly/database';
+import { MemberRepository } from '@purly/database';
 
 interface IGetMembersCommand {
   workspaceId: string;
@@ -8,9 +8,9 @@ interface IGetMembersCommand {
 
 @Injectable()
 export class GetMembers implements Usecase<IGetMembersCommand> {
-  constructor(private readonly workspaceRepository: WorkspaceRepository) {}
+  constructor(private readonly memberRepository: MemberRepository) {}
 
   execute(command: IGetMembersCommand) {
-    return this.workspaceRepository.findMembers(command.workspaceId);
+    return this.memberRepository.findMembers(command.workspaceId);
   }
 }

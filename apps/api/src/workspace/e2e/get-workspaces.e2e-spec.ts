@@ -24,6 +24,6 @@ describe('GET /workspaces', () => {
     const result = await session.request.get('/workspaces').expect(200);
 
     expect(result.body.length).toEqual(1);
-    expect(result.body[0].workspace.name).toEqual(body.name);
+    expect(result.body[0].name).toEqual(body.name);
   });
 });

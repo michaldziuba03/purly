@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { MemberRole } from '@purly/shared';
 import { BaseRepository } from '../../base.repository';
 import { DatabaseContext, InjectDB } from '../../providers/database.provider';
 import { InsertWorkspace, Workspace } from './workspace.entity';
-import { workspaces, workspacesMembers } from './workspace.schema';
-import { and, eq, sql } from 'drizzle-orm';
+import { workspaces } from './workspace.schema';
+import { eq, sql } from 'drizzle-orm';
+import { members } from '../member/member.schema';
 
 @Injectable()
 export class WorkspaceRepository extends BaseRepository<Workspace> {
@@ -17,8 +17,8 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
       .select({
         count: sql<number>`count(user_id)`,
       })
-      .from(workspacesMembers)
-      .where(eq(workspacesMembers.userId, memberId))
+      .from(members)
+      .where(eq(members.userId, memberId))
       .limit(limit);
 
     const workspaces = result[0] || { count: 0 };
@@ -35,19 +35,16 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
   }
 
   async findByMember(memberId: string, limit = 10) {
-    const workspaces = await this.db.query.workspacesMembers.findMany({
-      where: eq(workspacesMembers.userId, memberId),
-      columns: {
-        createdAt: true,
-        role: true,
-      },
+    const workspaces = await this.db.query.members.findMany({
+      where: eq(members.userId, memberId),
+      columns: {},
       limit,
       with: {
         workspace: true,
       },
     });
 
-    return workspaces;
+    return this.mapMany(workspaces.map((workspace) => workspace.workspace));
   }
 
   async create(data: InsertWorkspace) {
@@ -76,83 +73,6 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
       .update(workspaces)
       .set({ plan })
       .where(eq(workspaces.billingId, billingId));
-
-    return result.rowCount > 0;
-  }
-
-  async findMember(workspaceId: string, memberId: string) {
-    const result = await this.db.query.workspacesMembers.findFirst({
-      where: and(
-        eq(workspacesMembers.workspaceId, workspaceId),
-        eq(workspacesMembers.userId, memberId)
-      ),
-    });
-
-    return result;
-  }
-
-  async findMembers(workspaceId: string) {
-    const result = await this.db.query.workspacesMembers.findMany({
-      columns: {
-        workspaceId: true,
-        role: true,
-        createdAt: true,
-      },
-      where: eq(workspacesMembers.workspaceId, workspaceId),
-      with: {
-        user: {
-          columns: {
-            id: true,
-            username: true,
-            picture: true,
-          },
-        },
-      },
-      limit: 100,
-    });
-
-    return result;
-  }
-
-  async addMember(workspaceId: string, memberId: string, role?: MemberRole) {
-    const result = await this.db.insert(workspacesMembers).values({
-      userId: memberId,
-      workspaceId,
-      role: role,
-    });
-
-    return result.rowCount > 0;
-  }
-
-  async removeMember(workspaceId: string, memberId: string) {
-    const result = await this.db
-      .delete(workspacesMembers)
-      .where(
-        and(
-          eq(workspacesMembers.workspaceId, workspaceId),
-          eq(workspacesMembers.userId, memberId)
-        )
-      );
-
-    return result.rowCount > 0;
-  }
-
-  async changeMemberRole(
-    workspaceId: string,
-    memberId: string,
-    newRole: MemberRole
-  ) {
-    const result = await this.db
-      .update(workspacesMembers)
-      .set({
-        role: newRole,
-      })
-      .where(
-        and(
-          eq(workspacesMembers.workspaceId, workspaceId),
-          eq(workspacesMembers.userId, memberId)
-        )
-      );
 
     return result.rowCount > 0;
   }

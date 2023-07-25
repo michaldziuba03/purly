@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { MemberRole } from '@purly/shared';
 import { Usecase } from '../../shared/base.usecase';
-import { WorkspaceRepository } from '@purly/database';
+import { MemberRepository } from '@purly/database';
 
 interface IChangeRoleCommand {
   userId: string;
@@ -19,7 +19,7 @@ interface IChangeRoleCommand {
 
 @Injectable()
 export class ChangeRole implements Usecase<IChangeRoleCommand> {
-  constructor(private readonly workspaceRepository: WorkspaceRepository) {}
+  constructor(private readonly memberRepository: MemberRepository) {}
 
   async execute(command: IChangeRoleCommand) {
     if (command.memberId === command.userId) {
@@ -34,7 +34,7 @@ export class ChangeRole implements Usecase<IChangeRoleCommand> {
       );
     }
 
-    const member = await this.workspaceRepository.findMember(
+    const member = await this.memberRepository.findMember(
       command.memberId,
       command.workspaceId
     );
@@ -49,7 +49,7 @@ export class ChangeRole implements Usecase<IChangeRoleCommand> {
       );
     }
 
-    const isUpdated = await this.workspaceRepository.changeMemberRole(
+    const isUpdated = await this.memberRepository.changeMemberRole(
       command.memberId,
       command.workspaceId,
       command.newRole

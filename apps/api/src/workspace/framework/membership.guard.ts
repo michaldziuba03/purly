@@ -7,31 +7,16 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { MemberRole } from '@purly/shared';
-import { WorkspaceRepository } from '@purly/database';
+import { MemberRepository } from '@purly/database';
 import { isUUID } from 'class-validator';
-import type { Request } from 'express';
 import { MEMBER_ROLE } from './allowed-role.decorator';
 import { SKIP_MEMBERSHIP } from './skip-membership.decorator';
-
-enum HttpMethods {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
-}
-
-const methodsWithBody: string[] = [
-  HttpMethods.POST,
-  HttpMethods.PUT,
-  HttpMethods.PATCH,
-];
 
 @Injectable()
 export class MembershipGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly workspaceRepository: WorkspaceRepository
+    private readonly memberRepository: MemberRepository
   ) {}
 
   async canActivate(ctx: ExecutionContext) {
@@ -47,7 +32,7 @@ export class MembershipGuard implements CanActivate {
       return false;
     }
 
-    const workspaceId = this.getWorkspaceId(req);
+    const workspaceId = req.params.workspaceId;
     if (!workspaceId) {
       throw new BadRequestException('Workspace identifier is required');
     }
@@ -68,10 +53,7 @@ export class MembershipGuard implements CanActivate {
       throw new UnauthorizedException('You must be authenticated');
     }
 
-    const member = await this.workspaceRepository.findMember(
-      workspaceId,
-      user.id
-    );
+    const member = await this.memberRepository.findMember(workspaceId, user.id);
 
     if (!member) {
       throw new UnauthorizedException(
@@ -90,17 +72,5 @@ export class MembershipGuard implements CanActivate {
     req.member = member;
 
     return true;
-  }
-
-  private getWorkspaceId(req: Request): unknown {
-    if (req.params.workspaceId) {
-      return req.params.workspaceId;
-    }
-
-    if (methodsWithBody.includes(req.method)) {
-      return req.body.workspaceId;
-    }
-
-    return req.query.workspaceId;
   }
 }

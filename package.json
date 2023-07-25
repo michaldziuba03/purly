@@ -12,6 +12,7 @@
     "build": "nx run-many --target=build --all",
     "build:api": "nx build api",
     "build:worker": "nx build worker",
+    "e2e:api": "nx run api:e2e",
     "prepare": "husky install",
     "lint": "nx run-many --target=lint --all",
     "lint:api": "nx lint api",

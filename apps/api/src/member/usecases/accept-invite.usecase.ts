@@ -3,8 +3,8 @@ import { Usecase } from '../../shared/base.usecase';
 import {
   Invite,
   InviteRepository,
+  MemberRepository,
   UserRepository,
-  WorkspaceRepository,
 } from '@purly/database';
 import { isExpired } from '../../shared/utils';
 
@@ -18,7 +18,7 @@ export class AcceptInvite implements Usecase<IAcceptInviteCommand> {
   constructor(
     private readonly inviteRepository: InviteRepository,
     private readonly userRepository: UserRepository,
-    private readonly workspaceRepository: WorkspaceRepository
+    private readonly memberRepository: MemberRepository
   ) {}
 
   async execute(command: IAcceptInviteCommand) {
@@ -41,7 +41,7 @@ export class AcceptInvite implements Usecase<IAcceptInviteCommand> {
       throw new NotFoundException('Invite not found');
     }
 
-    const isAdded = await this.workspaceRepository.addMember(
+    const isAdded = await this.memberRepository.addMember(
       invite.workspaceId,
       user.id,
       invite.role
