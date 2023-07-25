@@ -46,7 +46,7 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 ### Todo
 
 - prevent sending same email multiple times (it may happen when worker crash before kafka client will commit offset)
-- write e2e tests
+- write e2e tests (currently partially written for user, workspace and auth modules)
 - create CI pipeline
 
 ## Development
