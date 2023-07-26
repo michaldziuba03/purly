@@ -30,7 +30,7 @@ export class MailsProcessor extends WorkerHost {
     Logger.log('Sending welcome email with verification link');
     await this.mailer.sendMail(
       {
-        template: 'welcome',
+        template: 'verification',
         subject: `Welcome in Purly, ${data.username}`,
         to: data.email,
       },

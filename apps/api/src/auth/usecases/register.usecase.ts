@@ -2,7 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserRepository } from '@purly/database';
 import { AuthService } from '../auth.service';
 import { Usecase } from '../../shared/base.usecase';
-import { BrokerProducer } from '../../shared/broker.producer';
 import { MailsProducer } from '@purly/queue';
 
 interface IRegisterCommand {
@@ -35,10 +34,10 @@ export class Register implements Usecase<IRegisterCommand> {
       password: passwordHash,
     });
 
-    this.mailsProducer.sendResetPasswordLink({
+    this.mailsProducer.sendVerificationLink({
       email: user.email,
       username: user.username,
-      resetLink: 'NOT_IMPLEMENTED',
+      verificationLink: 'NOT_IMPLEMENTED',
     });
 
     return user;

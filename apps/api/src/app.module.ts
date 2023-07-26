@@ -12,12 +12,10 @@ import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { BillingModule } from './billing/billing.module';
 import { MemberModule } from './member/member.module';
-import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
     LoggerModule.forRoot(),
-    SharedModule,
     QueueModule,
     DatabaseModule,
     RedisModule.forRoot({ connectUrl: process.env['REDIS_URI'] }),
