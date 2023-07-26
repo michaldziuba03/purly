@@ -5,8 +5,6 @@ import { AppModule } from '../src/app.module';
 import { setupSession } from '../src/auth/session/session.setup';
 import { DatabaseContext, injectDbToken } from '@purly/database';
 import { DatabaseTestService } from '@purly/testing';
-import { ClientsModule } from '@nestjs/microservices';
-import { BrokerProducer } from '../src/shared/broker.producer';
 
 const BrokerProducerMock = {
   emit: jest.fn(),
@@ -21,12 +19,7 @@ const dbService = new DatabaseTestService();
 global.beforeAll(async () => {
   const moduleRef = await Test.createTestingModule({
     imports: [AppModule],
-  })
-    .overrideModule(ClientsModule)
-    .useModule(null)
-    .overrideProvider(BrokerProducer)
-    .useValue(BrokerProducerMock)
-    .compile();
+  }).compile();
 
   app = moduleRef.createNestApplication();
   setupSession(app);
