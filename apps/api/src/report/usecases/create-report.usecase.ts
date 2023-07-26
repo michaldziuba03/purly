@@ -6,6 +6,7 @@ import {
 import { Usecase } from '../../shared/base.usecase';
 import { parse as parsePath } from 'path';
 import { AbuseType, LinkRepository, ReportRepository } from '@purly/database';
+import { MailsProducer } from '@purly/queue';
 
 interface ICreateReportCommand {
   url: string;
@@ -18,7 +19,8 @@ interface ICreateReportCommand {
 export class CreateReport implements Usecase<ICreateReportCommand> {
   constructor(
     private readonly reportRepository: ReportRepository,
-    private readonly linkRepository: LinkRepository
+    private readonly linkRepository: LinkRepository,
+    private readonly mailsProducer: MailsProducer
   ) {}
 
   async execute(command: ICreateReportCommand) {
@@ -39,7 +41,12 @@ export class CreateReport implements Usecase<ICreateReportCommand> {
       type: command.type,
     });
 
-    // TODO: send notification to report/support email
+    await this.mailsProducer.sendReport({
+      destinationUrl: report.destination,
+      email: process.env.REPORT_MAIL,
+      linkId: report.linkId,
+      // add more details
+    });
 
     return report;
   }

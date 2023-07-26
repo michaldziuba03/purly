@@ -11,7 +11,6 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - Next.js
 - React
 - Docker
-- Kafka ([KafkaJS](https://kafka.js.org/))
 - Zookeeper ([node-zookeeper](https://github.com/yfinkelstein/node-zookeeper))
 - Clickhouse ([clickhouse-js](https://github.com/ClickHouse/clickhouse-js))
 
@@ -45,7 +44,6 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 
 ### Todo
 
-- prevent sending same email multiple times (it may happen when worker crash before kafka client will commit offset)
 - write e2e tests (currently partially written for user, workspace and auth modules)
 - create CI pipeline
 

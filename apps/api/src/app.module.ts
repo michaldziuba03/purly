@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { QueueModule } from '@purly/queue';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { DatabaseModule } from '@purly/database';
 import { LoggerModule } from '@purly/logger';
@@ -17,26 +17,8 @@ import { SharedModule } from './shared/shared.module';
 @Module({
   imports: [
     LoggerModule.forRoot(),
-    ClientsModule.register({
-      clients: [
-        {
-          name: 'API_KAFKA_CLIENT',
-          transport: Transport.KAFKA,
-          options: {
-            producerOnlyMode: true,
-            client: {
-              clientId: 'api-client',
-              brokers: process.env.KAFKA_BROKERS.split(','),
-            },
-            producer: {
-              allowAutoTopicCreation: true,
-            },
-          },
-        },
-      ],
-      isGlobal: true,
-    }),
     SharedModule,
+    QueueModule,
     DatabaseModule,
     RedisModule.forRoot({ connectUrl: process.env['REDIS_URI'] }),
     EventEmitterModule.forRoot(),

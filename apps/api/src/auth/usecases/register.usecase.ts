@@ -3,6 +3,7 @@ import { UserRepository } from '@purly/database';
 import { AuthService } from '../auth.service';
 import { Usecase } from '../../shared/base.usecase';
 import { BrokerProducer } from '../../shared/broker.producer';
+import { MailsProducer } from '@purly/queue';
 
 interface IRegisterCommand {
   email: string;
@@ -15,7 +16,7 @@ export class Register implements Usecase<IRegisterCommand> {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly authService: AuthService,
-    private readonly brokerProducer: BrokerProducer
+    private readonly mailsProducer: MailsProducer
   ) {}
 
   async execute(command: IRegisterCommand) {
@@ -34,7 +35,12 @@ export class Register implements Usecase<IRegisterCommand> {
       password: passwordHash,
     });
 
-    this.brokerProducer.emit('user.created', user);
+    this.mailsProducer.sendResetPasswordLink({
+      email: user.email,
+      username: user.username,
+      resetLink: 'NOT_IMPLEMENTED',
+    });
+
     return user;
   }
 }
