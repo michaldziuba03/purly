@@ -17,7 +17,7 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 ## Advanced concepts used in app
 
 - [x] Distributed locks (with redlock)
-- [x] Asynchronous messaging (with Kafka)
+- [x] Asynchronous messaging (with BullMQ)
 - [ ] Caching
 - [ ] Rate-limiting
 - [x] Error monitoring (with Sentry)
