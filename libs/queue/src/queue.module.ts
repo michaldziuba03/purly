@@ -13,6 +13,9 @@ import { MAILS_QUEUE } from './mails/mails.jobs';
     BullModule.registerQueue({
       name: MAILS_QUEUE,
     }),
+    BullModule.registerQueue({
+      name: MAILS_QUEUE,
+    }),
   ],
   providers: [MailsProducer],
   exports: [MailsProducer],
