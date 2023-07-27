@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LinkRepository } from '@purly/database';
 import { Usecase } from '../../shared/base.usecase';
-import { DetectDevice } from '../../shared/detect-device';
+import { Device } from '../../shared/device';
 import { UtmBuilder } from '../utm.builder';
 import { isExpired } from '../../shared/utils';
 import { ClicksProducer } from '@purly/queue';
@@ -35,7 +35,7 @@ export class RedirectLink implements Usecase<IRedirectLinkCommand> {
       return;
     }
 
-    const device = new DetectDevice(command.userAgent, command.remoteAddress);
+    const device = new Device(command.userAgent, command.remoteAddress);
     // will record click for the stats
     this.clicksProducer.recordClick({
       linkId: link.id,

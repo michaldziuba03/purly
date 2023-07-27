@@ -33,7 +33,7 @@ const distros = [
   'elementaryos',
 ];
 
-export class DetectDevice {
+export class Device {
   public readonly os: OS;
   public readonly browser: Browser;
   public readonly country?: string;

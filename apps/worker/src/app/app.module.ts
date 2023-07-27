@@ -5,6 +5,7 @@ import { NotificationModule } from './notification/notification.module';
 import { CronModule } from './cron/cron.module';
 import { InMemoryModule } from '@purly/in-memory';
 import { QueueModule } from '@purly/queue';
+import { ClicksModule } from './clicks/clicks.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { QueueModule } from '@purly/queue';
     ScheduleModule.forRoot(),
     CronModule,
     NotificationModule,
+    ClicksModule,
   ],
 })
 export class AppModule {}
