@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { MailerService } from '@purly/mailer';
 import {
+  IReportEmail,
   IResetPasswordEmail,
   IVerificationEmail,
   MAILS_QUEUE,
@@ -8,6 +9,7 @@ import {
 } from '@purly/queue';
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
+import { RecordJob } from '../../record-job.decorator';
 
 @Processor(MAILS_QUEUE)
 export class MailsProcessor extends WorkerHost {
@@ -15,6 +17,7 @@ export class MailsProcessor extends WorkerHost {
     super();
   }
 
+  @RecordJob()
   async process(job: Job) {
     switch (job.name) {
       case MailJobs.VERIFICATION:
@@ -22,12 +25,11 @@ export class MailsProcessor extends WorkerHost {
       case MailJobs.RESET_PASSWORD:
         return await this.sendResetEmail(job.data);
       case MailJobs.REPORT:
-        break;
+        return await this.sendReportEmail(job.data);
     }
   }
 
   async sendWelcomeEmail(data: IVerificationEmail) {
-    Logger.log('Sending welcome email with verification link');
     await this.mailer.sendMail(
       {
         template: 'verification',
@@ -42,7 +44,6 @@ export class MailsProcessor extends WorkerHost {
   }
 
   async sendResetEmail(data: IResetPasswordEmail) {
-    Logger.log('Sending email with reset password link...');
     await this.mailer.sendMail(
       {
         template: 'reset-password',
@@ -54,6 +55,17 @@ export class MailsProcessor extends WorkerHost {
         email: data.email,
         resetLink: data.resetLink,
       }
+    );
+  }
+
+  async sendReportEmail(data: IReportEmail) {
+    await this.mailer.sendMail(
+      {
+        template: 'report',
+        subject: `Report: ${data.linkId}`,
+        to: process.env.REPORT_MAIL,
+      },
+      data
     );
   }
 }
