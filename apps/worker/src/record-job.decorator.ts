@@ -21,7 +21,7 @@ export const RecordJob = (span?: string) => {
       Logger.log(JSON.stringify(job), processorName);
       const transaction = Sentry.startTransaction({
         name: processorName,
-        op: span ? span.toLocaleLowerCase() : undefined,
+        op: span ? span.toLowerCase() : undefined,
       });
 
       try {
