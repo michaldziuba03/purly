@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS clicks (
     country String
 )
 ENGINE = MergeTree
-ORDER BY (link_id, timestamp)
+ORDER BY (link_id, timestamp);

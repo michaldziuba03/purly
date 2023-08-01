@@ -13,6 +13,7 @@ import { ReportModule } from './report/report.module';
 import { BillingModule } from './billing/billing.module';
 import { MemberModule } from './member/member.module';
 import { BioModule } from './bio/bio.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { BioModule } from './bio/bio.module';
     LinkModule,
     ReportModule,
     BioModule,
+    StatsModule,
   ],
   controllers: [],
   providers: [],

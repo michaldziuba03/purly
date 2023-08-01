@@ -30,19 +30,37 @@ export class AnalyticsService {
     });
   }
 
-  getBrowsers() {
-    throw new Error('Not implemented');
+  async topQuery(param: string, linkId: string) {
+    const result = await this.db.query({
+      query: `SELECT countMerge(hits) as hits, ${param}
+        FROM clicks_sources_mv
+        WHERE link_id={linkId: String}
+        GROUP BY ${param}
+        ORDER BY hits DESC
+        LIMIT 10;
+      `,
+      format: 'JSONEachRow',
+      query_params: {
+        linkId,
+      },
+    });
+
+    return await result.json();
   }
 
-  getOS() {
-    throw new Error('Not implemented');
+  getTopBrowsers(linkId: string) {
+    return this.topQuery('browser', linkId);
   }
 
-  getReferers() {
-    throw new Error('Not implemented');
+  getTopReferers(linkId: string) {
+    return this.topQuery('referer', linkId);
   }
 
-  getLocations() {
-    throw new Error('Not implemented');
+  getTopCountries(linkId: string) {
+    return this.topQuery('country', linkId);
+  }
+
+  getTopOS(linkId: string) {
+    return this.topQuery('os', linkId);
   }
 }
