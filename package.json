@@ -21,6 +21,8 @@
     "drizzle:cli": "ts-node --project ./tsconfig.base.json -r tsconfig-paths/register node_modules/drizzle-kit/index.cjs",
     "db:generate": "npm run drizzle:cli -- generate:pg --schema=./libs/database/src/schema.ts --out=./tools/migrations",
     "db:migrate": "nx run database:migrate",
+    "stats:migrate": "nx run @purly/source:stats-migration",
+    "stats-migration": "cross-env-shell clickhouse-migrations migrate --db='default' --user='$CLICKHOUSE_USER' --host='$CLICKHOUSE_HOST' --password='$CLICKHOUSE_PASSWORD' --migrations-home='./tools/clickhouse'",
     "nx": "nx"
   },
   "commitlint": {
@@ -39,6 +41,7 @@
     ]
   },
   "dependencies": {
+    "@clickhouse/client": "^0.2.0",
     "@md03/nestjs-clickhouse": "^1.0.0",
     "@mich4l/nestjs-redis": "^1.1.0",
     "@nestjs/bullmq": "^10.0.1",
@@ -126,6 +129,8 @@
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "@typescript-eslint/parser": "5.60.1",
     "babel-jest": "^29.4.1",
+    "clickhouse-migrations": "^0.1.13",
+    "cross-env": "^7.0.3",
     "cypress": "^12.16.0",
     "drizzle-kit": "^0.19.3",
     "eslint": "~8.15.0",

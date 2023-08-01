@@ -65,6 +65,8 @@ docker compose up
 npm run setup
 # run migrations (will run migrations against database defined in env.POSTGRES_URI)
 npm run db:migrate
+# run migrations for stats database (definied CLICKHOUSE_ env variables)
+npm run stats:migrate
 ```
 
 ### Run applications (api, worker and frontend web app)

@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@purly/analytics": ["libs/analytics/src/index.ts"],
       "@purly/database": ["libs/database/src/index.ts"],
       "@purly/in-memory": ["libs/in-memory/src/index.ts"],
       "@purly/logger": ["libs/logger/src/index.ts"],
