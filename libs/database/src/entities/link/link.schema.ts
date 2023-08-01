@@ -27,6 +27,7 @@ export const links = pgTable(
     utmCampaign: varchar('utm_campaign'),
     utmTerm: varchar('utm_term'),
     utmContent: varchar('utm_content'),
+    isElement: boolean('is_element').default(false),
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').defaultNow(),
   },

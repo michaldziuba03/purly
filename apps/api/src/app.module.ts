@@ -12,6 +12,7 @@ import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { BillingModule } from './billing/billing.module';
 import { MemberModule } from './member/member.module';
+import { BioModule } from './bio/bio.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MemberModule } from './member/member.module';
     BillingModule,
     LinkModule,
     ReportModule,
+    BioModule,
   ],
   controllers: [],
   providers: [],

@@ -8,6 +8,27 @@
       "when": 1690043888818,
       "tag": "0000_sticky_kang",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1690462163133,
+      "tag": "0001_open_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1690462725872,
+      "tag": "0002_pale_loa",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1690829459541,
+      "tag": "0003_sloppy_bedlam",
+      "breakpoints": true
     }
   ]
 }

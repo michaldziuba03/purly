@@ -13,6 +13,7 @@ import {
   ConnectionProvider,
   injectConnectionToken,
 } from './providers/connection.provider';
+import { BioRepository } from './entities/bio';
 
 @Global()
 @Module({
@@ -26,6 +27,7 @@ import {
     LinkRepository,
     ReportRepository,
     InviteRepository,
+    BioRepository,
   ],
   exports: [
     ConnectionProvider,
@@ -36,6 +38,7 @@ import {
     LinkRepository,
     ReportRepository,
     InviteRepository,
+    BioRepository,
   ],
 })
 export class DatabaseModule implements OnApplicationShutdown {

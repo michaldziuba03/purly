@@ -1,10 +1,11 @@
 import { isURL } from 'class-validator';
 import { isAfter } from 'date-fns';
+import { join } from 'path/posix';
 
 export function createClientUrl(path: string) {
   const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 
-  return `${CLIENT_URL}${path}`;
+  return `${CLIENT_URL}${join('/', path)}`;
 }
 
 export function getRefererHost(referer?: string) {

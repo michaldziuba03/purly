@@ -20,5 +20,6 @@ import { RedirectController } from './redirect.controller';
     RedirectLink,
     provideAliasFactory(),
   ],
+  exports: [CreateLink, GetLink],
 })
 export class LinkModule {}

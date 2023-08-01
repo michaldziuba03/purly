@@ -9,6 +9,7 @@ export * from './entities/report';
 export * from './entities/link';
 export * from './entities/invite';
 export * from './entities/member';
+export * from './entities/bio';
 
 export * from './migrator/run-migration';
 
