@@ -11,6 +11,7 @@ import { Checkbox } from '../components/checkbox';
 import { Input } from '../components/input';
 import { Label } from '../components/label';
 import { Switch } from '../components/switch';
+import { Textarea } from '../components/textarea';
 import {
   Tooltip,
   TooltipContent,
@@ -76,6 +77,9 @@ export default async function Index() {
             </label>
           </div>
         </div>
+
+        <H3>Report link</H3>
+        <Textarea className="my-5" placeholder="Type report message here." />
 
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
