@@ -11,6 +11,12 @@ import { Checkbox } from '../components/checkbox';
 import { Input } from '../components/input';
 import { Label } from '../components/label';
 import { Switch } from '../components/switch';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../components/tooltip';
 import { H1, H2, H3, H4 } from '../components/typography';
 import RootLayout from './layout';
 
@@ -34,7 +40,16 @@ export default async function Index() {
             <AvatarFallback>MD</AvatarFallback>
           </Avatar>
 
-          <b>Michał Dziuba</b>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <b>Michał Dziuba</b>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Developer name</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
         <Button>Hello</Button>
 
