@@ -59,3 +59,13 @@ export const TextSmall: React.FC<React.PropsWithChildren> = ({ children }) => {
 export const TextMuted: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <p className="text-sm text-muted-foreground">{children}</p>;
 };
+
+export const TextGradient: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
+  return (
+    <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-500">
+      {children}
+    </span>
+  );
+};

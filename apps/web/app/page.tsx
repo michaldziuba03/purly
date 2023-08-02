@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from '../components/alert';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/avatar';
 import { Button } from '../components/button';
 import { Checkbox } from '../components/checkbox';
+import { DeviceMockup } from '../components/device';
 import { Input } from '../components/input';
 import { Label } from '../components/label';
 import { Switch } from '../components/switch';
@@ -18,7 +19,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../components/tooltip';
-import { H1, H2, H3, H4 } from '../components/typography';
+import { H1, H2, H3, H4, TextGradient } from '../components/typography';
 import RootLayout from './layout';
 
 import { Link } from 'lucide-react';
@@ -27,10 +28,23 @@ export default async function Index() {
   return (
     <RootLayout>
       <div className="px-32 py-16">
-        <H1>Hello world</H1>
-        <H2>Hello world</H2>
-        <H3>Hello world</H3>
-        <H4>Hello world</H4>
+        <div className="text-center max-w-2xl">
+          <H1>
+            Increase and track your network with{' '}
+            <TextGradient>Open Source</TextGradient>.
+          </H1>
+          <div className="justify-center flex gap-4 my-4">
+            <Button>Get started</Button>
+            <Button variant="outline">Get demo</Button>
+          </div>
+        </div>
+
+        <div className="my-8">
+          <H1>Hello world</H1>
+          <H2>Hello world</H2>
+          <H3>Hello world</H3>
+          <H4>Hello world</H4>
+        </div>
 
         <div className="my-5 flex gap-3 items-center">
           <Avatar>
@@ -104,6 +118,10 @@ export default async function Index() {
           </AccordionItem>
         </Accordion>
       </div>
+
+      <DeviceMockup>
+        <H1>Hello world :)</H1>
+      </DeviceMockup>
     </RootLayout>
   );
 }
