@@ -11,6 +11,7 @@ import { Checkbox } from '../components/checkbox';
 import { DeviceMockup } from '../components/device';
 import { Input } from '../components/input';
 import { Label } from '../components/label';
+import { Skeleton } from '../components/skeleton';
 import { Switch } from '../components/switch';
 import { Textarea } from '../components/textarea';
 import {
@@ -47,6 +48,7 @@ export default async function Index() {
         </div>
 
         <div className="my-5 flex gap-3 items-center">
+          <Skeleton className="w-10 h-10 rounded-full"></Skeleton>
           <Avatar>
             <AvatarImage
               src="https://avatars.githubusercontent.com/u/43048524?v=4"
@@ -117,11 +119,11 @@ export default async function Index() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </div>
 
-      <DeviceMockup>
-        <H1>Hello world :)</H1>
-      </DeviceMockup>
+        <DeviceMockup>
+          <H1>Hello world :)</H1>
+        </DeviceMockup>
+      </div>
     </RootLayout>
   );
 }
