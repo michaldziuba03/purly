@@ -8,7 +8,6 @@ import { Alert, AlertDescription, AlertTitle } from '../components/alert';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/avatar';
 import { Button } from '../components/button';
 import { Checkbox } from '../components/checkbox';
-import { DeviceMockup } from '../components/device';
 import { Input } from '../components/input';
 import { Label } from '../components/label';
 import { Skeleton } from '../components/skeleton';
@@ -119,10 +118,6 @@ export default async function Index() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-
-        <DeviceMockup>
-          <H1>Hello world :)</H1>
-        </DeviceMockup>
       </div>
     </RootLayout>
   );
