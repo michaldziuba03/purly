@@ -3,11 +3,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { USER_NAME_MIN, USER_NAME_MAX } from '@purly/shared';
 import Link from 'next/link';
 import * as z from 'zod';
 import {
   Form,
-  FormControl,
+  FormTextControl,
   FormField,
   FormItem,
   FormLabel,
@@ -19,7 +20,7 @@ import { Button } from '../../../components/button';
 // TODO: export length constants in @purly/shared
 export const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8).max(128),
+  password: z.string().min(USER_NAME_MIN).max(USER_NAME_MAX),
 });
 type LoginSchema = z.infer<typeof loginSchema>;
 
@@ -48,9 +49,9 @@ export const LoginForm: React.FC = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <FormControl>
+              <FormTextControl>
                 <Input placeholder="mail@example.com" {...field} />
-              </FormControl>
+              </FormTextControl>
               <FormMessage />
             </FormItem>
           )}
@@ -62,9 +63,9 @@ export const LoginForm: React.FC = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
-              <FormControl>
+              <FormTextControl>
                 <Input type="password" {...field} />
-              </FormControl>
+              </FormTextControl>
               <FormMessage />
               <Link
                 className="text-xs space-y-2 hover:underline text-gray-700"

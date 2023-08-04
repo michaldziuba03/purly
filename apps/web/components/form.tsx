@@ -96,6 +96,31 @@ const FormLabel = React.forwardRef<
 });
 FormLabel.displayName = 'FormLabel';
 
+// use for input, textareas
+const FormTextControl = React.forwardRef<
+  React.ElementRef<typeof Slot>,
+  React.ComponentPropsWithoutRef<typeof Slot>
+>(({ className, ...props }, ref) => {
+  const { error, formItemId, formDescriptionId, formMessageId } =
+    useFormField();
+
+  return (
+    <Slot
+      ref={ref}
+      id={formItemId}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
+      aria-invalid={!!error}
+      className={cn(error ? 'border-destructive' : '', className)}
+      {...props}
+    />
+  );
+});
+FormTextControl.displayName = 'FormControl';
+
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
   React.ComponentPropsWithoutRef<typeof Slot>
@@ -166,6 +191,7 @@ export {
   FormItem,
   FormLabel,
   FormControl,
+  FormTextControl,
   FormDescription,
   FormMessage,
   FormField,

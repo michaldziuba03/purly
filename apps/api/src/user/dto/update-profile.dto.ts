@@ -1,10 +1,10 @@
 import { IsString, Length } from 'class-validator';
-import { NAME_MAX, NAME_MIN } from '../user.constants';
+import { USER_NAME_MAX, USER_NAME_MIN } from '@purly/shared';
 import { Trim } from '../../shared/trim.transformer';
 
 export class UpdateProfileDto {
   @IsString()
   @Trim()
-  @Length(NAME_MIN, NAME_MAX)
+  @Length(USER_NAME_MIN, USER_NAME_MAX)
   username: string;
 }

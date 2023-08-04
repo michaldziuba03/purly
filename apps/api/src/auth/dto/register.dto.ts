@@ -1,10 +1,10 @@
 import { IsEmail, IsString, Length } from 'class-validator';
 import {
-  NAME_MAX,
-  NAME_MIN,
+  USER_NAME_MAX,
+  USER_NAME_MIN,
   PASSWORD_MAX,
   PASSWORD_MIN,
-} from '../../user/user.constants';
+} from '@purly/shared';
 import { Trim } from '../../shared/trim.transformer';
 
 export class RegisterDto {
@@ -13,7 +13,7 @@ export class RegisterDto {
 
   @IsString()
   @Trim()
-  @Length(NAME_MIN, NAME_MAX)
+  @Length(USER_NAME_MIN, USER_NAME_MAX)
   username: string;
 
   @IsString()
