@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { USER_NAME_MIN, USER_NAME_MAX } from '@purly/shared';
 import Link from 'next/link';
@@ -16,8 +17,8 @@ import {
 } from '../../../components/form';
 import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
+import { useRecaptcha } from '../../../hooks/useRecaptcha';
 
-// TODO: export length constants in @purly/shared
 export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(USER_NAME_MIN).max(USER_NAME_MAX),
@@ -25,6 +26,8 @@ export const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export const LoginForm: React.FC = () => {
+  const recaptcha = useRecaptcha();
+
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,8 +36,12 @@ export const LoginForm: React.FC = () => {
     },
   });
 
-  const handleSubmit = (data: LoginSchema) => {
-    console.log(data);
+  const handleSubmit = async (data: LoginSchema) => {
+    const token = await recaptcha.getToken();
+    console.log({
+      ...data,
+      recaptcha: token,
+    });
   };
 
   return (
@@ -77,9 +84,32 @@ export const LoginForm: React.FC = () => {
           )}
         />
 
+        <ReCAPTCHA
+          ref={recaptcha.ref}
+          size="invisible"
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT as string}
+        />
         <Button type="submit" className="w-full">
           Sign In
         </Button>
+
+        <span className="text-gray-400 mt-6 text-xs text-center">
+          This site is protected by reCAPTCHA and the Google{' '}
+          <a
+            className="text-blue-400 hover:underline"
+            href="https://policies.google.com/privacy"
+          >
+            Privacy Policy
+          </a>{' '}
+          and{' '}
+          <a
+            className="text-blue-400 hover:underline"
+            href="https://policies.google.com/terms"
+          >
+            Terms of Service
+          </a>{' '}
+          apply.
+        </span>
       </form>
     </Form>
   );

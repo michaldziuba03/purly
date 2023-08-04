@@ -43,24 +43,6 @@ const LoginPage = () => {
           </div>
 
           <LoginForm />
-
-          <span className="text-gray-400 mt-6 text-xs text-center">
-            This site is protected by reCAPTCHA and the Google{' '}
-            <a
-              className="text-blue-400 hover:underline"
-              href="https://policies.google.com/privacy"
-            >
-              Privacy Policy
-            </a>{' '}
-            and{' '}
-            <a
-              className="text-blue-400 hover:underline"
-              href="https://policies.google.com/terms"
-            >
-              Terms of Service
-            </a>{' '}
-            apply.
-          </span>
         </CardContent>
       </Card>
     </div>
