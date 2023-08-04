@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@clickhouse/client": "^0.2.0",
+    "@hookform/resolvers": "^3.1.1",
     "@md03/nestjs-clickhouse": "^1.0.0",
     "@mich4l/nestjs-redis": "^1.1.0",
     "@nestjs/bullmq": "^10.0.1",

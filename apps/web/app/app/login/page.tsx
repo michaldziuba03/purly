@@ -6,10 +6,9 @@ import {
   CardTitle,
 } from '../../../components/card';
 import { Button } from '../../../components/button';
-import { Input } from '../../../components/input';
-import { Label } from '../../../components/label';
 import { GitHub, Google } from '../../../components/icons';
 import Link from 'next/link';
+import { LoginForm } from './form';
 
 const LoginPage = () => {
   return (
@@ -18,7 +17,14 @@ const LoginPage = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Welcome back</CardTitle>
           <CardDescription>
-            Enter your email and password to continue
+            Don&apos;t have an account yet?{' '}
+            <Link
+              className="text-blue-500 hover:underline"
+              href="/app/register"
+            >
+              Create free account
+            </Link>
+            .
           </CardDescription>
         </CardHeader>
         <CardContent className="flex md:w-[480px] flex-col gap-4 py-8">
@@ -36,23 +42,7 @@ const LoginPage = () => {
             </span>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" placeholder="mail@example.com" />
-          </div>
-
-          <div>
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
-            <Link
-              className="text-xs hover:underline text-gray-700"
-              href="/app/reset"
-            >
-              Forgot password?
-            </Link>
-          </div>
-
-          <Button className="w-full">Sign In</Button>
+          <LoginForm />
 
           <span className="text-gray-400 mt-6 text-xs text-center">
             This site is protected by reCAPTCHA and the Google{' '}
