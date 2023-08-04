@@ -11,6 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '../../../components/form';
 import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
@@ -50,6 +51,7 @@ export const LoginForm: React.FC = () => {
               <FormControl>
                 <Input placeholder="mail@example.com" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -63,6 +65,7 @@ export const LoginForm: React.FC = () => {
               <FormControl>
                 <Input type="password" {...field} />
               </FormControl>
+              <FormMessage />
               <Link
                 className="text-xs space-y-2 hover:underline text-gray-700"
                 href="/app/reset"
