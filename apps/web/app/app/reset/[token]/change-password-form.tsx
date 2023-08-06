@@ -1,11 +1,11 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { PASSWORD_MIN, PASSWORD_MAX } from '@purly/shared';
-import Link from 'next/link';
-import * as z from 'zod';
+import { Input } from '../../../../components/input';
+import { Button } from '../../../../components/button';
+import { Recaptcha } from '../../../../components/recaptcha';
+import { useRecaptcha } from '../../../../hooks/useRecaptcha';
 import {
   Form,
   FormTextControl,
@@ -13,34 +13,42 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../../../components/form';
-import { Input } from '../../../components/input';
-import { Button } from '../../../components/button';
-import { Recaptcha } from '../../../components/recaptcha';
-import { useRecaptcha } from '../../../hooks/useRecaptcha';
+} from '../../../../components/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { PASSWORD_MAX, PASSWORD_MIN } from '@purly/shared';
 
-export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(PASSWORD_MIN).max(PASSWORD_MAX),
-});
-type LoginSchema = z.infer<typeof loginSchema>;
+export const changePasswordSchema = z
+  .object({
+    password: z.string().min(PASSWORD_MIN).max(PASSWORD_MAX),
+    confirmPassword: z.string().min(PASSWORD_MIN).max(PASSWORD_MAX),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
-export const LoginForm: React.FC = () => {
+type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
+
+export const ChangePasswordForm: React.FC = () => {
   const recaptcha = useRecaptcha();
+  const params = useParams();
 
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ChangePasswordSchema>({
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
-      email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
-  const handleSubmit = async (data: LoginSchema) => {
-    const token = await recaptcha.getToken();
+  const handleSubmit = async (data: ChangePasswordSchema) => {
+    const recaptchaToken = await recaptcha.getToken();
     console.log({
       ...data,
-      recaptcha: token,
+      recaptcha: recaptchaToken,
+      token: params.token,
     });
   };
 
@@ -51,20 +59,6 @@ export const LoginForm: React.FC = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FormField
-          name="email"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormTextControl>
-                <Input placeholder="mail@example.com" {...field} />
-              </FormTextControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
           name="password"
           control={form.control}
           render={({ field }) => (
@@ -74,19 +68,27 @@ export const LoginForm: React.FC = () => {
                 <Input type="password" {...field} />
               </FormTextControl>
               <FormMessage />
-              <Link
-                className="text-xs space-y-2 hover:underline text-gray-700"
-                href="/app/reset"
-              >
-                Forgot password?
-              </Link>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="confirmPassword"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm password</FormLabel>
+              <FormTextControl>
+                <Input type="password" {...field} />
+              </FormTextControl>
+              <FormMessage />
             </FormItem>
           )}
         />
 
         <Recaptcha recaptcha={recaptcha} />
         <Button type="submit" className="w-full">
-          Sign In
+          Change password
         </Button>
 
         <span className="text-gray-400 py-6 text-xs text-center">
