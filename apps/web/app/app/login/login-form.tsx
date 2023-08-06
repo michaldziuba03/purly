@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { USER_NAME_MIN, USER_NAME_MAX } from '@purly/shared';
 import Link from 'next/link';
@@ -17,6 +16,7 @@ import {
 } from '../../../components/form';
 import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
+import { Recaptcha } from '../../../components/recaptcha';
 import { useRecaptcha } from '../../../hooks/useRecaptcha';
 
 export const loginSchema = z.object({
@@ -84,16 +84,12 @@ export const LoginForm: React.FC = () => {
           )}
         />
 
-        <ReCAPTCHA
-          ref={recaptcha.ref}
-          size="invisible"
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT as string}
-        />
+        <Recaptcha recaptcha={recaptcha} />
         <Button type="submit" className="w-full">
           Sign In
         </Button>
 
-        <span className="text-gray-400 mt-6 text-xs text-center">
+        <span className="text-gray-400 py-6 text-xs text-center">
           This site is protected by reCAPTCHA and the Google{' '}
           <a
             className="text-blue-400 hover:underline"

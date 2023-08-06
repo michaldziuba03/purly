@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   Card,
   CardContent,
@@ -7,8 +8,7 @@ import {
 } from '../../../components/card';
 import { Button } from '../../../components/button';
 import { GitHub, Google } from '../../../components/icons';
-import Link from 'next/link';
-import { LoginForm } from './form';
+import { LoginForm } from './login-form';
 
 const LoginPage = () => {
   return (
@@ -27,7 +27,7 @@ const LoginPage = () => {
             .
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex md:w-[480px] flex-col gap-4 py-8">
+        <CardContent className="flex md:w-[480px] flex-col gap-3 py-4">
           <Button variant="outline" className="w-full">
             <Google className="mr-2 w-5 h-5" /> Continue with Google
           </Button>
@@ -36,7 +36,7 @@ const LoginPage = () => {
           </Button>
 
           <div className="inline-flex items-center justify-center w-full">
-            <hr className="w-full h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+            <hr className="w-full h-px my-4 bg-gray-300 border-0 dark:bg-gray-700" />
             <span className="absolute px-3 font-medium text-gray-400 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-900">
               or
             </span>

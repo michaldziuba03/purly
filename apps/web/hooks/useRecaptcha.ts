@@ -13,6 +13,11 @@ export function useRecaptcha(): IUseRecaptcha {
   const ref = React.useRef<ReCAPTCHA>();
 
   async function getToken() {
+    // ReCAPTCHA support is optional for self hosted Purly apps
+    if (!process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT) {
+      return;
+    }
+
     if (!token) {
       const newToken = await ref.current?.executeAsync();
       if (!newToken) return;
