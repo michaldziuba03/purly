@@ -33,7 +33,10 @@ async function bootstrap() {
   }
 
   app.setGlobalPrefix(globalPrefix);
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  });
   app.enableShutdownHooks();
   app.useGlobalPipes(
     new ValidationPipe({

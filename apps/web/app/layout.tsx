@@ -1,6 +1,9 @@
 import 'tailwindcss/tailwind.css';
 import '../styles/global.css';
 import { Inter } from 'next/font/google';
+import { getSessionUser } from '../lib/api';
+import { headers } from 'next/headers';
+import { AuthProvider } from '../lib/auth';
 
 export const metadata = {
   title: 'Welcome to web',
@@ -9,14 +12,17 @@ export const metadata = {
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getSessionUser(headers().get('cookie') as string);
   return (
     <html lang="en" className={inter.className}>
-      <body>{children}</body>
+      <body>
+        <AuthProvider user={user}>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

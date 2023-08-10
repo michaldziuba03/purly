@@ -17,7 +17,10 @@ import {
 import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
 import { Recaptcha } from '../../../components/recaptcha';
+import { useSubmit } from '../../../hooks/useSubmit';
 import { useRecaptcha } from '../../../hooks/useRecaptcha';
+import * as api from '../../../lib/api';
+import { useAuth } from '../../../lib/auth';
 
 export const loginSchema = z.object({
   email: z.string().email(),
@@ -26,8 +29,9 @@ export const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export const LoginForm: React.FC = () => {
+  const { setUser } = useAuth();
   const recaptcha = useRecaptcha();
-
+  const { submit, isSending, error } = useSubmit(api.login);
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -38,10 +42,16 @@ export const LoginForm: React.FC = () => {
 
   const handleSubmit = async (data: LoginSchema) => {
     const token = await recaptcha.getToken();
-    console.log({
+    if (!token) {
+      return;
+    }
+
+    const result = await submit({
       ...data,
       recaptcha: token,
     });
+
+    setUser(result?.data);
   };
 
   return (
@@ -50,6 +60,10 @@ export const LoginForm: React.FC = () => {
         className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
+        <span className="text-sm text-destructive">
+          {error?.response?.data.message}
+        </span>
+
         <FormField
           name="email"
           control={form.control}
@@ -85,8 +99,8 @@ export const LoginForm: React.FC = () => {
         />
 
         <Recaptcha recaptcha={recaptcha} />
-        <Button type="submit" className="w-full">
-          Sign In
+        <Button disabled={isSending} type="submit" className="w-full">
+          {isSending ? 'Sending...' : 'Sign In'}
         </Button>
 
         <span className="text-gray-400 py-6 text-xs text-center">
