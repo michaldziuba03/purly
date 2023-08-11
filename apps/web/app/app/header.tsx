@@ -1,13 +1,11 @@
 'use client';
-import { useAuth } from '../../lib/auth';
+
+import { UserDropdown } from './user-dropdown';
 
 export const Header = () => {
-  const { user } = useAuth();
-
   return (
-    <div>
-      {user.id}
-      <h1>{user.username}</h1>
+    <div className="w-full h-16 px-6 flex justify-end items-center">
+      <UserDropdown />
     </div>
   );
 };
