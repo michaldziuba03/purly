@@ -1,3 +1,5 @@
+<img width="1024px" src="https://github.com/michaldziuba03/purly/assets/43048524/97c35411-8126-4157-afbf-ac445345e869" />
+
 # purly ✂
 
 Scalable and distrubuted SaaS platform for managing your brand links. Under active development. Primary goal of this project is to create sample that **does more** than just simple CRUD.
