@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PASSWORD_MIN, PASSWORD_MAX } from '@purly/shared';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import * as z from 'zod';
 import {
   Form,
@@ -29,6 +30,7 @@ export const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 export const LoginForm: React.FC = () => {
+  const router = useRouter();
   const { setUser } = useAuth();
   const recaptcha = useRecaptcha();
   const { submit, isSending, error } = useSubmit(api.login);
@@ -52,6 +54,7 @@ export const LoginForm: React.FC = () => {
     });
 
     setUser(result?.data);
+    router.push('/app');
   };
 
   return (
@@ -90,7 +93,7 @@ export const LoginForm: React.FC = () => {
               <FormMessage />
               <Link
                 className="text-xs space-y-2 hover:underline text-gray-700"
-                href="/app/reset"
+                href="/auth/reset"
               >
                 Forgot password?
               </Link>

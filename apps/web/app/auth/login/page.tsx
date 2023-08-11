@@ -20,7 +20,7 @@ const LoginPage = () => {
             Don&apos;t have an account yet?{' '}
             <Link
               className="text-blue-500 hover:underline"
-              href="/app/register"
+              href="/auth/register"
             >
               Create free account
             </Link>

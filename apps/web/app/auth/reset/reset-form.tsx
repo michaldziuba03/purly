@@ -68,7 +68,7 @@ export const ResetRequestForm: React.FC = () => {
 
         <span className="text-sm text-muted-foreground">
           Go back to{' '}
-          <Link href="/app/login" className="underline">
+          <Link href="/auth/login" className="underline">
             Login page
           </Link>
         </span>
