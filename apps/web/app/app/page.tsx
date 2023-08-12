@@ -19,10 +19,7 @@ const AppPage = () => {
               Create Link
             </Button>
           </div>
-
           <div className="py-8 space-y-6">
-            <Link />
-            <Link />
             <Link />
             <Link />
             <Link />
