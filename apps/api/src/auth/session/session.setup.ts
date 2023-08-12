@@ -16,6 +16,7 @@ export function setupSession(app: INestApplication) {
       cookie: {
         httpOnly: true,
         sameSite: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
       },
       store: new RedisStore({
         client: redisClient,
