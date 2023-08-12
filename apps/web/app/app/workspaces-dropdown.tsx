@@ -33,7 +33,8 @@ export function WorkspacesDropdown() {
       <DropdownMenuTrigger asChild>
         <Button className="w-full justify-between" variant="ghost">
           <div className="flex items-center">
-            <WorkspaceIcon /> madd
+            <WorkspaceIcon />
+            <span className="font-medium text-base">madd</span>
           </div>
           <ChevronDown className="w-4 h-4 text-muted-foreground" />
         </Button>

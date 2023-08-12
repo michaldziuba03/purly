@@ -6,7 +6,7 @@ import { WorkspacesDropdown } from './workspaces-dropdown';
 
 export function Sidebar() {
   return (
-    <div className={cn('pb-12')}>
+    <div className="pb-6 flex flex-col justify-between">
       <div className="space-y-4 py-4">
         <div className="px-3 py-2 space-y-4">
           <WorkspacesDropdown />
@@ -47,6 +47,10 @@ export function Sidebar() {
             </Button>
           </div>
         </div>
+      </div>
+
+      <div className="text-sm text-muted-foreground text-center">
+        Support • Docs • Feedback
       </div>
     </div>
   );

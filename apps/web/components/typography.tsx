@@ -12,7 +12,7 @@ export const H1: React.FC<React.PropsWithChildren> = ({ children }) => {
 
 export const H2: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+    <h2 className="scroll-m-20 pb-2 text-3xl font-extrabold tracking-tight transition-colors first:mt-0">
       {children}
     </h2>
   );
