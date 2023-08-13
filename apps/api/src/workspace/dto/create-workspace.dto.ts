@@ -6,4 +6,7 @@ export class CreateWorkspaceDto {
   @IsNotEmpty()
   @MaxLength(WORKSPACE_NAME_MAX)
   name: string;
+
+  @IsString()
+  slug: string;
 }

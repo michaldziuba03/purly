@@ -1,6 +1,7 @@
 export class Workspace {
   id: string;
   name: string;
+  slug: string;
   plan: string;
   billingId?: string;
   billingEmail?: string;
@@ -10,4 +11,5 @@ export class Workspace {
 
 export class InsertWorkspace {
   name: string;
+  slug: string;
 }

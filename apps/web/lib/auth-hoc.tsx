@@ -2,19 +2,25 @@
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { AuthProvider } from './auth';
-import { getSessionUser } from './api';
+import { getSessionUser, getSessionWorkspaces } from './api';
+import { WorkspaceProvider } from './workspace';
 
 export function withAuth(Component: React.ComponentType) {
   return async (props: object) => {
-    const user = await getSessionUser(headers().get('cookie') as string);
+    const cookie = headers().get('cookie') as string;
+    const user = await getSessionUser(cookie);
     if (!user) {
       return redirect('/auth/login');
     }
 
+    const workspaces = await getSessionWorkspaces(cookie);
+
     return (
       <>
         <AuthProvider user={user}>
-          <Component {...props} />
+          <WorkspaceProvider workspaces={workspaces}>
+            <Component {...props} />
+          </WorkspaceProvider>
         </AuthProvider>
       </>
     );

@@ -48,12 +48,7 @@ export class WorkspaceRepository extends BaseRepository<Workspace> {
   }
 
   async create(data: InsertWorkspace) {
-    const result = await this.db
-      .insert(workspaces)
-      .values({
-        name: data.name,
-      })
-      .returning();
+    const result = await this.db.insert(workspaces).values(data).returning();
 
     return this.mapSingle(result);
   }

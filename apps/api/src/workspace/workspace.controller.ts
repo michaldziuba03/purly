@@ -52,6 +52,7 @@ export class WorkspaceController {
     return this.createWorkspaceUsecase.execute({
       userId,
       name: body.name,
+      slug: body.slug,
     });
   }
 

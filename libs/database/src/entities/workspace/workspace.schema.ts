@@ -15,6 +15,7 @@ export const workspaces = pgTable(
     plan: varchar('plan').notNull().default('free'),
     billingId: varchar('billing_id'),
     billingEmail: varchar('billing_email'),
+    slug: varchar('slug').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },
@@ -22,5 +23,6 @@ export const workspaces = pgTable(
     billingIdIndex: uniqueIndex('billing_id_index')
       .on(schema.billingId)
       .where(isNotNull(schema.billingId)),
+    slug: uniqueIndex('workspace_slug_index').on(schema.slug),
   })
 );

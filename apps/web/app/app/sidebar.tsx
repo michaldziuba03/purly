@@ -1,4 +1,3 @@
-import { cn } from '../../lib/utils';
 import { Button } from '../../components/button';
 import { Separator } from '../../components/separator';
 import { Link, Settings, Users, Globe, Home, LayoutGrid } from 'lucide-react';

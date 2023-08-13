@@ -7,6 +7,7 @@ import { WORKSPACES_LIMIT } from '../workspace.constants';
 interface ICreateWorkspaceCommand {
   userId: string;
   name: string;
+  slug: string;
   description?: string;
 }
 
@@ -28,6 +29,7 @@ export class CreateWorkspace implements Usecase<ICreateWorkspaceCommand> {
 
     const workspace = await this.workspaceRepository.create({
       name: command.name,
+      slug: command.slug,
     });
 
     await this.memberRepository.addMember(
