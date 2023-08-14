@@ -13,7 +13,6 @@ export function NoLinksFound() {
         <PlusCircle className="mr-3 w-5 h-5" />
         Create Link
       </Button>
-      <Button variant="link">Learn more</Button>
     </div>
   );
 }

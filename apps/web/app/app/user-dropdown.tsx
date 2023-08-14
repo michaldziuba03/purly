@@ -20,7 +20,7 @@ export function UserDropdown() {
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10 border">
             <AvatarImage src={user.picture} alt="avatar" />
-            <AvatarFallback>MD</AvatarFallback>
+            <AvatarFallback>{user.username[0]}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

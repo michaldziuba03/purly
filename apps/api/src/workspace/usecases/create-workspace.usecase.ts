@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { MemberRole } from '@purly/shared';
 import { MemberRepository, WorkspaceRepository } from '@purly/database';
 import { Usecase } from '../../shared/base.usecase';
-import { WORKSPACES_LIMIT } from '../workspace.constants';
+import { WORKSPACES_LIMIT } from '@purly/shared';
 
 interface ICreateWorkspaceCommand {
   userId: string;

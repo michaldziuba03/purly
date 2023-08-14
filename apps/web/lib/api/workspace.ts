@@ -14,3 +14,7 @@ export async function getSessionWorkspaces(cookiesHeader?: string) {
     return;
   }
 }
+
+export function createWorkspace(data: any) {
+  return axios.post('/workspaces', data);
+}

@@ -14,7 +14,7 @@ export const WorkspaceProvider: React.FC<
   const router = useRouter();
   const [userWorkspaces, setWorkspaces] = useState(workspaces);
   const currentWorkspace =
-    workspaces.find((workspace: any) => workspace.slug === slug) ||
+    userWorkspaces.find((workspace: any) => workspace.slug === slug) ||
     workspaces[0];
 
   if (!userWorkspaces.length) {
