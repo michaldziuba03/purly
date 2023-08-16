@@ -10,9 +10,17 @@ import {
   DropdownMenuTrigger,
 } from '../../components/dropdown-menu';
 import { useAuth } from '../../lib/auth';
+import { logout } from '../../lib/api';
+import { useRouter } from 'next/navigation';
 
 export function UserDropdown() {
   const { user } = useAuth();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await logout();
+    return router.push('/auth/login');
+  }
 
   return (
     <DropdownMenu>
@@ -38,7 +46,7 @@ export function UserDropdown() {
           <DropdownMenuItem>Edit name</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

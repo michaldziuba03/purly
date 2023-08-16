@@ -1,5 +1,5 @@
-import { useParams } from 'next/navigation';
+import { Loader } from '../../../components/loader';
 
 export default function Home({ params }: any) {
-  return <div>Hello world {params.slug}</div>;
+  return <Loader />;
 }

@@ -18,3 +18,7 @@ export function requestResetPassword(data: {
 export function changePassword(data: { token: string; password: string }) {
   return axios.post('/auth/reset', data);
 }
+
+export function logout() {
+  return axios.post('/auth/logout');
+}

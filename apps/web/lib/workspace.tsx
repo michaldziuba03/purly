@@ -1,6 +1,8 @@
 'use client';
 import { useParams, useRouter, usePathname } from 'next/navigation';
 import React, { useState, createContext, useContext } from 'react';
+import { CreateFirstWorkspace } from '../app/app/create-first-workspace';
+import { Loader } from '../components/loader';
 
 export const WorkspaceContext = createContext<any>(undefined);
 
@@ -18,7 +20,17 @@ export const WorkspaceProvider: React.FC<
     workspaces[0];
 
   if (!userWorkspaces.length) {
-    return <div>Create new workspace.</div>;
+    return (
+      <WorkspaceContext.Provider
+        value={{
+          workspaces: userWorkspaces,
+          setWorkspaces,
+          currentWorkspace,
+        }}
+      >
+        <CreateFirstWorkspace />
+      </WorkspaceContext.Provider>
+    );
   }
 
   const hasWorkspace = userWorkspaces.some(
@@ -30,7 +42,11 @@ export const WorkspaceProvider: React.FC<
       ? pathname.replace(`/app/${slug}`, `/app/${firstWorkspace.slug}`)
       : `/app/${firstWorkspace.slug}`;
     router.push(newPathname);
-    return null;
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <Loader />
+      </div>
+    );
   }
 
   return (
