@@ -7,9 +7,11 @@ const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <div className="w-full grid grid-cols-7">
       <Sidebar />
-      <div className="col-span-6 border-l bg-muted max-h-screen overflow-hidden">
+      <div className="col-span-6 border-l max-h-screen overflow-hidden">
         <Header />
-        <div className="p-10 border-t overflow-y-auto h-screen">{children}</div>
+        <div className="border-t bg-muted overflow-y-auto w-full h-screen">
+          {children}
+        </div>
       </div>
     </div>
   );

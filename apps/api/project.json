@@ -16,6 +16,7 @@
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
         "tsConfig": "apps/api/tsconfig.app.json",
+        "generatePackageJson": true,
         "isolatedConfig": true,
         "webpackConfig": "apps/api/webpack.config.js"
       },

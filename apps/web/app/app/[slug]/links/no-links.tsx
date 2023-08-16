@@ -1,7 +1,7 @@
-import { H4 } from '../../components/typography';
+import { H4 } from '../../../../components/typography';
 import React from 'react';
 import { PlusCircle, Unlink } from 'lucide-react';
-import { Button } from '../../components/button';
+import { Button } from '../../../../components/button';
 
 export function NoLinksFound() {
   return (

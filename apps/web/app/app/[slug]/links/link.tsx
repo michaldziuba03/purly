@@ -8,8 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../../components/dropdown-menu';
-import { Button } from '../../components/button';
+} from '../../../../components/dropdown-menu';
+import { Button } from '../../../../components/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,7 +20,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '../../components/alert-dialog';
+} from '../../../../components/alert-dialog';
 import {
   Calendar,
   BarChart2,
@@ -48,7 +48,7 @@ export function Link() {
           <AlertDialogAction>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
-      <div className="flex justify-between bg-white rounded-lg p-8 w-full">
+      <div className="flex justify-between bg-white rounded-lg p-8 w-full border">
         <div className="flex gap-4">
           <div className="rounded-full flex justify-center items-center border w-12 h-12">
             <img

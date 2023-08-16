@@ -51,11 +51,8 @@ export function Sidebar() {
           <Separator />
         </div>
 
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            Workspace
-          </h2>
-          <div className="space-y-1">
+        <div className="px-3 py-4">
+          <div className="space-y-2.5">
             <NavButton href="/dashboard">
               <Home className="mr-2 h-4 w-4" />
               Home
