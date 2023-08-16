@@ -4,6 +4,10 @@
 
 Scalable and distrubuted SaaS platform for managing your brand links. Under active development. Primary goal of this project is to create sample that **does more** than just simple CRUD.
 
+![screenshot](https://github.com/michaldziuba03/purly/assets/43048524/aa98d22b-5670-4e2c-a3a7-49968639c680)
+
+> Frontend is still in very early stage of development.
+
 ## Tech stack
 
 - Node.js
