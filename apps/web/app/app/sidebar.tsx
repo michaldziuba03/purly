@@ -1,7 +1,46 @@
+'use client';
+
 import { Button } from '../../components/button';
 import { Separator } from '../../components/separator';
 import { Link, Settings, Users, Globe, Home, LayoutGrid } from 'lucide-react';
 import { WorkspacesDropdown } from './workspaces-dropdown';
+import NextLink from 'next/link';
+import { useWorkspace } from '../../lib/workspace';
+import { usePathname } from 'next/navigation';
+import { cn } from '../../lib/utils';
+
+interface NavButtonProps extends React.PropsWithChildren {
+  href: string;
+}
+
+function NavButton({ children, href }: NavButtonProps) {
+  const pathname = usePathname();
+  const { currentWorkspace } = useWorkspace();
+  function getPath(path: string) {
+    return `/app/${currentWorkspace.slug}${path}`;
+  }
+
+  const isActive = pathname.startsWith(getPath(href));
+
+  return (
+    <Button
+      asChild
+      variant={isActive ? 'secondary' : 'ghost'}
+      className="relative w-full justify-start"
+    >
+      <NextLink
+        href={getPath(href)}
+        className={cn(
+          isActive
+            ? 'before:absolute before:w-1.5 before:inset-0 before:bg-primary before:rounded-l-md'
+            : undefined
+        )}
+      >
+        {children}
+      </NextLink>
+    </Button>
+  );
+}
 
 export function Sidebar() {
   return (
@@ -17,33 +56,33 @@ export function Sidebar() {
             Workspace
           </h2>
           <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
+            <NavButton href="/dashboard">
               <Home className="mr-2 h-4 w-4" />
               Home
-            </Button>
-            <Button variant="secondary" className="w-full justify-start">
+            </NavButton>
+            <NavButton href="/links">
               <Link className="mr-2 h-4 w-4" />
               Links
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            </NavButton>
+            <NavButton href="/launchpads">
               <LayoutGrid className="mr-2 h-4 w-4" />
               Link in Bio
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
+            </NavButton>
+            <NavButton href="/members">
               <Users className="mr-2 h-4 w-4" />
               Team
-            </Button>
-            <Button disabled variant="ghost" className="w-full justify-start">
+            </NavButton>
+            <NavButton href="/domains">
               <Globe className="mr-2 h-4 w-4" />
               Domains
-            </Button>
+            </NavButton>
             <div className="py-2">
               <Separator />
             </div>
-            <Button variant="ghost" className="w-full justify-start">
+            <NavButton href="/settings">
               <Settings className="mr-2 h-4 w-4" />
               Settings
-            </Button>
+            </NavButton>
           </div>
         </div>
       </div>
