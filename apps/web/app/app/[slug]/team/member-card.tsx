@@ -7,21 +7,27 @@ import {
 import { Button } from '../../../../components/button';
 import { MoreVertical } from 'lucide-react';
 
-export function MemberCard() {
+interface IMemberCardProps {
+  id: string;
+  username: string;
+  picture: string;
+  email: string;
+}
+
+export function MemberCard(props: IMemberCardProps) {
   return (
     <div className="flex w-full justify-between items-center gap-4">
       <div className="flex gap-4 items-center">
         <Avatar className="border w-11 h-11">
-          <AvatarFallback>M</AvatarFallback>
+          <AvatarImage src={props.picture} alt="member avatar" />
+          <AvatarFallback>{props.username[0]}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-0.5">
           <span className="text-sm flex items-center gap-2">
-            <span className="font-bold">Michał Dziuba</span>
+            <span className="font-bold">{props.username}</span>
             <Badge>Owner</Badge>
           </span>
-          <span className="text-sm text-muted-foreground">
-            mail@michaldziuba.dev
-          </span>
+          <span className="text-sm text-muted-foreground">{props.email}</span>
         </div>
       </div>
 

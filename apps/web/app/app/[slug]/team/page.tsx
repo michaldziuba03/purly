@@ -3,6 +3,7 @@ import { Button } from '../../../../components/button';
 import { H2 } from '../../../../components/typography';
 import { PageWrapper } from '../../page-wrapper';
 import { MemberCard } from './member-card';
+import { Members } from './members';
 
 export const metadata = {
   title: 'Members | Purly',
@@ -34,7 +35,7 @@ export default function MembersPage() {
         <Button variant="ghost">Invites</Button>
       </div>
       <div className="mt-12 w-full">
-        <MemberCard />
+        <Members />
       </div>
     </PageWrapper>
   );

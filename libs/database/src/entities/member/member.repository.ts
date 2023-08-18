@@ -37,6 +37,7 @@ export class MemberRepository extends BaseRepository<Member> {
             id: true,
             username: true,
             picture: true,
+            email: true,
           },
         },
       },

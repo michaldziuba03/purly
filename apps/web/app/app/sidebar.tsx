@@ -61,7 +61,7 @@ export function Sidebar() {
               <LayoutGrid className="mr-2 h-4 w-4" />
               Link in Bio
             </NavButton>
-            <NavButton href="/members">
+            <NavButton href="/team">
               <Users className="mr-2 h-4 w-4" />
               Team
             </NavButton>
