@@ -3,6 +3,7 @@ import { H2 } from '../../../../components/typography';
 import { PageWrapper } from '../../page-wrapper';
 import { Link } from './link';
 import { PlusCircle } from 'lucide-react';
+import { Links } from './links';
 
 export const metadata = {
   title: 'Links | Purly',
@@ -20,11 +21,7 @@ export default function LinksPage() {
         </Button>
       </div>
       <div className="py-8 space-y-6">
-        <Link />
-        <Link />
-        <Link />
-        <Link />
-        <Link />
+        <Links />
       </div>
     </PageWrapper>
   );

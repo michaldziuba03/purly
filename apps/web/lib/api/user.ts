@@ -1,8 +1,8 @@
-import axios from './axios';
+import client from './client';
 
 export async function getSessionUser(cookiesHeader?: string) {
   try {
-    const result = await axios.get('/users/me', {
+    const result = await client.get('/users/me', {
       withCredentials: true,
       headers: {
         Cookie: cookiesHeader,

@@ -1,24 +1,24 @@
-import axios from './axios';
+import client from './client';
 
 export function login(data: {
   email: string;
   password: string;
   recaptcha: string;
 }) {
-  return axios.post('/auth/login', data);
+  return client.post('/auth/login', data);
 }
 
 export function requestResetPassword(data: {
   email: string;
   recaptcha: string;
 }) {
-  return axios.post('/auth/reset/request', data);
+  return client.post('/auth/reset/request', data);
 }
 
 export function changePassword(data: { token: string; password: string }) {
-  return axios.post('/auth/reset', data);
+  return client.post('/auth/reset', data);
 }
 
 export function logout() {
-  return axios.post('/auth/logout');
+  return client.post('/auth/logout');
 }

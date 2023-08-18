@@ -32,7 +32,15 @@ import {
   Trash2,
 } from 'lucide-react';
 
-export function Link() {
+interface ILinkProps {
+  id: string;
+  name: string;
+  alias: string;
+  url: string;
+}
+
+export function Link(props: ILinkProps) {
+  const url = new URL(props.url);
   return (
     <AlertDialog>
       <AlertDialogContent>
@@ -53,27 +61,27 @@ export function Link() {
           <div className="rounded-full flex justify-center items-center border w-12 h-12">
             <img
               alt="fav"
-              src="https://www.google.com/s2/favicons?domain=www.google.com&sz=32"
+              src={`https://www.google.com/s2/favicons?domain=${url.host}&sz=32`}
             />
           </div>
           <div className="flex flex-col gap-2">
             <a className="scroll-m-20 text-lg font-semibold tracking-tight hover:underline">
-              Google website
+              {props.name}
             </a>
             <a
               className="text-sm text-blue-700 font-semibold hover:underline"
-              href="http://localhost:4200/xYz2"
+              href={`http://localhost:4200/${props.alias}`}
               target="_blank"
             >
-              http://localhost:4200/xYz2
+              http://localhost:4200/{props.alias}
             </a>
 
             <a
               className="text-sm hover:underline"
-              href="https://www.google.com"
+              href={props.url}
               target="_blank"
             >
-              https://www.google.com
+              {props.url}
             </a>
 
             <div className="flex gap-4 items-center mt-6 text-foreground text-sm font-medium">
