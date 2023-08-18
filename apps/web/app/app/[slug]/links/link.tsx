@@ -31,12 +31,14 @@ import {
   LinkIcon,
   Trash2,
 } from 'lucide-react';
+import { formatDate } from '../../../../lib/utils';
 
 interface ILinkProps {
   id: string;
   name: string;
   alias: string;
   url: string;
+  createdAt: string;
 }
 
 export function Link(props: ILinkProps) {
@@ -87,7 +89,7 @@ export function Link(props: ILinkProps) {
             <div className="flex gap-4 items-center mt-6 text-foreground text-sm font-medium">
               <div className="flex gap-1.5 items-center">
                 <Calendar className="w-4 h-4" />
-                Jun 17, 2023
+                {formatDate(props.createdAt)}
               </div>
 
               <div className="flex gap-1.5 items-center cursor-pointer">

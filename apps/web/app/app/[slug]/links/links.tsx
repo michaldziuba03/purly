@@ -22,13 +22,7 @@ export function Links() {
   return (
     <>
       {data.map((link: any) => (
-        <Link
-          key={link.id}
-          id={link.id}
-          name={link.name}
-          url={link.url}
-          alias={link.alias}
-        />
+        <Link key={link.id} {...link} />
       ))}
     </>
   );

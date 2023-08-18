@@ -6,12 +6,14 @@ import {
 } from '../../../../components/avatar';
 import { Button } from '../../../../components/button';
 import { MoreVertical } from 'lucide-react';
+import { formatDate } from '../../../../lib/utils';
 
 interface IMemberCardProps {
   id: string;
   username: string;
   picture: string;
   email: string;
+  createdAt: string;
 }
 
 export function MemberCard(props: IMemberCardProps) {
@@ -32,7 +34,9 @@ export function MemberCard(props: IMemberCardProps) {
       </div>
 
       <div className="flex gap-4 items-center">
-        <span className="text-sm text-muted-foreground">Since Aug 11 2023</span>
+        <span className="text-sm text-muted-foreground">
+          Since {formatDate(props.createdAt)}
+        </span>
         <Button variant="ghost">
           <MoreVertical className="w-5 h-5" />
         </Button>

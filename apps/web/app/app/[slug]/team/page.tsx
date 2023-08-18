@@ -2,7 +2,6 @@ import { Send } from 'lucide-react';
 import { Button } from '../../../../components/button';
 import { H2 } from '../../../../components/typography';
 import { PageWrapper } from '../../page-wrapper';
-import { MemberCard } from './member-card';
 import { Members } from './members';
 
 export const metadata = {
