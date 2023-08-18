@@ -5,21 +5,17 @@ import { Separator } from '../../components/separator';
 import { Link, Settings, Users, Globe, Home, LayoutGrid } from 'lucide-react';
 import { WorkspacesDropdown } from './workspaces-dropdown';
 import NextLink from 'next/link';
-import { useWorkspace } from './workspace';
 import { usePathname } from 'next/navigation';
 import { cn } from '../../lib/utils';
+import { useWorkspaceRouter } from '../../hooks/useWorkspaceRouter';
 
 interface NavButtonProps extends React.PropsWithChildren {
   href: string;
 }
 
 function NavButton({ children, href }: NavButtonProps) {
+  const { getPath } = useWorkspaceRouter();
   const pathname = usePathname();
-  const { currentWorkspace } = useWorkspace();
-  function getPath(path: string) {
-    return `/app/${currentWorkspace.slug}${path}`;
-  }
-
   const isActive = pathname.startsWith(getPath(href));
 
   return (

@@ -24,6 +24,7 @@ import {
 } from '../../components/dialog';
 import { useWorkspace } from './workspace';
 import { CreateWorkspaceForm } from './create-workspace-form';
+import { useWorkspaceRouter } from '../../hooks/useWorkspaceRouter';
 
 function WorkspaceIcon({ name }: { name: string }) {
   return (
@@ -37,7 +38,7 @@ function WorkspaceIcon({ name }: { name: string }) {
 
 export function WorkspacesDropdown() {
   const { workspaces, currentWorkspace } = useWorkspace();
-  const router = useRouter();
+  const { switchTo } = useWorkspaceRouter();
 
   return (
     <Dialog>
@@ -60,7 +61,7 @@ export function WorkspacesDropdown() {
             <DropdownMenuCheckboxItem
               key={workspace.id}
               checked={workspace.id === currentWorkspace.id}
-              onClick={() => router.push(`/app/${workspace.slug}`)}
+              onClick={() => switchTo(workspace)}
             >
               {workspace.name}
             </DropdownMenuCheckboxItem>
