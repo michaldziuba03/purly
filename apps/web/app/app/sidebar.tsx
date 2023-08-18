@@ -5,7 +5,7 @@ import { Separator } from '../../components/separator';
 import { Link, Settings, Users, Globe, Home, LayoutGrid } from 'lucide-react';
 import { WorkspacesDropdown } from './workspaces-dropdown';
 import NextLink from 'next/link';
-import { useWorkspace } from '../../lib/workspace';
+import { useWorkspace } from './workspace';
 import { usePathname } from 'next/navigation';
 import { cn } from '../../lib/utils';
 
@@ -44,7 +44,7 @@ function NavButton({ children, href }: NavButtonProps) {
 
 export function Sidebar() {
   return (
-    <div className="pb-6 flex flex-col justify-between">
+    <div className="w-80 pb-6 flex flex-col justify-between">
       <div className="space-y-4 py-4">
         <div className="px-3 py-2 space-y-4">
           <WorkspacesDropdown />

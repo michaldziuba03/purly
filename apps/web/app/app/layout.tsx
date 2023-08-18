@@ -5,11 +5,11 @@ import { Header } from './header';
 
 const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="w-full grid grid-cols-7">
+    <div className="w-full flex">
       <Sidebar />
-      <div className="col-span-6 border-l max-h-screen overflow-hidden">
+      <div className="w-full border-l h-screen overflow-hidden">
         <Header />
-        <div className="border-t bg-muted overflow-y-auto w-full h-screen">
+        <div className="border-t bg-muted overflow-y-auto w-full h-workspace">
           {children}
         </div>
       </div>

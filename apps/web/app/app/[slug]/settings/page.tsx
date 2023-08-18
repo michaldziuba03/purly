@@ -4,7 +4,7 @@ import { Input } from '../../../../components/input';
 import { Label } from '../../../../components/label';
 import { Button } from '../../../../components/button';
 import { H2, H3 } from '../../../../components/typography';
-import { useWorkspace } from '../../../../lib/workspace';
+import { useWorkspace } from '../../workspace';
 import { PageWrapper } from '../../page-wrapper';
 
 export const metadata = {
@@ -21,23 +21,19 @@ export default function SettingsPage() {
       </div>
       <div className="mt-8 w-full flex gap-16">
         <div className="w-[250px] flex flex-col gap-2">
-          <Button className="w-full text-base justify-start" variant="link">
+          <Button className="w-full justify-start" variant="link">
             Account
           </Button>
           <Button
-            className="w-full text-base font-bold justify-start"
+            className="w-full font-bold justify-start"
             variant="secondary"
           >
             Workspace
           </Button>
-          <Button className="w-full text-base justify-start" variant="link">
+          <Button className="w-full justify-start" variant="link">
             Billing
           </Button>
-          <Button
-            disabled
-            className="w-full text-base justify-start"
-            variant="link"
-          >
+          <Button disabled className="w-full justify-start" variant="link">
             API Keys
           </Button>
         </div>

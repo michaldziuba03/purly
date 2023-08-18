@@ -14,9 +14,9 @@ export function MemberCard() {
         <Avatar className="border w-11 h-11">
           <AvatarFallback>M</AvatarFallback>
         </Avatar>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-0.5">
           <span className="text-sm flex items-center gap-2">
-            <span className="font-semibold">Michał Dziuba</span>
+            <span className="font-bold">Michał Dziuba</span>
             <Badge>Owner</Badge>
           </span>
           <span className="text-sm text-muted-foreground">

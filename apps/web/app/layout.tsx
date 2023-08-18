@@ -7,7 +7,7 @@ export const metadata = {
   description: 'Purly platform',
 };
 
-const inter = Inter({ subsets: ['latin'] });
+const font = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({
   children,
@@ -15,7 +15,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={font.className}>
       <body>{children}</body>
     </html>
   );

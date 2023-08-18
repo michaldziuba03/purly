@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { AuthProvider } from './auth';
 import { getSessionUser, getSessionWorkspaces } from './api';
-import { WorkspaceProvider } from './workspace';
+import { WorkspaceProvider } from '../app/app/workspace';
 
 export function withAuth(Component: React.ComponentType) {
   return async (props: object) => {

@@ -18,7 +18,7 @@ import { Input } from '../../components/input';
 import { Button } from '../../components/button';
 import { useSubmit } from '../../hooks/useSubmit';
 import * as api from '../../lib/api';
-import { useWorkspace } from '../../lib/workspace';
+import { useWorkspace } from './workspace';
 
 export const createWorkspaceSchema = z.object({
   name: z.string().min(1).max(WORKSPACE_NAME_MAX),

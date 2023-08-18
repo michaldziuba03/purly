@@ -22,7 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../../components/dialog';
-import { useWorkspace } from '../../lib/workspace';
+import { useWorkspace } from './workspace';
 import { CreateWorkspaceForm } from './create-workspace-form';
 
 function WorkspaceIcon({ name }: { name: string }) {

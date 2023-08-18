@@ -1,8 +1,8 @@
 'use client';
 import { useParams, useRouter, usePathname } from 'next/navigation';
 import React, { useState, createContext, useContext } from 'react';
-import { CreateFirstWorkspace } from '../app/app/create-first-workspace';
-import { Loader } from '../components/loader';
+import { CreateFirstWorkspace } from './create-first-workspace';
+import { Loader } from '../../components/loader';
 
 export const WorkspaceContext = createContext<any>(undefined);
 
