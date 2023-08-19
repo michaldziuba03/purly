@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +12,6 @@ import {
 import { Button } from '../../../../components/button';
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -29,6 +28,7 @@ import {
   MoreVertical,
   QrCode,
   LinkIcon,
+  Check,
   Trash2,
 } from 'lucide-react';
 import { formatDate } from '../../../../lib/utils';
@@ -44,7 +44,8 @@ interface ILinkProps {
 }
 
 export function Link(props: ILinkProps) {
-  const shortlink = `https://localhost:4200/${props.alias}`;
+  const [isCopied, setIsCopied] = useState(false);
+  const shortlink = `http://localhost:4200/${props.alias}`;
   const { error, isLoading, mutateAsync } = useDeleteLink();
   const { toast } = useToast();
 
@@ -53,13 +54,19 @@ export function Link(props: ILinkProps) {
   }
 
   async function handleCopy() {
-    if ('clipboard' in navigator) {
-      await navigator.clipboard.writeText(shortlink);
-    } else {
-      document.execCommand('copy', true, shortlink);
-    }
+    try {
+      if ('clipboard' in navigator) {
+        await navigator.clipboard.writeText(shortlink);
+      } else {
+        document.execCommand('copy', true, shortlink);
+      }
 
-    toast({ title: 'Copied link to clipboard.' });
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 3000);
+      toast({ title: 'Copied link to clipboard.' });
+    } catch (err) {
+      toast({ title: 'Something went wrong.', variant: 'destructive' });
+    }
   }
 
   const url = new URL(props.url);
@@ -127,8 +134,18 @@ export function Link(props: ILinkProps) {
         </div>
 
         <div className="flex gap-2">
-          <Button onClick={handleCopy} variant="secondary">
-            <Copy className="w-3 h-3" />
+          <Button
+            className={
+              isCopied ? 'hover:bg-blue-100 hover:text-blue-800' : undefined
+            }
+            onClick={handleCopy}
+            variant="secondary"
+          >
+            {isCopied ? (
+              <Check className="w-3 h-3" />
+            ) : (
+              <Copy className="w-3 h-3" />
+            )}
           </Button>
 
           <Button variant="outline">
