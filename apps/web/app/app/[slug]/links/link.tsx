@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { formatDate } from '../../../../lib/utils';
 import { useDeleteLink } from '../../../../hooks/queries/useLinks';
+import { useToast } from '../../../../hooks/useToast';
 
 interface ILinkProps {
   id: string;
@@ -43,10 +44,22 @@ interface ILinkProps {
 }
 
 export function Link(props: ILinkProps) {
+  const shortlink = `https://localhost:4200/${props.alias}`;
   const { error, isLoading, mutateAsync } = useDeleteLink();
+  const { toast } = useToast();
 
   async function handleDeleteLink() {
     await mutateAsync(props.id);
+  }
+
+  async function handleCopy() {
+    if ('clipboard' in navigator) {
+      await navigator.clipboard.writeText(shortlink);
+    } else {
+      document.execCommand('copy', true, shortlink);
+    }
+
+    toast({ title: 'Copied link to clipboard.' });
   }
 
   const url = new URL(props.url);
@@ -88,7 +101,7 @@ export function Link(props: ILinkProps) {
               href={`http://localhost:4200/${props.alias}`}
               target="_blank"
             >
-              http://localhost:4200/{props.alias}
+              {shortlink}
             </a>
 
             <a
@@ -114,7 +127,7 @@ export function Link(props: ILinkProps) {
         </div>
 
         <div className="flex gap-2">
-          <Button variant="secondary">
+          <Button onClick={handleCopy} variant="secondary">
             <Copy className="w-3 h-3" />
           </Button>
 

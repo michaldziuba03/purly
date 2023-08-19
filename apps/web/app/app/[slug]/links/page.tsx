@@ -19,7 +19,7 @@ export default function LinksPage() {
           Create Link
         </Button>
       </div>
-      <div className="pt-8 pb-16 space-y-6">
+      <div className="pt-10 pb-10 space-y-6">
         <Links />
       </div>
     </PageWrapper>
