@@ -34,6 +34,7 @@ import {
 import { formatDate } from '../../../../lib/utils';
 import { useDeleteLink } from '../../../../hooks/queries/useLinks';
 import { useToast } from '../../../../hooks/useToast';
+import { copyToClipboard } from '../../../../lib/clipboard';
 
 interface ILinkProps {
   id: string;
@@ -55,12 +56,7 @@ export function Link(props: ILinkProps) {
 
   async function handleCopy() {
     try {
-      if ('clipboard' in navigator) {
-        await navigator.clipboard.writeText(shortlink);
-      } else {
-        document.execCommand('copy', true, shortlink);
-      }
-
+      await copyToClipboard(shortlink);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 3000);
       toast({ title: 'Copied link to clipboard.' });

@@ -13,3 +13,8 @@ export async function deleteLink(workspaceId: string, linkId: string) {
 
   return result.data;
 }
+
+export async function createLink(workspaceId: string, data: object) {
+  const result = await client.post(`/workspaces/${workspaceId}/links`, data);
+  return result.data;
+}
