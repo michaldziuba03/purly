@@ -5,3 +5,11 @@ export async function getLinks(workspaceId: string) {
 
   return result.data;
 }
+
+export async function deleteLink(workspaceId: string, linkId: string) {
+  const result = await client.delete(
+    `/workspaces/${workspaceId}/links/${linkId}`
+  );
+
+  return result.data;
+}

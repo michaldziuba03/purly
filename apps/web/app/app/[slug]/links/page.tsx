@@ -1,7 +1,6 @@
 import { Button } from '../../../../components/button';
 import { H2 } from '../../../../components/typography';
 import { PageWrapper } from '../../page-wrapper';
-import { Link } from './link';
 import { PlusCircle } from 'lucide-react';
 import { Links } from './links';
 
@@ -20,7 +19,7 @@ export default function LinksPage() {
           Create Link
         </Button>
       </div>
-      <div className="py-8 space-y-6">
+      <div className="pt-8 pb-16 space-y-6">
         <Links />
       </div>
     </PageWrapper>

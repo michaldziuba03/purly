@@ -14,8 +14,6 @@ export function Members() {
     return <div>Error</div>;
   }
 
-  console.log(data);
-
   return (
     <>
       {data.map((member: any) => {

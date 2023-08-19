@@ -32,6 +32,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { formatDate } from '../../../../lib/utils';
+import { useDeleteLink } from '../../../../hooks/queries/useLinks';
 
 interface ILinkProps {
   id: string;
@@ -42,6 +43,12 @@ interface ILinkProps {
 }
 
 export function Link(props: ILinkProps) {
+  const { error, isLoading, mutateAsync } = useDeleteLink();
+
+  async function handleDeleteLink() {
+    await mutateAsync(props.id);
+  }
+
   const url = new URL(props.url);
   return (
     <AlertDialog>
@@ -55,10 +62,16 @@ export function Link(props: ILinkProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <Button
+            variant="destructive"
+            onClick={handleDeleteLink}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Deleting...' : 'Confirm delete'}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
-      <div className="flex justify-between bg-white rounded-lg p-8 w-full border">
+      <div className="flex justify-between bg-white rounded-lg px-8 py-6 w-full border">
         <div className="flex gap-4">
           <div className="rounded-full flex justify-center items-center border w-12 h-12">
             <img
