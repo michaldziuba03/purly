@@ -17,7 +17,7 @@ export function CreateLinkModal(props: React.PropsWithChildren) {
       <DialogTrigger asChild>{props.children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create new link</DialogTitle>
+          <DialogTitle className="font-bold">Create new link</DialogTitle>
         </DialogHeader>
         <CreateLinkForm closeDialog={setOpenDialog} />
       </DialogContent>

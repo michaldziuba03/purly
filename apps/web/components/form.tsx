@@ -10,6 +10,7 @@ import {
   FieldValues,
   FormProvider,
   useFormContext,
+  ControllerRenderProps,
 } from 'react-hook-form';
 
 import { cn } from '../lib/utils';
@@ -185,7 +186,25 @@ const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = 'FormMessage';
 
+function optionalField(
+  field: ControllerRenderProps<any, any>
+): ControllerRenderProps {
+  return {
+    ...field,
+    onChange: (e) => {
+      console.log('on change');
+      if (e.target.value === '') {
+        return field.onChange(undefined);
+      }
+
+      return field.onChange(e.target.value);
+    },
+    value: field.value === undefined ? '' : field.value,
+  };
+}
+
 export {
+  optionalField,
   useFormField,
   Form,
   FormItem,

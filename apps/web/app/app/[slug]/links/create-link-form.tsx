@@ -12,6 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  optionalField,
 } from '../../../../components/form';
 import { Input } from '../../../../components/input';
 import { Button } from '../../../../components/button';
@@ -24,8 +25,8 @@ interface CreateLinkFormProps {
 }
 
 export const createLinkSchema = z.object({
-  url: z.string().min(1).url(),
-  name: z.string().min(1).max(WORKSPACE_NAME_MAX),
+  url: z.string().url(),
+  name: z.string().min(1).max(WORKSPACE_NAME_MAX).optional(),
 });
 type CreateLinkSchema = z.infer<typeof createLinkSchema>;
 
@@ -33,8 +34,8 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
   const form = useForm<CreateLinkSchema>({
     resolver: zodResolver(createLinkSchema),
     defaultValues: {
-      name: '',
       url: '',
+      name: undefined,
     },
   });
 
@@ -62,9 +63,9 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Destination</FormLabel>
+              <FormLabel>Destination URL</FormLabel>
               <FormTextControl>
-                <Input {...field} />
+                <Input placeholder="https://example.com/long-url" {...field} />
               </FormTextControl>
               <FormMessage />
             </FormItem>
@@ -76,18 +77,23 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Name (Optional)</FormLabel>
               <FormTextControl>
-                <Input {...field} />
+                <Input {...optionalField(field)} />
               </FormTextControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button disabled={isLoading} type="submit" className="w-full">
-          {isLoading ? 'Creating...' : 'Create'}
-        </Button>
+        <div className="w-full mt-4 flex gap-4 justify-end">
+          <Button type="button" variant="secondary">
+            Close
+          </Button>
+          <Button disabled={isLoading} type="submit">
+            {isLoading ? 'Creating...' : 'Create link'}
+          </Button>
+        </div>
       </form>
     </Form>
   );

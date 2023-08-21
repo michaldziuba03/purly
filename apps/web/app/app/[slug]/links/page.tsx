@@ -22,7 +22,7 @@ export default function LinksPage() {
           </Button>
         </CreateLinkModal>
       </div>
-      <div className="pt-10 pb-10 space-y-6">
+      <div className="py-8 space-y-6">
         <Links />
       </div>
     </PageWrapper>

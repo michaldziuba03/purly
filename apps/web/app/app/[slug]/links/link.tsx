@@ -38,7 +38,7 @@ import { copyToClipboard } from '../../../../lib/clipboard';
 
 interface ILinkProps {
   id: string;
-  name: string;
+  name?: string;
   alias: string;
   url: string;
   createdAt: string;
@@ -66,6 +66,7 @@ export function Link(props: ILinkProps) {
   }
 
   const url = new URL(props.url);
+
   return (
     <AlertDialog>
       <AlertDialogContent>
@@ -97,7 +98,7 @@ export function Link(props: ILinkProps) {
           </div>
           <div className="flex flex-col gap-2">
             <a className="scroll-m-20 text-lg font-semibold tracking-tight hover:underline">
-              {props.name}
+              {props.name ? props.name : url.hostname}
             </a>
             <a
               className="text-sm text-blue-700 font-semibold hover:underline"
