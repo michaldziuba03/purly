@@ -27,6 +27,8 @@ interface CreateLinkFormProps {
 export const createLinkSchema = z.object({
   url: z.string().url(),
   name: z.string().min(1).max(WORKSPACE_NAME_MAX).optional(),
+  androidRedirect: z.string().url().optional(),
+  iosRedirect: z.string().url().optional(),
 });
 type CreateLinkSchema = z.infer<typeof createLinkSchema>;
 
@@ -36,6 +38,8 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
     defaultValues: {
       url: '',
       name: undefined,
+      androidRedirect: undefined,
+      iosRedirect: undefined,
     },
   });
 
@@ -80,6 +84,40 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
               <FormLabel>Name (Optional)</FormLabel>
               <FormTextControl>
                 <Input {...optionalField(field)} />
+              </FormTextControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="androidRedirect"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Android targeting (Optional)</FormLabel>
+              <FormTextControl>
+                <Input
+                  placeholder="https://play.google.com/store/apps/details?id=xxx"
+                  {...optionalField(field)}
+                />
+              </FormTextControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="iosRedirect"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>IOS targeting (Optional)</FormLabel>
+              <FormTextControl>
+                <Input
+                  placeholder="https://apps.apple.com/app/xxx"
+                  {...optionalField(field)}
+                />
               </FormTextControl>
               <FormMessage />
             </FormItem>

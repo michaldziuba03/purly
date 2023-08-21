@@ -12,18 +12,20 @@ export const metadata = {
 
 export default function LinksPage() {
   return (
-    <PageWrapper>
-      <div className="flex pb-4 border-b justify-between items-center">
-        <H2>Links</H2>
-        <CreateLinkModal>
-          <Button>
-            <PlusCircle className="mr-3 w-5 h-5" />
-            Create Link
-          </Button>
-        </CreateLinkModal>
-      </div>
-      <div className="py-8 space-y-6">
-        <Links />
+    <PageWrapper className="flex justify-center">
+      <div className="w-full max-w-7xl">
+        <div className="flex pb-4 border-b justify-between items-center">
+          <H2>Links</H2>
+          <CreateLinkModal>
+            <Button>
+              <PlusCircle className="mr-3 w-5 h-5" />
+              Create Link
+            </Button>
+          </CreateLinkModal>
+        </div>
+        <div className="py-8 space-y-6">
+          <Links />
+        </div>
       </div>
     </PageWrapper>
   );

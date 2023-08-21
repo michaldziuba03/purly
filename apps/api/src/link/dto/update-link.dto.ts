@@ -9,6 +9,7 @@ import {
 import { Trim } from '../../shared/trim.transformer';
 import { LINK_NAME_MAX } from '../link.constants';
 import { UtmParamsDto } from './utm-params.dto';
+import { Default } from '../../shared/default.transformer';
 
 export class UpdateLinkDto extends UtmParamsDto {
   @IsUrl()
@@ -26,6 +27,7 @@ export class UpdateLinkDto extends UtmParamsDto {
   expiresAt?: string;
 
   @IsBoolean()
+  @Default(true)
   @IsOptional()
   isActive?: boolean;
 

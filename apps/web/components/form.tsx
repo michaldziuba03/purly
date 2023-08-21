@@ -186,6 +186,7 @@ const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = 'FormMessage';
 
+// use it for optional values in CREATE forms
 function optionalField(
   field: ControllerRenderProps<any, any>
 ): ControllerRenderProps {
@@ -203,8 +204,27 @@ function optionalField(
   };
 }
 
+// use it to unset existing value in UPDATE forms
+function nullableField(
+  field: ControllerRenderProps<any, any>
+): ControllerRenderProps {
+  return {
+    ...field,
+    onChange: (e) => {
+      console.log('on change');
+      if (e.target.value === '') {
+        return field.onChange(null);
+      }
+
+      return field.onChange(e.target.value);
+    },
+    value: field.value === null ? '' : field.value,
+  };
+}
+
 export {
   optionalField,
+  nullableField,
   useFormField,
   Form,
   FormItem,
