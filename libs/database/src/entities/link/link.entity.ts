@@ -8,12 +8,6 @@ export class Link {
   expiresAt?: Date;
   androidRedirect?: string;
   iosRedirect?: string;
-  enableUtm: boolean;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
-  utmTerm?: string;
-  utmContent?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

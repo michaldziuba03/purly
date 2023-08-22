@@ -19,6 +19,8 @@ import { Button } from '../../../../components/button';
 import { useCreateLink } from '../../../../hooks/queries/useLinks';
 import { copyToClipboard } from '../../../../lib/clipboard';
 import { useToast } from '../../../../hooks/useToast';
+import { MobileTargetingFields } from './create-link-form/mobile-targeting';
+import { UtmBuilder } from './create-link-form/utm-builder';
 
 interface CreateLinkFormProps {
   closeDialog?: (open: boolean) => any;
@@ -29,6 +31,14 @@ export const createLinkSchema = z.object({
   name: z.string().min(1).max(WORKSPACE_NAME_MAX).optional(),
   androidRedirect: z.string().url().optional(),
   iosRedirect: z.string().url().optional(),
+  enableUtm: z.boolean(),
+  utm: z.object({
+    utm_source: z.string().optional(),
+    utm_medium: z.string().optional(),
+    utm_campaign: z.string().optional(),
+    utm_term: z.string().optional(),
+    utm_content: z.string().optional(),
+  }),
 });
 type CreateLinkSchema = z.infer<typeof createLinkSchema>;
 
@@ -40,13 +50,37 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
       name: undefined,
       androidRedirect: undefined,
       iosRedirect: undefined,
+      utm: {
+        utm_source: '',
+        utm_medium: '',
+        utm_campaign: '',
+        utm_term: '',
+        utm_content: '',
+      },
+      enableUtm: false,
     },
   });
 
   const { error, isLoading, mutateAsync } = useCreateLink();
   const { toast } = useToast();
 
-  async function handleSubmit(data: CreateLinkSchema) {
+  async function handleSubmit(formData: CreateLinkSchema) {
+    const { enableUtm, utm, ...data } = formData;
+
+    if (enableUtm) {
+      const urlObj = new URL(data.url);
+
+      for (const param in utm) {
+        type UTMParam = keyof typeof utm;
+        const value = utm[param as UTMParam];
+        if (value) {
+          urlObj.searchParams.set(param, value);
+        }
+      }
+
+      data.url = urlObj.toString();
+    }
+
     const result = await mutateAsync(data);
     if (props.closeDialog) {
       props.closeDialog(false);
@@ -90,39 +124,8 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
           )}
         />
 
-        <FormField
-          name="androidRedirect"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Android targeting (Optional)</FormLabel>
-              <FormTextControl>
-                <Input
-                  placeholder="https://play.google.com/store/apps/details?id=xxx"
-                  {...optionalField(field)}
-                />
-              </FormTextControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          name="iosRedirect"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>IOS targeting (Optional)</FormLabel>
-              <FormTextControl>
-                <Input
-                  placeholder="https://apps.apple.com/app/xxx"
-                  {...optionalField(field)}
-                />
-              </FormTextControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <UtmBuilder form={form} />
+        <MobileTargetingFields form={form} />
 
         <div className="w-full mt-4 flex gap-4 justify-end">
           <Button type="button" variant="secondary">

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { LinkRepository } from '@purly/database';
 import { Usecase } from '../../shared/base.usecase';
 import { Device } from '../../shared/device';
-import { UtmBuilder } from '../utm.builder';
 import { isExpired } from '../../shared/utils';
 import { ClicksProducer } from '@purly/queue';
 
@@ -51,16 +50,6 @@ export class RedirectLink implements Usecase<IRedirectLinkCommand> {
 
     if (link.iosRedirect && device.isIOS) {
       return link.iosRedirect;
-    }
-
-    if (link.enableUtm) {
-      return new UtmBuilder(link.url).buildLink({
-        utmCampaign: link.utmCampaign,
-        utmContent: link.utmContent,
-        utmMedium: link.utmMedium,
-        utmSource: link.utmSource,
-        utmTerm: link.utmTerm,
-      });
     }
 
     return link.url;

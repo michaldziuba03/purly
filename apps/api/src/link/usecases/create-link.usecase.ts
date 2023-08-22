@@ -4,9 +4,8 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { AliasFactory } from '../factories/alias.factory';
 import { ALIAS_FACTORY } from '../factories/alias.provider';
 import retry from 'async-retry';
-import { UtmParamsDto } from '../dto/utm-params.dto';
 
-interface ICreateLinkCommand extends UtmParamsDto {
+interface ICreateLinkCommand {
   workspaceId: string;
   name?: string;
   expiresAt?: string;
@@ -33,13 +32,7 @@ export class CreateLink implements Usecase<ICreateLinkCommand> {
       expiresAt: command.expiresAt ? new Date(command.expiresAt) : undefined,
       workspaceId: command.workspaceId,
       url: command.url,
-      enableUtm: command.enableUtm,
-      utmCampaign: command.utmCampaign,
       isActive: command.isActive,
-      utmContent: command.utmContent,
-      utmMedium: command.utmMedium,
-      utmSource: command.utmSource,
-      utmTerm: command.utmTerm,
       androidRedirect: command.androidRedirect,
       iosRedirect: command.iosRedirect,
     });
