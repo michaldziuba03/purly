@@ -78,6 +78,23 @@ npm run db:migrate
 npm run stats:migrate
 ```
 
+### Configure S3 with Localstack (optional)
+
+Purly uses localstack to simulate AWS S3 for local development. We suggest to use AWS CLI for initial configuration.
+
+```sh
+aws configure
+# Questions answers:
+# AWS Access Key ID [None]: test
+# AWS Secret Access Key [None]: test
+# Default region name [None]: us-east-1
+# Default output format [None]:
+
+# Create bucket for local development
+aws --endpoint-url=http://localhost:4566 s3api create-bucket --bucket purly-local
+
+```
+
 ### Run applications (api, worker and frontend web app)
 
 ```sh

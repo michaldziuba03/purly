@@ -14,12 +14,14 @@ import { BillingModule } from './billing/billing.module';
 import { MemberModule } from './member/member.module';
 import { BioModule } from './bio/bio.module';
 import { StatsModule } from './stats/stats.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
     LoggerModule.forRoot(),
     QueueModule,
     DatabaseModule,
+    UploadModule,
     RedisModule.forRoot({ connectUrl: process.env['REDIS_URI'] }),
     EventEmitterModule.forRoot(),
     HealthModule,
