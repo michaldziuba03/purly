@@ -15,7 +15,7 @@ export function CreateLinkModal(props: React.PropsWithChildren) {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>{props.children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-2xl w-full">
         <DialogHeader>
           <DialogTitle className="font-bold">Create new link</DialogTitle>
         </DialogHeader>

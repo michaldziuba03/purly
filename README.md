@@ -40,7 +40,7 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - [x] Google Recaptcha support
 - [x] Paid monthly subscriptions (Stripe)
 - [x] URL shortening
-- [ ] QR Codes generation
+- [x] QR Codes generation
 - [x] Reporting malicious URLs
 - [x] UTM Generator
 - [x] Mobile Redirects

@@ -92,41 +92,42 @@ export const CreateLinkForm: React.FC<CreateLinkFormProps> = (props) => {
 
   return (
     <Form {...form}>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
-        <FormField
-          name="url"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Destination URL</FormLabel>
-              <FormTextControl>
-                <Input placeholder="https://example.com/long-url" {...field} />
-              </FormTextControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <div className="max-h-[400px] w-full overflow-y-auto no-scrollbar p-2 flex flex-col gap-4">
+          <FormField
+            name="url"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Destination URL</FormLabel>
+                <FormTextControl>
+                  <Input
+                    placeholder="https://example.com/long-url"
+                    {...field}
+                  />
+                </FormTextControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          name="name"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name (Optional)</FormLabel>
-              <FormTextControl>
-                <Input {...optionalField(field)} />
-              </FormTextControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            name="name"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name (Optional)</FormLabel>
+                <FormTextControl>
+                  <Input {...optionalField(field)} />
+                </FormTextControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <UtmBuilder form={form} />
-        <MobileTargetingFields form={form} />
-
+          <UtmBuilder form={form} />
+          <MobileTargetingFields form={form} />
+        </div>
         <div className="w-full mt-4 flex gap-4 justify-end">
           <Button type="button" variant="secondary">
             Close

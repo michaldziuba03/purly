@@ -121,7 +121,7 @@ export function UtmBuilder({ form }: IUtmBuilderProps) {
           />
 
           <Label>UTM Preview</Label>
-          <div className="text-sm break-words max-w-md text-muted-foreground">
+          <div className="text-sm break-words max-w-xl text-muted-foreground">
             {paramsPreview ? paramsPreview : '-'}
           </div>
         </>

@@ -22,3 +22,10 @@ export function formatError(err: unknown) {
 
   return 'Something went wrong';
 }
+
+export function isCanvasEmpty(canvas: HTMLCanvasElement) {
+  const blankCanvas = document.createElement('canvas');
+  blankCanvas.width = canvas.width;
+  blankCanvas.height = canvas.height;
+  return canvas.toDataURL() === blankCanvas.toDataURL();
+}

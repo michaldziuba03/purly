@@ -3,6 +3,7 @@
 import { useLinks } from '../../../../hooks/queries/useLinks';
 import { Link } from './link';
 import { NoLinksFound } from './no-links';
+import { QRCodeImage } from './qr-code';
 
 export function Links() {
   const { isFetching, data, error } = useLinks();

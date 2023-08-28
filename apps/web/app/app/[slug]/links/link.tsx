@@ -35,6 +35,7 @@ import { formatDate } from '../../../../lib/utils';
 import { useDeleteLink } from '../../../../hooks/queries/useLinks';
 import { useToast } from '../../../../hooks/useToast';
 import { copyToClipboard } from '../../../../lib/clipboard';
+import { QrCodeModal } from './qr-code-modal';
 
 interface ILinkProps {
   id: string;
@@ -149,9 +150,11 @@ export function Link(props: ILinkProps) {
             <Pencil className="w-3 h-3" />
           </Button>
 
-          <Button variant="outline">
-            <QrCode className="w-4 h-4" />
-          </Button>
+          <QrCodeModal url={shortlink} alias={props.alias}>
+            <Button variant="outline">
+              <QrCode className="w-4 h-4" />
+            </Button>
+          </QrCodeModal>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
