@@ -26,6 +26,7 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - Docker
 - Zookeeper ([node-zookeeper](https://github.com/yfinkelstein/node-zookeeper))
 - Clickhouse ([clickhouse-js](https://github.com/ClickHouse/clickhouse-js))
+- AWS S3 ([LocalStack](https://localstack.cloud))
 
 ## Advanced concepts used in app
 
