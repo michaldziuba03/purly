@@ -1,1 +1,0 @@
-CREATE UNIQUE INDEX IF NOT EXISTS "bio_id_unique" ON "bio_pages" ("identifier");

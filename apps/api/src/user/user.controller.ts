@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Patch,
+  Put,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -13,6 +14,8 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 import { UpdateProfile } from './usecases/update-profile.usecase';
 import { GetProfile } from './usecases/get-profile.usecase';
+import { UpdateAvatar } from './usecases/update-avatar.usecase';
+import { UpdateAvatarDto } from './dto/update-avatar.dto';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -20,7 +23,8 @@ import { GetProfile } from './usecases/get-profile.usecase';
 export class UserController {
   constructor(
     private readonly updateProfileUsecase: UpdateProfile,
-    private readonly getProfileUsecase: GetProfile
+    private readonly getProfileUsecase: GetProfile,
+    private readonly updateAvatarUsecase: UpdateAvatar
   ) {}
 
   @Patch('me')
@@ -34,6 +38,17 @@ export class UserController {
     });
 
     return user;
+  }
+
+  @Put('me/picture')
+  updateAvatar(
+    @UserSession('id') userId: string,
+    @Body() body: UpdateAvatarDto
+  ) {
+    return this.updateAvatarUsecase.execute({
+      userId,
+      file: body.file,
+    });
   }
 
   @Get('me')

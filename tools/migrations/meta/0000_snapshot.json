@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "d4910cfc-2907-44bd-b739-841ffdee30ab",
+  "id": "259d8198-d3c6-411c-998d-ce258f85cf76",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "oauth_accounts": {
@@ -117,11 +117,17 @@
           "primaryKey": false,
           "notNull": false
         },
-        "picture": {
-          "name": "picture",
+        "picture_url": {
+          "name": "picture_url",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "picture_key": {
+          "name": "picture_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -193,6 +199,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "slug": {
+          "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -215,75 +227,17 @@
             "billing_id"
           ],
           "isUnique": true
+        },
+        "workspace_slug_index": {
+          "name": "workspace_slug_index",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": true
         }
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {}
-    },
-    "workspaces_members": {
-      "name": "workspaces_members",
-      "schema": "",
-      "columns": {
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "workspace_id": {
-          "name": "workspace_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "role": {
-          "name": "role",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 200
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "workspaces_member_idx": {
-          "name": "workspaces_member_idx",
-          "columns": [
-            "user_id"
-          ],
-          "isUnique": false
-        },
-        "workspaces_workspace_idx": {
-          "name": "workspaces_workspace_idx",
-          "columns": [
-            "workspace_id"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "workspaces_members_workspace_id_user_id": {
-          "name": "workspaces_members_workspace_id_user_id",
-          "columns": [
-            "workspace_id",
-            "user_id"
-          ]
-        }
-      }
     },
     "reports": {
       "name": "reports",
@@ -411,42 +365,12 @@
           "primaryKey": false,
           "notNull": false
         },
-        "enable_utm": {
-          "name": "enable_utm",
+        "is_element": {
+          "name": "is_element",
           "type": "boolean",
           "primaryKey": false,
           "notNull": false,
           "default": false
-        },
-        "utm_source": {
-          "name": "utm_source",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "utm_medium": {
-          "name": "utm_medium",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "utm_campaign": {
-          "name": "utm_campaign",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "utm_term": {
-          "name": "utm_term",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "utm_content": {
-          "name": "utm_content",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -550,6 +474,159 @@
           ]
         }
       }
+    },
+    "workspaces_members": {
+      "name": "workspaces_members",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 200
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "workspaces_member_idx": {
+          "name": "workspaces_member_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        },
+        "workspaces_workspace_idx": {
+          "name": "workspaces_workspace_idx",
+          "columns": [
+            "workspace_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "workspaces_members_workspace_id_user_id": {
+          "name": "workspaces_members_workspace_id_user_id",
+          "columns": [
+            "workspace_id",
+            "user_id"
+          ]
+        }
+      }
+    },
+    "bio_elements": {
+      "name": "bio_elements",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "destination": {
+          "name": "destination",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "link_id": {
+          "name": "link_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "bio_pages": {
+      "name": "bio_pages",
+      "schema": "",
+      "columns": {
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "identifier": {
+          "name": "identifier",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "bg_color": {
+          "name": "bg_color",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "bio_id_unique": {
+          "name": "bio_id_unique",
+          "columns": [
+            "identifier"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
     }
   },
   "enums": {},

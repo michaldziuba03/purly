@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 import {
   DropdownMenu,
@@ -45,7 +47,8 @@ interface ILinkProps {
   createdAt: string;
 }
 
-export function Link(props: ILinkProps) {
+export function LinkCard(props: ILinkProps) {
+  const pathname = usePathname();
   const [isCopied, setIsCopied] = useState(false);
   const shortlink = `http://localhost:4200/${props.alias}`;
   const { error, isLoading, mutateAsync } = useDeleteLink();
@@ -98,9 +101,12 @@ export function Link(props: ILinkProps) {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <a className="scroll-m-20 text-lg font-semibold tracking-tight hover:underline">
+            <Link
+              href={`${pathname}/${props.id}`}
+              className="scroll-m-20 text-lg font-semibold tracking-tight hover:underline"
+            >
               {props.name ? props.name : url.hostname}
-            </a>
+            </Link>
             <a
               className="text-sm text-blue-700 font-semibold hover:underline"
               href={`http://localhost:4200/${props.alias}`}

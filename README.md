@@ -83,22 +83,11 @@ npm run db:migrate
 npm run stats:migrate
 ```
 
-### Configure S3 with Localstack (optional)
+### Configure S3 with MiniO (optional)
 
-Purly uses localstack to simulate AWS S3 for local development. We suggest to use AWS CLI for initial configuration.
+Purly uses [MiniO](https://min.io/) to simulate AWS S3 for local development. We suggest to use AWS CLI for initial configuration.a
 
-```sh
-aws configure
-# Questions answers:
-# AWS Access Key ID [None]: test
-# AWS Secret Access Key [None]: test
-# Default region name [None]: us-east-1
-# Default output format [None]:
-
-# Create bucket for local development
-aws --endpoint-url=http://localhost:4566 s3api create-bucket --bucket purly-local
-
-```
+Read about S3 local setup in `/tools/s3-local/README.md`
 
 ### Run applications (api, worker and frontend web app)
 

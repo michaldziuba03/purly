@@ -1,1 +1,0 @@
-ALTER TABLE "bio_pages" ADD COLUMN "name" varchar;

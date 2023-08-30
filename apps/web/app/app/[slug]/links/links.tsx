@@ -1,15 +1,15 @@
 'use client';
 
+import { Loader } from '../../../../components/loader';
 import { useLinks } from '../../../../hooks/queries/useLinks';
-import { Link } from './link';
+import { LinkCard } from './link-card';
 import { NoLinksFound } from './no-links';
-import { QRCodeImage } from './qr-code';
 
 export function Links() {
   const { isFetching, data, error } = useLinks();
 
   if (isFetching) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -23,7 +23,7 @@ export function Links() {
   return (
     <>
       {data.map((link: any) => (
-        <Link key={link.id} {...link} />
+        <LinkCard key={link.id} {...link} />
       ))}
     </>
   );

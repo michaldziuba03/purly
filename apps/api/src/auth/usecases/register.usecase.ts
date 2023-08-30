@@ -24,13 +24,13 @@ export class Register implements Usecase<IRegisterCommand> {
       throw new BadRequestException('User already exists');
     }
 
-    const picture = this.authService.createGravatar(command.email);
+    const pictureUrl = this.authService.createGravatar(command.email);
     const passwordHash = await this.authService.hashPassword(command.password);
 
     const user = await this.userRepository.create({
       email: command.email,
       username: command.username,
-      picture,
+      pictureUrl,
       password: passwordHash,
     });
 

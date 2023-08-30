@@ -4,6 +4,9 @@ dependencies:
   '@aws-sdk/client-s3':
     specifier: ^3.400.0
     version: 3.400.0
+  '@aws-sdk/s3-presigned-post':
+    specifier: ^3.400.0
+    version: 3.400.0
   '@aws-sdk/s3-request-presigner':
     specifier: ^3.400.0
     version: 3.400.0
@@ -945,6 +948,24 @@ packages:
       '@smithy/protocol-http': 2.0.5
       '@smithy/types': 2.2.2
       tslib: 2.6.0
+    dev: false
+
+  /@aws-sdk/s3-presigned-post@3.400.0:
+    resolution: {integrity: sha512-hNn62wA6PmXjdm3FaBW7OW6yd/HMuCZdeTTzc4u49JSZoow0iH4gkHgAQhsBUQ5yLz7rJTqAKKDw5QoY/t7HYg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@aws-sdk/client-s3': 3.400.0
+      '@aws-sdk/types': 3.398.0
+      '@aws-sdk/util-format-url': 3.398.0
+      '@smithy/middleware-endpoint': 2.0.5
+      '@smithy/signature-v4': 2.0.5
+      '@smithy/types': 2.2.2
+      '@smithy/util-hex-encoding': 2.0.0
+      '@smithy/util-utf8': 2.0.0
+      tslib: 2.6.0
+    transitivePeerDependencies:
+      - '@aws-sdk/signature-v4-crt'
+      - aws-crt
     dev: false
 
   /@aws-sdk/s3-request-presigner@3.400.0:

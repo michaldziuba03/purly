@@ -6,6 +6,7 @@ export class Member {
   workspaceId: string;
   userId: string;
   role: MemberRole;
+
   @Type(() => User)
   user?: User;
 }

@@ -43,7 +43,7 @@ export class OAuth2 implements Usecase<IOAuth2Command> {
       {
         email: command.email,
         username: command.username,
-        picture:
+        pictureUrl:
           command.picture || this.authService.createGravatar(command.email),
       },
       command.providerName,
