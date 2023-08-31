@@ -1,7 +1,7 @@
 import { PageWrapper } from '../../page-wrapper';
-import { Button } from '../../../../components/button';
-import { H2, H3 } from '../../../../components/typography';
+import { H2 } from '../../../../components/typography';
 import React from 'react';
+import SettingsBar from './settings-sidebar';
 
 export default function SettingsLayout(props: React.PropsWithChildren) {
   return (
@@ -10,23 +10,7 @@ export default function SettingsLayout(props: React.PropsWithChildren) {
         <H2>Settings</H2>
       </div>
       <div className="mt-8 w-full flex gap-16">
-        <div className="w-[250px] flex flex-col gap-2">
-          <Button className="w-full justify-start" variant="link">
-            Account
-          </Button>
-          <Button
-            className="w-full font-bold justify-start"
-            variant="secondary"
-          >
-            Workspace
-          </Button>
-          <Button className="w-full justify-start" variant="link">
-            Billing
-          </Button>
-          <Button disabled className="w-full justify-start" variant="link">
-            API Keys
-          </Button>
-        </div>
+        <SettingsBar />
         <div>{props.children}</div>
       </div>
     </PageWrapper>
