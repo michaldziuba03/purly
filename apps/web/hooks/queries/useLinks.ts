@@ -1,23 +1,23 @@
 'use client';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useWorkspace } from '../../app/app/workspace';
 import { getLinks, deleteLink, createLink } from '../../lib/api';
-import { queryClient } from '../../lib/query-client';
 import { useToast } from '../useToast';
 
 export function useLinks() {
   const { currentWorkspace } = useWorkspace();
-  const { data, error, isFetching } = useQuery(['links'], () => {
+  const { data, error, isLoading } = useQuery(['links'], () => {
     return getLinks(currentWorkspace.id);
   });
 
-  return { data, error, isFetching };
+  return { data, error, isLoading };
 }
 
 export function useDeleteLink() {
   const { currentWorkspace } = useWorkspace();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const { error, isLoading, mutateAsync } = useMutation(['links'], {
     mutationFn: (linkId: string) => deleteLink(currentWorkspace.id, linkId),
@@ -36,6 +36,7 @@ export function useDeleteLink() {
 }
 
 export function useCreateLink() {
+  const queryClient = useQueryClient();
   const { currentWorkspace } = useWorkspace();
   const { error, isLoading, mutateAsync } = useMutation(['links'], {
     mutationFn: (data: object) => createLink(currentWorkspace.id, data),

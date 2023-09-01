@@ -6,9 +6,9 @@ import { LinkCard } from './link-card';
 import { NoLinksFound } from './no-links';
 
 export function Links() {
-  const { isFetching, data, error } = useLinks();
+  const { isLoading, data, error } = useLinks();
 
-  if (isFetching) {
+  if (isLoading) {
     return <Loader />;
   }
 

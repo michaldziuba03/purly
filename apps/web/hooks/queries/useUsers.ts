@@ -1,9 +1,24 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import client from '../../lib/api/client';
 import { uploadFile } from '../../lib/upload';
 import { useToast } from '../useToast';
+
+export function useCurrentUser() {
+  const query = useQuery(
+    ['user'],
+    async () => {
+      const result = await client.get('/users/me');
+      return result.data;
+    },
+    {
+      refetchOnMount: false,
+    }
+  );
+
+  return query;
+}
 
 interface IUpdateUser {
   avatarFile?: File;
@@ -25,13 +40,16 @@ async function updateUser(data: IUpdateUser) {
 }
 
 export function useUpdateUser() {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   const mut = useMutation(['user'], {
     mutationFn: (data: IUpdateUser) => updateUser(data),
-    onSuccess: () =>
-      toast({
+    onSuccess: (result) => {
+      queryClient.setQueryData(['user'], result);
+      return toast({
         title: 'Profile updated successfully',
-      }),
+      });
+    },
     onError: () =>
       toast({
         title: 'Something went wrong...',

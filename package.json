@@ -78,6 +78,7 @@
     "@radix-ui/react-tooltip": "^1.0.6",
     "@sentry/node": "^7.55.2",
     "@tanstack/react-query": "^4.32.6",
+    "@tanstack/react-query-devtools": "^4.33.0",
     "argon2": "^0.30.3",
     "async-retry": "^1.3.3",
     "autoprefixer": "^10.4.14",

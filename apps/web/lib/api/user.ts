@@ -14,11 +14,3 @@ export async function getSessionUser(cookiesHeader?: string) {
     return;
   }
 }
-
-export async function setUserAvatar(file: string) {
-  const result = await client.put('/users/me/picture', {
-    file,
-  });
-
-  return result.data;
-}

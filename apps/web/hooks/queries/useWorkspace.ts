@@ -1,8 +1,22 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import client from '../../lib/api/client';
 import { useToast } from '../useToast';
+
+async function getWorkspaces() {
+  const result = await client.get('/workspaces');
+  return result.data;
+}
+
+export function useUserWorkspaces() {
+  const query = useQuery(['workspace'], {
+    queryFn: getWorkspaces,
+    refetchOnMount: false,
+  });
+
+  return query.data;
+}
 
 interface IUpdateWorkspace {
   name: string;
@@ -10,17 +24,25 @@ interface IUpdateWorkspace {
 
 async function updateWorkspace(workspaceId: string, data: IUpdateWorkspace) {
   const result = await client.patch(`/workspaces/${workspaceId}`, data);
-  return result;
+  return result.data;
 }
 
 export function useUpdateWorkspace(workspaceId: string) {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   const mut = useMutation(['workspace'], {
     mutationFn: (data: IUpdateWorkspace) => updateWorkspace(workspaceId, data),
-    onSuccess: () =>
-      toast({
+    onSuccess: (result) => {
+      queryClient.setQueriesData(['workspace'], (workspaces: any) => {
+        const otherWorkspaces = workspaces.filter(
+          (workspace: any) => workspace.id !== workspaceId
+        );
+        return [result, ...otherWorkspaces];
+      });
+      return toast({
         title: 'Workspace updated successfully',
-      }),
+      });
+    },
     onError: () =>
       toast({
         title: 'Something went wrong...',

@@ -1,16 +1,17 @@
 'use client';
-import React, { useState, createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
+import { useCurrentUser } from '../hooks/queries/useUsers';
 
 export const AuthContext = createContext<any>(undefined);
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider: React.FC<
-  React.PropsWithChildren & { user?: any }
-> = ({ children, user }) => {
-  const [userData, setUser] = useState(user);
+export const AuthProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
+  const { data } = useCurrentUser();
   return (
-    <AuthContext.Provider value={{ user: userData, setUser }}>
+    <AuthContext.Provider value={{ user: data }}>
       {children}
     </AuthContext.Provider>
   );

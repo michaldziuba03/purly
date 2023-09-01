@@ -25,7 +25,7 @@ const updateAccountSchema = z.object({
 type UpdateAccountSchema = z.infer<typeof updateAccountSchema>;
 
 export function UpdateAccountForm() {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const { isLoading, mutateAsync } = useUpdateUser();
   const form = useForm<UpdateAccountSchema>({
     resolver: zodResolver(updateAccountSchema),
@@ -37,7 +37,6 @@ export function UpdateAccountForm() {
 
   async function handleSubmit(data: UpdateAccountSchema) {
     const result = await mutateAsync(data);
-    setUser(result);
     form.reset({
       username: result.username,
       avatarFile: null,

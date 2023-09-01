@@ -21,7 +21,6 @@ import { Recaptcha } from '../../../components/recaptcha';
 import { useSubmit } from '../../../hooks/useSubmit';
 import { useRecaptcha } from '../../../hooks/useRecaptcha';
 import * as api from '../../../lib/api';
-import { useAuth } from '../../../lib/auth';
 
 export const loginSchema = z.object({
   email: z.string().email(),
@@ -31,7 +30,6 @@ type LoginSchema = z.infer<typeof loginSchema>;
 
 export const LoginForm: React.FC = () => {
   const router = useRouter();
-  const { setUser } = useAuth();
   const recaptcha = useRecaptcha();
   const { submit, isSending, error } = useSubmit(api.login);
   const form = useForm<LoginSchema>({
@@ -48,12 +46,11 @@ export const LoginForm: React.FC = () => {
       return;
     }
 
-    const result = await submit({
+    await submit({
       ...data,
       recaptcha: token,
     });
 
-    setUser(result?.data);
     router.push('/app');
   };
 

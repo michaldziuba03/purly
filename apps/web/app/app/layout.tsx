@@ -6,6 +6,8 @@ import { headers } from 'next/headers';
 import { AuthProvider } from '../../lib/auth';
 import { getSessionUser, getSessionWorkspaces } from '../../lib/api';
 import { WorkspaceProvider } from './workspace';
+import getQueryClient from '../../lib/query-client';
+import { Hydrate, dehydrate } from '@tanstack/react-query';
 
 const AppLayout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const cookie = headers().get('cookie') as string;
@@ -16,20 +18,27 @@ const AppLayout: React.FC<React.PropsWithChildren> = async ({ children }) => {
 
   const workspaces = await getSessionWorkspaces(cookie);
 
+  const queryClient = getQueryClient();
+  queryClient.setQueryData(['user'], user);
+  queryClient.setQueryData(['workspace'], workspaces);
+  const dehydratedState = dehydrate(queryClient);
+
   return (
-    <AuthProvider user={user}>
-      <WorkspaceProvider workspaces={workspaces}>
-        <div className="w-full flex">
-          <Sidebar />
-          <div className="w-full border-l h-screen overflow-hidden">
-            <Header />
-            <div className="border-t bg-muted overflow-y-auto w-full h-workspace">
-              {children}
+    <Hydrate state={dehydratedState}>
+      <AuthProvider>
+        <WorkspaceProvider>
+          <div className="w-full flex">
+            <Sidebar />
+            <div className="w-full border-l h-screen overflow-hidden">
+              <Header />
+              <div className="border-t bg-muted overflow-y-auto w-full h-workspace">
+                {children}
+              </div>
             </div>
           </div>
-        </div>
-      </WorkspaceProvider>
-    </AuthProvider>
+        </WorkspaceProvider>
+      </AuthProvider>
+    </Hydrate>
   );
 };
 

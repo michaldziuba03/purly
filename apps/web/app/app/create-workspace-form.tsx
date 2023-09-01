@@ -18,7 +18,6 @@ import { Input } from '../../components/input';
 import { Button } from '../../components/button';
 import { useSubmit } from '../../hooks/useSubmit';
 import * as api from '../../lib/api';
-import { useWorkspace } from './workspace';
 import { useWorkspaceRouter } from '../../hooks/useWorkspaceRouter';
 
 export const createWorkspaceSchema = z.object({
@@ -28,7 +27,7 @@ export const createWorkspaceSchema = z.object({
 type CreateWorkspaceSchema = z.infer<typeof createWorkspaceSchema>;
 
 export const CreateWorkspaceForm: React.FC = () => {
-  const { setWorkspaces } = useWorkspace();
+  //const { setWorkspaces } = useWorkspace();
   const { redirectTo } = useWorkspaceRouter();
   const { submit, isSending, error } = useSubmit(api.createWorkspace);
   const form = useForm<CreateWorkspaceSchema>({
@@ -43,8 +42,7 @@ export const CreateWorkspaceForm: React.FC = () => {
     const result = await submit(data);
     // TODO: handle errors properly
     if (!result) return;
-    setWorkspaces((workspaces: object[]) => [result.data, ...workspaces]);
-    console.log(result.data);
+    //setWorkspaces((workspaces: object[]) => [result.data, ...workspaces]);
     redirectTo(result.data);
   };
 

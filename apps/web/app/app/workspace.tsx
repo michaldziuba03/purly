@@ -1,21 +1,23 @@
 'use client';
 import { useParams, useRouter, usePathname } from 'next/navigation';
-import React, { useState, createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { CreateFirstWorkspace } from './create-first-workspace';
 import { Loader } from '../../components/loader';
 import { getBasePath } from '../../hooks/useWorkspaceRouter';
+import { useUserWorkspaces } from '../../hooks/queries/useWorkspace';
 
 export const WorkspaceContext = createContext<any>(undefined);
 
 export const useWorkspace = () => useContext(WorkspaceContext);
 
-export const WorkspaceProvider: React.FC<
-  React.PropsWithChildren & { workspaces?: any }
-> = ({ children, workspaces }) => {
+export const WorkspaceProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const { slug } = useParams();
   const pathname = usePathname();
   const router = useRouter();
-  const [userWorkspaces, setWorkspaces] = useState(workspaces);
+  const userWorkspaces = useUserWorkspaces();
+
   const currentWorkspace =
     userWorkspaces.find((workspace: any) => workspace.slug === slug) ||
     userWorkspaces[0];
@@ -25,7 +27,6 @@ export const WorkspaceProvider: React.FC<
       <WorkspaceContext.Provider
         value={{
           workspaces: userWorkspaces,
-          setWorkspaces,
           currentWorkspace,
         }}
       >
@@ -56,7 +57,6 @@ export const WorkspaceProvider: React.FC<
     <WorkspaceContext.Provider
       value={{
         workspaces: userWorkspaces,
-        setWorkspaces,
         currentWorkspace,
       }}
     >
