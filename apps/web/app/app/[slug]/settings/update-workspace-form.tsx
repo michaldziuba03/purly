@@ -16,6 +16,7 @@ import { Input } from '../../../../components/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useWorkspace } from '../../workspace';
 import { Label } from '../../../../components/label';
+import { useUpdateWorkspace } from '../../../../hooks/queries/useWorkspace';
 
 const updateWorkspaceSchema = z.object({
   name: z.string().min(1).max(WORKSPACE_NAME_MAX),
@@ -24,6 +25,7 @@ type UpdateWorkspaceSchema = z.infer<typeof updateWorkspaceSchema>;
 
 export function UpdateWorkspaceForm() {
   const { currentWorkspace } = useWorkspace();
+  const { mutate, isLoading } = useUpdateWorkspace(currentWorkspace.id);
   const form = useForm<UpdateWorkspaceSchema>({
     resolver: zodResolver(updateWorkspaceSchema),
     defaultValues: {
@@ -32,7 +34,8 @@ export function UpdateWorkspaceForm() {
   });
 
   function handleSubmit(data: UpdateWorkspaceSchema) {
-    console.log(data);
+    mutate(data);
+    form.reset({ name: data.name });
   }
 
   return (
@@ -67,8 +70,8 @@ export function UpdateWorkspaceForm() {
         </div>
 
         <div className="mt-4">
-          <Button disabled={!form.formState.isDirty} type="submit">
-            {'Update workspace'}
+          <Button disabled={!form.formState.isDirty || isLoading} type="submit">
+            {isLoading ? 'Updating...' : 'Update workspace'}
           </Button>
         </div>
       </form>

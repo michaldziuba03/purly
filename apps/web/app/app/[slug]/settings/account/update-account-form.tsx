@@ -16,6 +16,7 @@ import { Button } from '../../../../../components/button';
 import { Input } from '../../../../../components/input';
 import { useAuth } from '../../../../../lib/auth';
 import { AvatarUpload } from './avatar-upload';
+import { useUpdateUser } from '../../../../../hooks/queries/useUsers';
 
 const updateAccountSchema = z.object({
   username: z.string().min(1).max(WORKSPACE_NAME_MAX),
@@ -25,6 +26,7 @@ type UpdateAccountSchema = z.infer<typeof updateAccountSchema>;
 
 export function UpdateAccountForm() {
   const { user, setUser } = useAuth();
+  const { isLoading, mutateAsync } = useUpdateUser();
   const form = useForm<UpdateAccountSchema>({
     resolver: zodResolver(updateAccountSchema),
     defaultValues: {
@@ -33,8 +35,13 @@ export function UpdateAccountForm() {
     },
   });
 
-  function handleSubmit(data: UpdateAccountSchema) {
-    console.log(data);
+  async function handleSubmit(data: UpdateAccountSchema) {
+    const result = await mutateAsync(data);
+    setUser(result);
+    form.reset({
+      username: result.username,
+      avatarFile: null,
+    });
   }
 
   return (
@@ -75,8 +82,8 @@ export function UpdateAccountForm() {
         />
 
         <div className="mt-4">
-          <Button disabled={!form.formState.isDirty} type="submit">
-            {'Update profile'}
+          <Button disabled={!form.formState.isDirty || isLoading} type="submit">
+            {isLoading ? 'Updating...' : 'Update profile'}
           </Button>
         </div>
       </form>

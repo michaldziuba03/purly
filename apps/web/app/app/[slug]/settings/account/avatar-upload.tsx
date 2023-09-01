@@ -1,23 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { Trash, UploadCloud } from 'lucide-react';
-import { useAuth } from '../../../../../lib/auth';
-import { initUpload, uploadToS3 } from '../../../../../lib/api/upload';
-import { setUserAvatar } from '../../../../../lib/api';
-
-function getFormat(type: string): string {
-  switch (type) {
-    case 'image/png':
-      return 'png';
-    case 'image/jpg':
-      return 'jpg';
-    case 'image/jpeg':
-      return 'jpeg';
-    default:
-      throw new Error('Unsupported format');
-  }
-}
+import { useWatch } from 'react-hook-form';
 
 function getFile(target: HTMLInputElement) {
   if (!target.files) {
@@ -35,8 +20,15 @@ type IAvatarUploadProps = React.ComponentProps<'input'> & {
   defaultImage: string;
 };
 
-export function AvatarUpload(props: IAvatarUploadProps) {
-  const [picturePreview, setPicturePreview] = useState(props.defaultImage);
+export function AvatarUpload({ defaultImage, ...props }: IAvatarUploadProps) {
+  const avatarFile = useWatch({ name: 'avatarFile' });
+  const picturePreview = useMemo(() => {
+    if (avatarFile) {
+      return URL.createObjectURL(avatarFile);
+    }
+
+    return defaultImage;
+  }, [avatarFile, defaultImage]);
 
   function changeAvatar() {
     const fileInput = document.getElementById('avatar-file');
@@ -51,38 +43,13 @@ export function AvatarUpload(props: IAvatarUploadProps) {
     }
 
     props.onChange(file as any);
-    setPicturePreview(URL.createObjectURL(file));
   }
 
   function discardPicture() {
     if (!props.onChange) return;
-    setPicturePreview(props.defaultImage);
     props.onChange(null as any);
   }
 
-  /*
-  async function savePicture() {
-    const fileInput = document.getElementById(
-      'avatar-file'
-    ) as HTMLInputElement;
-    const file = fileInput.files![0];
-
-    const format = getFormat(file.type);
-    const signed = await initUpload(format);
-    const form = new FormData();
-
-    Object.entries(signed.fields).forEach(([field, value]) => {
-      form.append(field, value as string);
-    });
-
-    form.append('file', file);
-    await uploadToS3(signed.url, form);
-    const userData = await setUserAvatar(signed.file);
-
-    setUser(userData);
-    setPicturePreview(userData.picture);
-  }
-  */
   return (
     <>
       <input
@@ -111,7 +78,7 @@ export function AvatarUpload(props: IAvatarUploadProps) {
           />
         </button>
 
-        {picturePreview !== props.defaultImage && (
+        {picturePreview !== defaultImage && (
           <button
             type="button"
             className="p-3 bg-muted border hover:bg-slate-200 top-0 right-0 shadow-sm absolute rounded-full translate-x-1/2"
