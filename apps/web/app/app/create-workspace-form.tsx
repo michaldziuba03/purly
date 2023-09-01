@@ -4,7 +4,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { WORKSPACE_NAME_MAX } from '@purly/shared';
-import { useRouter } from 'next/navigation';
 import * as z from 'zod';
 import {
   Form,
@@ -16,9 +15,9 @@ import {
 } from '../../components/form';
 import { Input } from '../../components/input';
 import { Button } from '../../components/button';
-import { useSubmit } from '../../hooks/useSubmit';
-import * as api from '../../lib/api';
 import { useWorkspaceRouter } from '../../hooks/useWorkspaceRouter';
+import { useCreateWorkspace } from '../../hooks/queries/useWorkspace';
+import { formatError } from '../../lib/utils';
 
 export const createWorkspaceSchema = z.object({
   name: z.string().min(1).max(WORKSPACE_NAME_MAX),
@@ -27,9 +26,8 @@ export const createWorkspaceSchema = z.object({
 type CreateWorkspaceSchema = z.infer<typeof createWorkspaceSchema>;
 
 export const CreateWorkspaceForm: React.FC = () => {
-  //const { setWorkspaces } = useWorkspace();
   const { redirectTo } = useWorkspaceRouter();
-  const { submit, isSending, error } = useSubmit(api.createWorkspace);
+  const { mutateAsync, isLoading, isError, error } = useCreateWorkspace();
   const form = useForm<CreateWorkspaceSchema>({
     resolver: zodResolver(createWorkspaceSchema),
     defaultValues: {
@@ -39,11 +37,11 @@ export const CreateWorkspaceForm: React.FC = () => {
   });
 
   const handleSubmit = async (data: CreateWorkspaceSchema) => {
-    const result = await submit(data);
+    const result = await mutateAsync(data);
     // TODO: handle errors properly
     if (!result) return;
     //setWorkspaces((workspaces: object[]) => [result.data, ...workspaces]);
-    redirectTo(result.data);
+    redirectTo(result);
   };
 
   return (
@@ -52,9 +50,9 @@ export const CreateWorkspaceForm: React.FC = () => {
         className="flex flex-col gap-4"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
-        <span className="text-sm text-destructive">
-          {error?.response?.data.message}
-        </span>
+        {isError && (
+          <span className="text-sm text-destructive">{formatError(error)}</span>
+        )}
 
         <FormField
           name="name"
@@ -84,8 +82,8 @@ export const CreateWorkspaceForm: React.FC = () => {
           )}
         />
 
-        <Button disabled={isSending} type="submit" className="w-full">
-          {isSending ? 'Sending...' : 'Create workspace'}
+        <Button disabled={isLoading} type="submit" className="w-full">
+          {isLoading ? 'Sending...' : 'Create workspace'}
         </Button>
       </form>
     </Form>

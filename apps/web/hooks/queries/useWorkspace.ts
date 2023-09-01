@@ -18,6 +18,41 @@ export function useUserWorkspaces() {
   return query.data;
 }
 
+// ====================================================================
+
+interface ICreateWorkspace {
+  name: string;
+  slug: string;
+}
+
+async function createWorkspace(data: ICreateWorkspace) {
+  const result = await client.post('/workspaces', data);
+  return result.data;
+}
+
+export function useCreateWorkspace() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const mut = useMutation(['workspace'], {
+    mutationFn: (data: ICreateWorkspace) => createWorkspace(data),
+    onSuccess: (result) => {
+      queryClient.setQueryData(['workspace'], [result]);
+      return toast({
+        title: 'Workspace updated successfully',
+      });
+    },
+    onError: () =>
+      toast({
+        title: 'Something went wrong...',
+        variant: 'destructive',
+      }),
+  });
+
+  return mut;
+}
+
+// ====================================================================
+
 interface IUpdateWorkspace {
   name: string;
 }
