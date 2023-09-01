@@ -25,6 +25,7 @@ import {
 import { useWorkspace } from './workspace';
 import { CreateWorkspaceForm } from './create-workspace-form';
 import { useWorkspaceRouter } from '../../hooks/useWorkspaceRouter';
+import { CreateWorkspaceDialog } from './create-workspace-dialog';
 
 function WorkspaceIcon({ name }: { name: string }) {
   return (
@@ -41,7 +42,7 @@ export function WorkspacesDropdown() {
   const { switchTo } = useWorkspaceRouter();
 
   return (
-    <Dialog>
+    <CreateWorkspaceDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="w-full justify-between" variant="ghost">
@@ -75,16 +76,6 @@ export function WorkspacesDropdown() {
           </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create a new workspace</DialogTitle>
-          <DialogDescription>
-            Workspaces are containers for your links, statistics.
-          </DialogDescription>
-        </DialogHeader>
-        <CreateWorkspaceForm />
-      </DialogContent>
-    </Dialog>
+    </CreateWorkspaceDialog>
   );
 }

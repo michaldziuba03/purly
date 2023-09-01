@@ -36,9 +36,11 @@ export function useCreateWorkspace() {
   const mut = useMutation(['workspace'], {
     mutationFn: (data: ICreateWorkspace) => createWorkspace(data),
     onSuccess: (result) => {
-      queryClient.setQueryData(['workspace'], [result]);
+      queryClient.setQueriesData(['workspace'], (workspaces: any) => {
+        return [result, ...workspaces];
+      });
       return toast({
-        title: 'Workspace updated successfully',
+        title: 'New workspace created',
       });
     },
     onError: () =>

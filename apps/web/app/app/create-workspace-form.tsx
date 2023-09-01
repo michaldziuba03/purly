@@ -19,13 +19,19 @@ import { useWorkspaceRouter } from '../../hooks/useWorkspaceRouter';
 import { useCreateWorkspace } from '../../hooks/queries/useWorkspace';
 import { formatError } from '../../lib/utils';
 
+interface ICreateWorkspaceFormProsps {
+  onSuccess?: () => void;
+}
+
 export const createWorkspaceSchema = z.object({
   name: z.string().min(1).max(WORKSPACE_NAME_MAX),
   slug: z.string().min(1).max(WORKSPACE_NAME_MAX),
 });
 type CreateWorkspaceSchema = z.infer<typeof createWorkspaceSchema>;
 
-export const CreateWorkspaceForm: React.FC = () => {
+export const CreateWorkspaceForm: React.FC<ICreateWorkspaceFormProsps> = ({
+  onSuccess,
+}) => {
   const { redirectTo } = useWorkspaceRouter();
   const { mutateAsync, isLoading, isError, error } = useCreateWorkspace();
   const form = useForm<CreateWorkspaceSchema>({
@@ -40,8 +46,11 @@ export const CreateWorkspaceForm: React.FC = () => {
     const result = await mutateAsync(data);
     // TODO: handle errors properly
     if (!result) return;
-    //setWorkspaces((workspaces: object[]) => [result.data, ...workspaces]);
     redirectTo(result);
+
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 
   return (
