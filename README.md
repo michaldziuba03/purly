@@ -14,6 +14,11 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 
 > Currently only downloading as PNG is possible. In the future SVG and JPEG will be added.
 
+<img width="290px" src="https://github.com/michaldziuba03/purly/assets/43048524/af3b62c4-0b9e-4308-8147-617095ab7d35" />
+<img width="290px" src="https://github.com/michaldziuba03/purly/assets/43048524/e2193f3f-3e51-418c-85f7-de2bbb224e58" />
+<img width="290px" src="https://github.com/michaldziuba03/purly/assets/43048524/41cf8df1-24ac-4caf-a467-5054cbd09041" />
+
+> Account settings interactions example
 
 ## Tech stack
 
@@ -85,7 +90,7 @@ npm run stats:migrate
 
 ### Configure S3 with MiniO (optional)
 
-Purly uses [MiniO](https://min.io/) to simulate AWS S3 for local development. We suggest to use AWS CLI for initial configuration.a
+Purly uses [MinIO](https://min.io/) to simulate AWS S3 for local development. We suggest to use AWS CLI for initial configuration.
 
 Read about S3 local setup in `/tools/s3-local/README.md`
 
