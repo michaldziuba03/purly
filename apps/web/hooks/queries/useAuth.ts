@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getUserKey } from '../../lib/key-factories';
 import client from '../../lib/api/client';
 
@@ -18,9 +18,22 @@ async function login(data: ILogin) {
 export function useLogin() {
   const userKey = getUserKey();
   const mutation = useMutation(userKey, {
-    mutationFn: async (data: ILogin) => {
-      await login(data);
-    },
+    mutationFn: (data: ILogin) => login(data),
+  });
+
+  return mutation;
+}
+
+export function logout() {
+  return client.post('/auth/logout');
+}
+
+export function useLogout() {
+  const userKey = getUserKey();
+  const queryClient = useQueryClient();
+  const mutation = useMutation(userKey, {
+    mutationFn: () => logout(),
+    onSuccess: () => queryClient.removeQueries(),
   });
 
   return mutation;

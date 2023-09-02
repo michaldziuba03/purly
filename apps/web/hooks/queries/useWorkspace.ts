@@ -39,7 +39,7 @@ export function useCreateWorkspace() {
   const mut = useMutation(workspacesKey, {
     mutationFn: (data: ICreateWorkspace) => createWorkspace(data),
     onSuccess: (result) => {
-      queryClient.setQueriesData(workspacesKey, (workspaces: any) => {
+      queryClient.setQueryData(workspacesKey, (workspaces: any) => {
         return [result, ...workspaces];
       });
       return toast({

@@ -46,7 +46,7 @@ export function useCreateLink() {
   const { error, isLoading, mutateAsync } = useMutation(linksKey, {
     mutationFn: (data: object) => createLink(currentWorkspace.id, data),
     onSuccess(newLink: object) {
-      queryClient.setQueriesData(linksKey, (links: any) => {
+      queryClient.setQueryData(linksKey, (links: any) => {
         return [...links, newLink];
       });
     },

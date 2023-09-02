@@ -10,19 +10,18 @@ import {
   DropdownMenuTrigger,
 } from '../../components/dropdown-menu';
 import { useAuth } from '../../lib/auth';
-import { logout } from '../../lib/api';
 import { useRouter } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
+import { useLogout } from '../../hooks/queries/useAuth';
 
 export function UserDropdown() {
   const { user } = useAuth();
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const { mutate } = useLogout();
 
   async function handleLogout() {
-    await logout();
-    queryClient.removeQueries();
-    return router.push('/auth/login');
+    mutate(undefined, {
+      onSuccess: () => router.push('/auth/login'),
+    });
   }
 
   return (

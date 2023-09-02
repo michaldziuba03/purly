@@ -13,3 +13,7 @@ export function getLinksKey(workspaceId: string) {
 export function getMembersKey(workspaceId: string) {
   return ['members', workspaceId];
 }
+
+export function getInvitesKey(workspaceId: string) {
+  return ['invites', workspaceId];
+}

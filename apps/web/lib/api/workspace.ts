@@ -14,7 +14,3 @@ export async function getSessionWorkspaces(cookiesHeader?: string) {
     return;
   }
 }
-
-export function createWorkspace(data: any) {
-  return client.post('/workspaces', data);
-}
