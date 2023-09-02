@@ -7,9 +7,9 @@ export function getWorkspacesKey() {
 }
 
 export function getLinksKey(workspaceId: string) {
-  return ['workspaces', workspaceId, 'links'];
+  return ['links', workspaceId];
 }
 
 export function getMembersKey(workspaceId: string) {
-  return ['workspaces', workspaceId, 'members'];
+  return ['members', workspaceId];
 }
