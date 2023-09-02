@@ -4,9 +4,9 @@ import { useMembers } from '../../../../hooks/queries/useMembers';
 import { MemberCard } from './member-card';
 
 export function Members() {
-  const { data, error, isFetching } = useMembers();
+  const { data, error, isLoading } = useMembers();
 
-  if (isFetching) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 

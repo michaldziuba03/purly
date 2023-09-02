@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import client from '../../lib/api/client';
 import { useToast } from '../useToast';
+import { getWorkspacesKey } from '../../lib/key-factories';
 
 async function getWorkspaces() {
   const result = await client.get('/workspaces');
@@ -10,7 +11,8 @@ async function getWorkspaces() {
 }
 
 export function useUserWorkspaces() {
-  const query = useQuery(['workspace'], {
+  const workspacesKey = getWorkspacesKey();
+  const query = useQuery(workspacesKey, {
     queryFn: getWorkspaces,
     refetchOnMount: false,
   });
@@ -31,12 +33,13 @@ async function createWorkspace(data: ICreateWorkspace) {
 }
 
 export function useCreateWorkspace() {
+  const workspacesKey = getWorkspacesKey();
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const mut = useMutation(['workspace'], {
+  const mut = useMutation(workspacesKey, {
     mutationFn: (data: ICreateWorkspace) => createWorkspace(data),
     onSuccess: (result) => {
-      queryClient.setQueriesData(['workspace'], (workspaces: any) => {
+      queryClient.setQueriesData(workspacesKey, (workspaces: any) => {
         return [result, ...workspaces];
       });
       return toast({
@@ -65,12 +68,13 @@ async function updateWorkspace(workspaceId: string, data: IUpdateWorkspace) {
 }
 
 export function useUpdateWorkspace(workspaceId: string) {
+  const workspacesKey = getWorkspacesKey();
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const mut = useMutation(['workspace'], {
+  const mut = useMutation(workspacesKey, {
     mutationFn: (data: IUpdateWorkspace) => updateWorkspace(workspaceId, data),
     onSuccess: (result) => {
-      queryClient.setQueriesData(['workspace'], (workspaces: any) => {
+      queryClient.setQueriesData(workspacesKey, (workspaces: any) => {
         const otherWorkspaces = workspaces.filter(
           (workspace: any) => workspace.id !== workspaceId
         );

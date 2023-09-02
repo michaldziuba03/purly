@@ -4,10 +4,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import client from '../../lib/api/client';
 import { uploadFile } from '../../lib/upload';
 import { useToast } from '../useToast';
+import { getUserKey } from '../../lib/key-factories';
 
 export function useCurrentUser() {
+  const userKey = getUserKey();
   const query = useQuery(
-    ['user'],
+    userKey,
     async () => {
       const result = await client.get('/users/me');
       return result.data;
@@ -40,12 +42,13 @@ async function updateUser(data: IUpdateUser) {
 }
 
 export function useUpdateUser() {
+  const userKey = getUserKey();
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const mut = useMutation(['user'], {
+  const mut = useMutation(userKey, {
     mutationFn: (data: IUpdateUser) => updateUser(data),
     onSuccess: (result) => {
-      queryClient.setQueryData(['user'], result);
+      queryClient.setQueryData(userKey, result);
       return toast({
         title: 'Profile updated successfully',
       });

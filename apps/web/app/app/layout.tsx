@@ -8,6 +8,7 @@ import { getSessionUser, getSessionWorkspaces } from '../../lib/api';
 import { WorkspaceProvider } from './workspace';
 import getQueryClient from '../../lib/query-client';
 import { Hydrate, dehydrate } from '@tanstack/react-query';
+import { getWorkspacesKey, getUserKey } from '../../lib/key-factories';
 
 const AppLayout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const cookie = headers().get('cookie') as string;
@@ -19,8 +20,8 @@ const AppLayout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   const workspaces = await getSessionWorkspaces(cookie);
 
   const queryClient = getQueryClient();
-  queryClient.setQueryData(['user'], user);
-  queryClient.setQueryData(['workspace'], workspaces);
+  queryClient.setQueryData(getUserKey(), user);
+  queryClient.setQueryData(getWorkspacesKey(), workspaces);
   const dehydratedState = dehydrate(queryClient);
 
   return (

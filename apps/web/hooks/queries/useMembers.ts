@@ -3,12 +3,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useWorkspace } from '../../app/app/workspace';
 import { getMembers } from '../../lib/api';
+import { getMembersKey } from '../../lib/key-factories';
 
 export function useMembers() {
   const { currentWorkspace } = useWorkspace();
-  const { data, error, isFetching } = useQuery(['members'], () => {
+  const queryKey = getMembersKey(currentWorkspace.id);
+  const query = useQuery(queryKey, () => {
     return getMembers(currentWorkspace.id);
   });
 
-  return { data, error, isFetching };
+  return query;
 }
