@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PASSWORD_MIN, PASSWORD_MAX } from '@purly/shared';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import * as z from 'zod';
 import {
   Form,
@@ -18,9 +18,9 @@ import {
 import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
 import { Recaptcha } from '../../../components/recaptcha';
-import { useSubmit } from '../../../hooks/useSubmit';
 import { useRecaptcha } from '../../../hooks/useRecaptcha';
-import * as api from '../../../lib/api';
+import { useLogin } from '../../../hooks/queries/useAuth';
+import { formatError } from '../../../lib/utils';
 
 export const loginSchema = z.object({
   email: z.string().email(),
@@ -31,7 +31,7 @@ type LoginSchema = z.infer<typeof loginSchema>;
 export const LoginForm: React.FC = () => {
   const router = useRouter();
   const recaptcha = useRecaptcha();
-  const { submit, isSending, error } = useSubmit(api.login);
+  const { isLoading, mutate, isError, error, isSuccess } = useLogin();
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -46,12 +46,15 @@ export const LoginForm: React.FC = () => {
       return;
     }
 
-    await submit({
-      ...data,
-      recaptcha: token,
-    });
-
-    router.push('/app');
+    mutate(
+      {
+        ...data,
+        recaptcha: token,
+      },
+      {
+        onSuccess: () => router.push('/app'),
+      }
+    );
   };
 
   return (
@@ -61,7 +64,7 @@ export const LoginForm: React.FC = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <span className="text-sm text-destructive">
-          {error?.response?.data.message}
+          {isError && formatError(error)}
         </span>
 
         <FormField
@@ -99,8 +102,12 @@ export const LoginForm: React.FC = () => {
         />
 
         <Recaptcha recaptcha={recaptcha} />
-        <Button disabled={isSending} type="submit" className="w-full">
-          {isSending ? 'Sending...' : 'Sign In'}
+        <Button
+          disabled={isLoading || isSuccess}
+          type="submit"
+          className="w-full"
+        >
+          {isLoading ? 'Sending...' : 'Sign In'}
         </Button>
 
         <span className="text-gray-400 py-6 text-xs text-center">
