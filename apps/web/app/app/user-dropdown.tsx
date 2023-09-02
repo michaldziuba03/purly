@@ -12,13 +12,16 @@ import {
 import { useAuth } from '../../lib/auth';
 import { logout } from '../../lib/api';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function UserDropdown() {
   const { user } = useAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   async function handleLogout() {
     await logout();
+    queryClient.removeQueries();
     return router.push('/auth/login');
   }
 
