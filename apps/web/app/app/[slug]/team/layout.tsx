@@ -4,6 +4,7 @@ import { H2 } from '../../../../components/typography';
 import { PageWrapper } from '../../page-wrapper';
 import React from 'react';
 import { TeamRoutesSwitches } from './team-routes';
+import { CreateInviteModal } from './invites/invite-modal';
 
 export default function TeamLayout(props: React.PropsWithChildren) {
   return (
@@ -15,10 +16,12 @@ export default function TeamLayout(props: React.PropsWithChildren) {
             People that have access to this workspace.
           </span>
         </div>
-        <Button>
-          <Send className="mr-3 w-4 h-4" />
-          Invite
-        </Button>
+        <CreateInviteModal>
+          <Button>
+            <Send className="mr-3 w-4 h-4" />
+            Invite
+          </Button>
+        </CreateInviteModal>
       </div>
       <div className="flex gap-3 w-full">
         <TeamRoutesSwitches />

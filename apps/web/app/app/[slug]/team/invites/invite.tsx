@@ -21,7 +21,9 @@ export function InviteCard(props: IInviteProps) {
         <div className="flex flex-col gap-0.5">
           <span className="text-sm flex items-center gap-2">
             <span className="font-bold">{props.email}</span>
-            <Badge className="bg-orange-600 hover:bg-orange-700">Pending</Badge>
+            <Badge className="text-orange-100 bg-orange-700 hover:bg-orange-7800">
+              Pending
+            </Badge>
           </span>
           <span className="text-sm text-muted-foreground">{props.email}</span>
         </div>
