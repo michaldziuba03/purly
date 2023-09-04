@@ -1,5 +1,6 @@
 import { MailerService } from '@purly/mailer';
 import {
+  IInviteEmail,
   IReportEmail,
   IResetPasswordEmail,
   IVerificationEmail,
@@ -25,6 +26,8 @@ export class MailsProcessor extends WorkerHost {
         return await this.sendResetEmail(job.data);
       case MailJobs.REPORT:
         return await this.sendReportEmail(job.data);
+      case MailJobs.INVITE:
+        return await this.sendInviteEmail(job.data);
     }
   }
 
@@ -63,6 +66,17 @@ export class MailsProcessor extends WorkerHost {
         template: 'report',
         subject: `Report: ${data.linkId}`,
         to: process.env.REPORT_MAIL,
+      },
+      data
+    );
+  }
+
+  async sendInviteEmail(data: IInviteEmail) {
+    await this.mailer.sendMail(
+      {
+        template: 'invite',
+        subject: 'Invite to workspace',
+        to: data.email,
       },
       data
     );

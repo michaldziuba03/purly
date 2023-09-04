@@ -4,6 +4,7 @@ export enum MailJobs {
   VERIFICATION = 'verification',
   RESET_PASSWORD = 'reset-password',
   REPORT = 'report',
+  INVITE = 'invite',
 }
 
 export interface IResetPasswordEmail {
@@ -22,4 +23,10 @@ export interface IVerificationEmail {
   email: string;
   username: string;
   verificationLink: string;
+}
+
+export interface IInviteEmail {
+  email: string;
+  token: string;
+  workspaceId: string;
 }

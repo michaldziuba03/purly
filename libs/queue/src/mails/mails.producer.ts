@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import type { Queue } from 'bullmq';
 import {
+  IInviteEmail,
   IReportEmail,
   IResetPasswordEmail,
   IVerificationEmail,
@@ -26,5 +27,9 @@ export class MailsProducer {
 
   sendVerificationLink(data: IVerificationEmail) {
     return this.mailsQueue.add(MailJobs.VERIFICATION, data);
+  }
+
+  sendInvite(data: IInviteEmail) {
+    return this.mailsQueue.add(MailJobs.INVITE, data);
   }
 }

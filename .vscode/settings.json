@@ -11,5 +11,6 @@
     "usecase",
     "usecases"
   ],
-  "vsicons.presets.nestjs": true
+  "vsicons.presets.nestjs": true,
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

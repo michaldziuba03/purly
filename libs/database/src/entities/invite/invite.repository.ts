@@ -33,6 +33,13 @@ export class InviteRepository extends BaseRepository<Invite> {
   async findByToken(inviteToken: string) {
     const result = await this.db.query.invites.findFirst({
       where: eq(invites.token, inviteToken),
+      with: {
+        workspace: {
+          columns: {
+            slug: true,
+          },
+        },
+      },
     });
 
     return this.mapSingle(result);

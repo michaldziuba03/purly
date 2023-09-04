@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   index,
   integer,
@@ -8,6 +9,7 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { workspaces } from '../workspace/workspace.schema';
 
 export const invites = pgTable(
   'invites',
@@ -25,3 +27,10 @@ export const invites = pgTable(
     invitesPk: primaryKey(schema.email, schema.workspaceId),
   })
 );
+
+export const invitesRelations = relations(invites, ({ one }) => ({
+  workspace: one(workspaces, {
+    fields: [invites.workspaceId],
+    references: [workspaces.id],
+  }),
+}));

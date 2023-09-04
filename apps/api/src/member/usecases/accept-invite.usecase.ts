@@ -51,7 +51,11 @@ export class AcceptInvite implements Usecase<IAcceptInviteCommand> {
       await this.clearInvite(invite);
     }
 
-    return isAdded;
+    if (!invite.workspace) {
+      throw new Error('Workpsace slug is missing');
+    }
+
+    return { slug: invite.workspace.slug };
   }
 
   private clearInvite(invite: Invite) {

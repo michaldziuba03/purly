@@ -85,6 +85,9 @@ export function CreateInviteForm(props: ICreateInviteFormProps) {
                   </SelectTrigger>
                 </FormTextControl>
                 <SelectContent>
+                  <SelectItem value={MemberRole.CLIENT.toString()}>
+                    Readonly
+                  </SelectItem>
                   <SelectItem value={MemberRole.MEMBER.toString()}>
                     Member
                   </SelectItem>

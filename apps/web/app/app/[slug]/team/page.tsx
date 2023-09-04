@@ -6,5 +6,9 @@ export const metadata = {
 };
 
 export default function MembersPage() {
-  return <Members />;
+  return (
+    <div className="flex flex-col gap-4">
+      <Members />
+    </div>
+  );
 }

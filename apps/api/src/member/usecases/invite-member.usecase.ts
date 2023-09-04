@@ -1,5 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { MemberRole } from '@purly/shared';
+import { MailsProducer } from '@purly/queue';
 import { Usecase } from '../../shared/base.usecase';
 import {
   InviteRepository,
@@ -21,7 +22,8 @@ export class InviteMember implements Usecase<IInviteMemberCommand> {
   constructor(
     private readonly inviteRepository: InviteRepository,
     private readonly userRepository: UserRepository,
-    private readonly memberRepository: MemberRepository
+    private readonly memberRepository: MemberRepository,
+    private readonly mailsProducer: MailsProducer
   ) {}
 
   async execute(command: IInviteMemberCommand) {
@@ -40,8 +42,11 @@ export class InviteMember implements Usecase<IInviteMemberCommand> {
       throw new ConflictException('User is already invited');
     }
 
-    // TODO: SEND NOTIFICATION WITH INVITE LINK
-    console.log('Invite token:', inviteToken);
+    await this.mailsProducer.sendInvite({
+      email: invite.email,
+      workspaceId: command.workspaceId,
+      token: inviteToken,
+    });
 
     return invite;
   }

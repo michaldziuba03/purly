@@ -13,11 +13,11 @@ export class InviteController {
     @UserSession('id') userId: string,
     @Param('inviteToken') inviteToken: string
   ) {
-    const isAdded = await this.acceptInviteUsecase.execute({
+    const invite = await this.acceptInviteUsecase.execute({
       userId,
       inviteToken,
     });
 
-    return { success: isAdded };
+    return invite;
   }
 }

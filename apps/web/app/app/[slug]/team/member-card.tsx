@@ -18,7 +18,7 @@ interface IMemberCardProps {
 
 export function MemberCard(props: IMemberCardProps) {
   return (
-    <div className="flex w-full justify-between items-center gap-4">
+    <div className="flex w-full justify-between items-center gap-4 pb-4 last:border-none border-b">
       <div className="flex gap-4 items-center">
         <Avatar className="border w-11 h-11">
           <AvatarImage src={props.picture} alt="member avatar" />
