@@ -9,26 +9,26 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../../../../../components/alert-dialog';
-import { Button } from '../../../../../components/button';
-import { useRevokeInvite } from '../../../../../hooks/queries/useInvites';
+} from '../../../../components/alert-dialog';
+import { Button } from '../../../../components/button';
+import { useRemoveMember } from '../../../../hooks/queries/useMembers';
 
-interface IDeleteInviteAlertProps extends React.PropsWithChildren {
-  email: string;
+interface IRemoveMemberAlertProps extends React.PropsWithChildren {
+  userId: string;
 }
 
-export function DeleteInviteAlert(props: IDeleteInviteAlertProps) {
-  const { isLoading, mutate } = useRevokeInvite();
+export function RemoveMemberAlert(props: IRemoveMemberAlertProps) {
+  const { isLoading, mutate } = useRemoveMember();
 
   function handleRevokeInvite() {
-    mutate({ email: props.email });
+    mutate({ userId: props.userId });
   }
 
   return (
     <AlertDialog>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Revoke invite?</AlertDialogTitle>
+          <AlertDialogTitle>Remove this member?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone.
           </AlertDialogDescription>
@@ -40,7 +40,7 @@ export function DeleteInviteAlert(props: IDeleteInviteAlertProps) {
             onClick={handleRevokeInvite}
             disabled={isLoading}
           >
-            {isLoading ? 'Revoking...' : 'Confirm revoke'}
+            {isLoading ? 'Removing...' : 'Remove member'}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

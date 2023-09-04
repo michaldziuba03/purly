@@ -24,8 +24,8 @@ export class RemoveMember implements Usecase<IRemoveMemberCommand> {
     }
 
     const member = await this.memberRepository.findMember(
-      command.memberId,
-      command.workspaceId
+      command.workspaceId,
+      command.memberId
     );
 
     if (!member) {

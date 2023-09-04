@@ -53,8 +53,8 @@ export function InviteCard(props: IInviteProps) {
                 <MoreVertical className="w-5 h-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <AlertDialogTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              <AlertDialogTrigger className="w-full">
                 <DropdownMenuItem className="text-destructive">
                   <Trash2 className="mr-3 w-3 h-3" /> Revoke invite
                 </DropdownMenuItem>

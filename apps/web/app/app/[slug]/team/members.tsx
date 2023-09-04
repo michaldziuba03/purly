@@ -1,10 +1,12 @@
 'use client';
 
 import { useMembers } from '../../../../hooks/queries/useMembers';
+import { useAuth } from '../../../../lib/auth';
 import { MemberCard } from './member-card';
 
 export function Members() {
   const { data, error, isLoading } = useMembers();
+  const { user } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -26,6 +28,7 @@ export function Members() {
             email={member.user.email}
             createdAt={member.createdAt}
             role={member.role}
+            isUser={member.user.id === user.id}
           />
         );
       })}

@@ -5,10 +5,18 @@ import {
   AvatarFallback,
 } from '../../../../components/avatar';
 import { Button } from '../../../../components/button';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Trash2 } from 'lucide-react';
 import { formatDate } from '../../../../lib/utils';
 import { RoleBadge } from './role-badge';
 import { MemberRole } from '@purly/shared';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../../../../components/dropdown-menu';
+import { AlertDialogTrigger } from '../../../../components/alert-dialog';
+import { RemoveMemberAlert } from './remove-member-alert';
 
 interface IMemberCardProps {
   id: string;
@@ -17,6 +25,7 @@ interface IMemberCardProps {
   email: string;
   role: MemberRole;
   createdAt: string;
+  isUser?: boolean;
 }
 
 export function MemberCard(props: IMemberCardProps) {
@@ -40,9 +49,23 @@ export function MemberCard(props: IMemberCardProps) {
         <span className="text-sm text-muted-foreground">
           Since {formatDate(props.createdAt)}
         </span>
-        <Button variant="ghost">
-          <MoreVertical className="w-5 h-5" />
-        </Button>
+
+        <DropdownMenu>
+          <RemoveMemberAlert userId={props.id}>
+            <DropdownMenuTrigger asChild>
+              <Button disabled={props.isUser} variant="ghost">
+                <MoreVertical className="w-5 h-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              <AlertDialogTrigger className="w-full">
+                <DropdownMenuItem className="text-destructive">
+                  <Trash2 className="mr-3 w-3 h-3" /> Remove member
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
+            </DropdownMenuContent>
+          </RemoveMemberAlert>
+        </DropdownMenu>
       </div>
     </div>
   );
