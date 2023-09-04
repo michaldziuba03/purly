@@ -25,6 +25,7 @@ export function Members() {
             username={member.user.username}
             email={member.user.email}
             createdAt={member.createdAt}
+            role={member.role}
           />
         );
       })}

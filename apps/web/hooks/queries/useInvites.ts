@@ -57,3 +57,42 @@ export function useCreateInvite() {
 
   return mut;
 }
+
+interface IDeleteInvite {
+  email: string;
+}
+
+export function useRevokeInvite() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const { currentWorkspace } = useWorkspace();
+  const invitesKey = getInvitesKey(currentWorkspace.id);
+
+  const mut = useMutation(
+    invitesKey,
+    async (data: IDeleteInvite) => {
+      const result = await client.post(
+        `/workspaces/${currentWorkspace.id}/members/invites/delete`,
+        data
+      );
+      return result.data;
+    },
+    {
+      onSuccess: (_, { email }) => {
+        queryClient.setQueryData(invitesKey, (invites: any) =>
+          invites.filter((invite: any) => invite.email !== email)
+        );
+        return toast({
+          title: 'Invite revoked successfully',
+        });
+      },
+      onError: (err) =>
+        toast({
+          title: formatError(err),
+          variant: 'destructive',
+        }),
+    }
+  );
+
+  return mut;
+}

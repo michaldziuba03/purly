@@ -16,8 +16,8 @@ export function CreateInviteModal(props: React.PropsWithChildren) {
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
-      <DialogContent>
-        <DialogHeader className="mb-8">
+      <DialogContent className="max-w-md">
+        <DialogHeader className="mb-6">
           <DialogTitle>Invite member</DialogTitle>
           <DialogDescription>
             Invite a new member into your workspace

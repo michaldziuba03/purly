@@ -7,12 +7,15 @@ import {
 import { Button } from '../../../../components/button';
 import { MoreVertical } from 'lucide-react';
 import { formatDate } from '../../../../lib/utils';
+import { RoleBadge } from './role-badge';
+import { MemberRole } from '@purly/shared';
 
 interface IMemberCardProps {
   id: string;
   username: string;
   picture: string;
   email: string;
+  role: MemberRole;
   createdAt: string;
 }
 
@@ -27,7 +30,7 @@ export function MemberCard(props: IMemberCardProps) {
         <div className="flex flex-col gap-0.5">
           <span className="text-sm flex items-center gap-2">
             <span className="font-bold">{props.username}</span>
-            <Badge>Owner</Badge>
+            <RoleBadge role={props.role} />
           </span>
           <span className="text-sm text-muted-foreground">{props.email}</span>
         </div>

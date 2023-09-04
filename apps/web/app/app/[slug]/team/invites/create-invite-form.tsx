@@ -24,7 +24,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const createInviteSchema = z.object({
-  email: z.string().email(),
+  email: z.string().nonempty('Email cannot be empty').email(),
   role: z.number().int().default(MemberRole.MEMBER),
 });
 type CreateInviteSchema = z.infer<typeof createInviteSchema>;
@@ -52,7 +52,7 @@ export function CreateInviteForm(props: ICreateInviteFormProps) {
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-8 w-full"
+        className="flex flex-col gap-6 w-full"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FormField
@@ -104,7 +104,7 @@ export function CreateInviteForm(props: ICreateInviteFormProps) {
           )}
         />
 
-        <div className="mt-4 flex justify-end">
+        <div className="mt-2 flex justify-end">
           <Button disabled={!form.formState.isDirty || isLoading} type="submit">
             {isLoading ? 'Inviting...' : 'Invite'}
           </Button>
