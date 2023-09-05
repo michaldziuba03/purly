@@ -4,8 +4,12 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PASSWORD_MIN, PASSWORD_MAX } from '@purly/shared';
-import Link from 'next/link';
+import {
+  PASSWORD_MIN,
+  PASSWORD_MAX,
+  USER_NAME_MIN,
+  USER_NAME_MAX,
+} from '@purly/shared';
 import * as z from 'zod';
 import {
   Form,
@@ -19,28 +23,30 @@ import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
 import { Recaptcha } from '../../../components/recaptcha';
 import { useRecaptcha } from '../../../hooks/useRecaptcha';
-import { useLogin } from '../../../hooks/queries/useAuth';
+import { useRegister } from '../../../hooks/queries/useAuth';
 import { formatError } from '../../../lib/utils';
 
-export const loginSchema = z.object({
+export const registerSchema = z.object({
   email: z.string().email(),
+  username: z.string().min(USER_NAME_MIN).max(USER_NAME_MAX),
   password: z.string().min(PASSWORD_MIN).max(PASSWORD_MAX),
 });
-type LoginSchema = z.infer<typeof loginSchema>;
+type RegisterSchema = z.infer<typeof registerSchema>;
 
-export const LoginForm: React.FC = () => {
+export const RegisterForm: React.FC = () => {
   const router = useRouter();
   const recaptcha = useRecaptcha();
-  const { isLoading, mutate, isError, error, isSuccess } = useLogin();
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
+  const { isLoading, mutate, isError, error, isSuccess } = useRegister();
+  const form = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
+      username: '',
       password: '',
     },
   });
 
-  const handleSubmit = async (data: LoginSchema) => {
+  const handleSubmit = async (data: RegisterSchema) => {
     const token = await recaptcha.getToken();
     if (!token) {
       return;
@@ -82,6 +88,20 @@ export const LoginForm: React.FC = () => {
         />
 
         <FormField
+          name="username"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormTextControl>
+                <Input placeholder="John Doe" {...field} />
+              </FormTextControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
           name="password"
           control={form.control}
           render={({ field }) => (
@@ -91,14 +111,6 @@ export const LoginForm: React.FC = () => {
                 <Input type="password" {...field} />
               </FormTextControl>
               <FormMessage />
-              <div className="flex justify-end">
-                <Link
-                  className="text-xs space-y-2 hover:underline text-gray-700"
-                  href="/auth/reset"
-                >
-                  Forgot password?
-                </Link>
-              </div>
             </FormItem>
           )}
         />
@@ -109,7 +121,7 @@ export const LoginForm: React.FC = () => {
           type="submit"
           className="w-full"
         >
-          {isLoading ? 'Sending...' : 'Sign In'}
+          {isLoading ? 'Sending...' : 'Sign Up'}
         </Button>
 
         <span className="text-gray-400 pt-6 text-xs text-center">

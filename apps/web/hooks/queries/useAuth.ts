@@ -4,6 +4,27 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getUserKey } from '../../lib/key-factories';
 import client from '../../lib/api/client';
 
+interface IRegister {
+  email: string;
+  username: string;
+  password: string;
+  recaptcha: string;
+}
+
+async function register(data: IRegister) {
+  const result = await client.post('/auth/register', data);
+  return result.data;
+}
+
+export function useRegister() {
+  const userKey = getUserKey();
+  const mutation = useMutation(userKey, {
+    mutationFn: (data: IRegister) => register(data),
+  });
+
+  return mutation;
+}
+
 interface ILogin {
   email: string;
   password: string;

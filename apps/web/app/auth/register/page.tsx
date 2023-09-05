@@ -1,9 +1,9 @@
 import { Card, CardContent } from '../../../components/card';
 import { Button } from '../../../components/button';
 import { GitHub, Google } from '../../../components/icons';
-import { LoginForm } from './login-form';
+import { RegisterForm } from './register-form';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <div className="w-full min-h-screen flex justify-center items-center pattern">
       <Card className="shadow-lg py-4">
@@ -22,11 +22,11 @@ const LoginPage = () => {
             </span>
           </div>
 
-          <LoginForm />
+          <RegisterForm />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
