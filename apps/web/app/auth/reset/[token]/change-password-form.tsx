@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 import { Input } from '../../../../components/input';
 import { Button } from '../../../../components/button';
@@ -18,6 +18,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { PASSWORD_MAX, PASSWORD_MIN } from '@purly/shared';
+import { useChangePassword } from '../../../../hooks/queries/useAuth';
 
 export const changePasswordSchema = z
   .object({
@@ -32,6 +33,8 @@ export const changePasswordSchema = z
 type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
 
 export const ChangePasswordForm: React.FC = () => {
+  const router = useRouter();
+  const { isLoading, isSuccess, isError, mutate } = useChangePassword();
   const recaptcha = useRecaptcha();
   const params = useParams();
 
@@ -45,11 +48,20 @@ export const ChangePasswordForm: React.FC = () => {
 
   const handleSubmit = async (data: ChangePasswordSchema) => {
     const recaptchaToken = await recaptcha.getToken();
-    console.log({
-      ...data,
-      recaptcha: recaptchaToken,
-      token: params.token,
-    });
+    if (!recaptchaToken) {
+      return;
+    }
+
+    mutate(
+      {
+        ...data,
+        recaptcha: recaptchaToken,
+        token: params.token,
+      },
+      {
+        onSuccess: () => router.push('/auth/login'),
+      }
+    );
   };
 
   return (
@@ -87,8 +99,12 @@ export const ChangePasswordForm: React.FC = () => {
         />
 
         <Recaptcha recaptcha={recaptcha} />
-        <Button type="submit" className="w-full">
-          Change password
+        <Button
+          disabled={isLoading || !form.formState.isDirty || isSuccess}
+          type="submit"
+          className="w-full"
+        >
+          {isLoading ? 'Sending...' : 'Change password'}
         </Button>
 
         <span className="text-gray-400 py-6 text-xs text-center">

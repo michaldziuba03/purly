@@ -13,7 +13,7 @@ const ChangePasswordPage = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Change password</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col gap-3 py-4">
+        <CardContent className="flex max-w-md flex-col gap-3 py-4">
           <ChangePasswordForm />
         </CardContent>
       </Card>

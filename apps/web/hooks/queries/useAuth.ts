@@ -75,3 +75,20 @@ export function useForgotPassword() {
 
   return mut;
 }
+
+interface IChangePassword {
+  password: string;
+  token: string;
+  recaptcha: string;
+}
+
+export function useChangePassword() {
+  const mut = useMutation({
+    mutationFn: async (data: IChangePassword) => {
+      const result = await client.post('/auth/reset', data);
+      return result.data;
+    },
+  });
+
+  return mut;
+}
