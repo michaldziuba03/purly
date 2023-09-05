@@ -59,3 +59,19 @@ export function useLogout() {
 
   return mutation;
 }
+
+interface IForgotPassword {
+  email: string;
+  recaptcha: string;
+}
+
+export function useForgotPassword() {
+  const mut = useMutation({
+    mutationFn: async (data: IForgotPassword) => {
+      const result = await client.post('/auth/reset/request', data);
+      return result.data;
+    },
+  });
+
+  return mut;
+}
