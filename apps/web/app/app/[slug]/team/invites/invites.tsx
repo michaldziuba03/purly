@@ -15,6 +15,10 @@ export function Invites() {
     return formatError(error);
   }
 
+  if (!data.length) {
+    return 'No invites';
+  }
+
   return data.map((invite: any) => (
     <InviteCard key={invite.email} {...invite} />
   ));
