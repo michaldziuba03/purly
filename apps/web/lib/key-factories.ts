@@ -17,3 +17,7 @@ export function getMembersKey(workspaceId: string) {
 export function getInvitesKey(workspaceId: string) {
   return ['invites', workspaceId];
 }
+
+export function getLaunchpadKey(workspaceId: string) {
+  return ['launchpad', workspaceId];
+}

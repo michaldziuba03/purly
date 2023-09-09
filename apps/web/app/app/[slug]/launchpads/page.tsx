@@ -1,5 +1,4 @@
-import { H2 } from '../../../../components/typography';
-import { PageWrapper } from '../../page-wrapper';
+import { Launchpad } from './launchpad';
 
 export const metadata = {
   title: 'Link in Bio | Purly',
@@ -7,11 +6,5 @@ export const metadata = {
 };
 
 export default function LaunchpadsPage() {
-  return (
-    <PageWrapper>
-      <div className="flex pb-4 border-b justify-between items-center">
-        <H2>Link in Bio</H2>
-      </div>
-    </PageWrapper>
-  );
+  return <Launchpad />;
 }

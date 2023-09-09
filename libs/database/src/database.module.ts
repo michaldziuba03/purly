@@ -13,7 +13,7 @@ import {
   ConnectionProvider,
   injectConnectionToken,
 } from './providers/connection.provider';
-import { BioRepository } from './entities/bio';
+import { LaunchpadRepository } from './entities/launchpad';
 
 @Global()
 @Module({
@@ -27,7 +27,7 @@ import { BioRepository } from './entities/bio';
     LinkRepository,
     ReportRepository,
     InviteRepository,
-    BioRepository,
+    LaunchpadRepository,
   ],
   exports: [
     ConnectionProvider,
@@ -38,7 +38,7 @@ import { BioRepository } from './entities/bio';
     LinkRepository,
     ReportRepository,
     InviteRepository,
-    BioRepository,
+    LaunchpadRepository,
   ],
 })
 export class DatabaseModule implements OnApplicationShutdown {

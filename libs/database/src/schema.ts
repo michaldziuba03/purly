@@ -4,4 +4,4 @@ export * from './entities/report/report.schema';
 export * from './entities/link/link.schema';
 export * from './entities/invite/invite.schema';
 export * from './entities/member/member.schema';
-export * from './entities/bio/bio.schema';
+export * from './entities/launchpad/launchpad.schema';

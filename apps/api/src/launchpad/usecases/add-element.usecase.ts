@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Usecase } from '../../shared/base.usecase';
-import { BioRepository } from '@purly/database';
+import { LaunchpadRepository } from '@purly/database';
 import { CreateLink } from '../../link/usecases/create-link.usecase';
 import { GetLink } from '../../link/usecases/get-link.usecase';
 import { createClientUrl } from '../../shared/utils';
@@ -19,7 +19,7 @@ interface IAddElementCommand {
 @Injectable()
 export class AddElement implements Usecase<IAddElementCommand> {
   constructor(
-    private readonly bioRepository: BioRepository,
+    private readonly launchpadRepository: LaunchpadRepository,
     private readonly createLinkUsecase: CreateLink,
     private readonly getLinkUsecase: GetLink
   ) {}
@@ -29,12 +29,14 @@ export class AddElement implements Usecase<IAddElementCommand> {
       throw new BadRequestException('Destination URL or linkId is required');
     }
 
+    // TODO: add total count check:
+
     const link = await this.getLink(command);
     if (!link) {
       throw new NotFoundException('Link with specified linkId not found');
     }
 
-    const element = await this.bioRepository.addElement({
+    const element = await this.launchpadRepository.addElement({
       workspaceId: command.workspaceId,
       label: command.label,
       linkId: link.id,

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Usecase } from '../../shared/base.usecase';
-import { BioRepository } from '@purly/database';
+import { LaunchpadRepository } from '@purly/database';
 
 interface IDeleteElementCommand {
   elementId: string;
@@ -9,10 +9,10 @@ interface IDeleteElementCommand {
 
 @Injectable()
 export class DeleteElement implements Usecase<IDeleteElementCommand> {
-  constructor(private readonly bioRepository: BioRepository) {}
+  constructor(private readonly launchpadRepository: LaunchpadRepository) {}
 
   async execute(command: IDeleteElementCommand) {
-    const isDeleted = await this.bioRepository.deleteElement(
+    const isDeleted = await this.launchpadRepository.deleteElement(
       command.elementId,
       command.workspaceId
     );

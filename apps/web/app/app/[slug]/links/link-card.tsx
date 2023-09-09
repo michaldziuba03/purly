@@ -123,7 +123,7 @@ export function LinkCard(props: ILinkProps) {
               {props.url}
             </a>
 
-            <div className="flex gap-4 items-center mt-6 text-foreground text-sm font-medium">
+            <div className="flex gap-4 items-center mt-5 text-foreground text-sm font-medium">
               <div className="flex gap-1.5 items-center">
                 <Calendar className="w-4 h-4" />
                 {formatDate(props.createdAt)}

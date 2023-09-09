@@ -12,9 +12,9 @@ import { LinkModule } from './link/link.module';
 import { ReportModule } from './report/report.module';
 import { BillingModule } from './billing/billing.module';
 import { MemberModule } from './member/member.module';
-import { BioModule } from './bio/bio.module';
 import { StatsModule } from './stats/stats.module';
 import { UploadModule } from './upload/upload.module';
+import { LaunchpadModule } from './launchpad/launchpad.module';
 
 @Module({
   imports: [
@@ -32,8 +32,8 @@ import { UploadModule } from './upload/upload.module';
     BillingModule,
     LinkModule,
     ReportModule,
-    BioModule,
     StatsModule,
+    LaunchpadModule,
   ],
   controllers: [],
   providers: [],

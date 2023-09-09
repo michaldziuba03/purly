@@ -1,41 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseContext, InjectDB } from '../../providers/database.provider';
-import { BioElement, BioInsert, BioPage, ElementInsert } from './bio.entity';
+import {
+  LaunchpadElement,
+  Launchpad,
+  ElementInsert,
+  LaunchpadInsert,
+} from './launchpad.entity';
 import { BaseRepository } from '../../base.repository';
-import { bioElements, bioPages } from './bio.schema';
+import { launchpads, launchpadsElements } from './launchpad.schema';
 import { and, eq } from 'drizzle-orm';
 
 @Injectable()
-export class BioRepository extends BaseRepository<BioPage> {
+export class LaunchpadRepository extends BaseRepository<Launchpad> {
   constructor(@InjectDB() private readonly db: DatabaseContext) {
-    super(BioPage);
+    super(Launchpad);
   }
 
-  async create(data: BioInsert) {
+  async create(data: LaunchpadInsert) {
     const result = await this.db
-      .insert(bioPages)
+      .insert(launchpads)
       .values(data)
       .onConflictDoNothing({
-        target: [bioPages.workspaceId],
+        target: [launchpads.workspaceId],
       })
       .returning();
 
     return this.mapSingle(result);
   }
 
-  async updateByWorkspace(workspaceId: string, data: Partial<BioPage>) {
+  async updateByWorkspace(workspaceId: string, data: Partial<Launchpad>) {
     const result = await this.db
-      .update(bioPages)
+      .update(launchpads)
       .set(data)
-      .where(eq(bioPages.workspaceId, workspaceId))
+      .where(eq(launchpads.workspaceId, workspaceId))
       .returning();
 
     return this.mapSingle(result);
   }
 
-  async findByIdentifier(identifier: string) {
-    const result = await this.db.query.bioPages.findFirst({
-      where: eq(bioPages.identifier, identifier),
+  async findBySlug(slug: string) {
+    const result = await this.db.query.launchpads.findFirst({
+      where: eq(launchpads.slug, slug),
       with: {
         elements: {
           columns: { id: true, label: true },
@@ -52,15 +57,14 @@ export class BioRepository extends BaseRepository<BioPage> {
   }
 
   async findByWorkspace(workspaceId: string) {
-    const result = await this.db.query.bioPages.findFirst({
-      where: eq(bioPages.workspaceId, workspaceId),
+    const result = await this.db.query.launchpads.findFirst({
+      where: eq(launchpads.workspaceId, workspaceId),
       with: {
         elements: {
-          columns: { id: true, label: true },
-          with: {
-            link: {
-              columns: { id: true, alias: true, url: true },
-            },
+          columns: {
+            id: true,
+            label: true,
+            redirect: true,
           },
         },
       },
@@ -70,17 +74,20 @@ export class BioRepository extends BaseRepository<BioPage> {
   }
 
   async addElement(data: ElementInsert) {
-    const result = await this.db.insert(bioElements).values(data).returning();
+    const result = await this.db
+      .insert(launchpadsElements)
+      .values(data)
+      .returning();
     return result[0];
   }
 
   async deleteElement(elementId: string, workspaceId: string) {
     const result = await this.db
-      .delete(bioElements)
+      .delete(launchpadsElements)
       .where(
         and(
-          eq(bioElements.id, elementId),
-          eq(bioElements.workspaceId, workspaceId)
+          eq(launchpadsElements.id, elementId),
+          eq(launchpadsElements.workspaceId, workspaceId)
         )
       );
 
@@ -90,15 +97,15 @@ export class BioRepository extends BaseRepository<BioPage> {
   async updateElement(
     elementId: string,
     workspaceId: string,
-    data: Partial<BioElement>
+    data: Partial<LaunchpadElement>
   ) {
     const result = await this.db
-      .update(bioElements)
+      .update(launchpadsElements)
       .set(data)
       .where(
         and(
-          eq(bioElements.id, elementId),
-          eq(bioElements.workspaceId, workspaceId)
+          eq(launchpadsElements.id, elementId),
+          eq(launchpadsElements.workspaceId, workspaceId)
         )
       )
       .returning();
