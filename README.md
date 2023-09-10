@@ -4,7 +4,7 @@
 
 Scalable and distrubuted SaaS platform for managing your brand links. Under active development. Primary goal of this project is to create sample that **does more** than just simple CRUD.
 
-> Frontend is still in very early stage of development.
+> Frontend is still in very early stage of development. It lacks proper error handling and will receive major upgrade when core features will be done.
 
 ![links-page](https://github.com/michaldziuba03/purly/assets/43048524/f93af5b3-e843-4f91-a561-e1d72a277cc8)
 
@@ -19,6 +19,10 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 <img width="290px" src="https://github.com/michaldziuba03/purly/assets/43048524/41cf8df1-24ac-4caf-a467-5054cbd09041" />
 
 > Account settings interactions example
+
+![image](https://github.com/michaldziuba03/purly/assets/43048524/912ec4d2-5b63-4ed7-b03f-a99bec9f60bb)
+
+> Link in Bio work in progress
 
 ## Tech stack
 
