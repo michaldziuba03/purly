@@ -74,10 +74,6 @@ export function Sidebar() {
               <Users className="mr-2 h-4 w-4" />
               Team
             </NavButton>
-            <NavButton href="/domains">
-              <Globe className="mr-2 h-4 w-4" />
-              Domains
-            </NavButton>
             <div className="py-2">
               <Separator />
             </div>
