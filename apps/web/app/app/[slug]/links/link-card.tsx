@@ -92,7 +92,7 @@ export function LinkCard(props: ILinkProps) {
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
-      <div className="flex justify-between bg-white rounded-lg px-8 py-6 w-full border">
+      <div className="flex justify-between bg-white rounded-lg px-8 py-6 w-full">
         <div className="flex gap-4">
           <div className="rounded-full flex justify-center items-center border w-12 h-12">
             <img
