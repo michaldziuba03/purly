@@ -1,12 +1,25 @@
+import { cn } from '../../../lib/utils';
+
 interface ILaunchpadProps {
+  isPreview: boolean;
   id: string;
   elements: Array<{ id: string; label: string; redirect: string }>;
 }
 
 export function Launchpad(props: ILaunchpadProps) {
   return (
-    <div className="flex justify-center w-full min-h-screen bg-gray-100">
-      <main className="max-w-3xl w-full md:py-32 py-16 px-4">
+    <div
+      className={cn(
+        'flex justify-center w-full bg-gray-100',
+        props.isPreview ? 'h-full' : 'min-h-screen'
+      )}
+    >
+      <main
+        className={cn(
+          'max-w-3xl w-full py-16 px-4',
+          props.isPreview ? undefined : 'md:py-32'
+        )}
+      >
         <div className="w-full text-center">
           <h1 className="font-bold">Title</h1>
         </div>

@@ -91,7 +91,7 @@ export function ShowLaunchpadView(props: ILaunchpadProps) {
         <div className="sticky top-4 h-[760px]">
           <DeviceMockup>
             <div className="h-full overflow-y-auto no-scrollbar">
-              <Launchpad {...props} />
+              <Launchpad isPreview {...props} />
             </div>
           </DeviceMockup>
         </div>
