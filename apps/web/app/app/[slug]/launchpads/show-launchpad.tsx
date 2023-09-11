@@ -10,8 +10,10 @@ import { copyToClipboard } from '../../../../lib/clipboard';
 import { useToast } from '../../../../hooks/useToast';
 import { useState } from 'react';
 import { AddElementForm } from './add-element-form';
+import { Launchpad } from '../../../m/[slug]/launchpad';
 
 interface ILaunchpadProps {
+  id: string;
   slug: string;
   elements: Array<any>;
 }
@@ -87,7 +89,9 @@ export function ShowLaunchpadView(props: ILaunchpadProps) {
           </div>
         </div>
         <div className="sticky top-4 h-[760px]">
-          <DeviceMockup />
+          <DeviceMockup>
+            <Launchpad {...props} />
+          </DeviceMockup>
         </div>
       </div>
     </PageWrapper>

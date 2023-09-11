@@ -5,10 +5,18 @@ import { GetLaunchpad } from './usecases/get-launchpad.usecase';
 import { AddElement } from './usecases/add-element.usecase';
 import { LinkModule } from '../link/link.module';
 import { DeleteElement } from './usecases/delete-element.usecase';
+import { GetLaunchpadBySlug } from './usecases/get-launchpad-by-slug.usecase';
+import { PublicLaunchpadController } from './public.launchpad.controller';
 
 @Module({
   imports: [LinkModule],
-  controllers: [LaunchpadController],
-  providers: [CreateLaunchpad, GetLaunchpad, AddElement, DeleteElement],
+  controllers: [LaunchpadController, PublicLaunchpadController],
+  providers: [
+    CreateLaunchpad,
+    GetLaunchpad,
+    GetLaunchpadBySlug,
+    AddElement,
+    DeleteElement,
+  ],
 })
 export class LaunchpadModule {}

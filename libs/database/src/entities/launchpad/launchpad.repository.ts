@@ -43,12 +43,7 @@ export class LaunchpadRepository extends BaseRepository<Launchpad> {
       where: eq(launchpads.slug, slug),
       with: {
         elements: {
-          columns: { id: true, label: true },
-          with: {
-            link: {
-              columns: { id: true, alias: true, url: true },
-            },
-          },
+          columns: { id: true, label: true, redirect: true },
         },
       },
     });
