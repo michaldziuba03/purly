@@ -57,6 +57,42 @@ export function useCreateLaunchpad() {
   return mut;
 }
 
+interface IUpdateLaunchpad {
+  title: string;
+  description: string;
+  bgColor: string;
+  textColor: string;
+  btnColor: string;
+  btnTextColor: string;
+}
+
+export function useUpdateLaunchpad() {
+  const queryClient = useQueryClient();
+  const { currentWorkspace } = useWorkspace();
+  const launchpadKey = getLaunchpadKey(currentWorkspace.id);
+
+  const mut = useMutation(
+    launchpadKey,
+    async (data: IUpdateLaunchpad) => {
+      const result = await client.put(
+        `/workspaces/${currentWorkspace.id}/launchpads`,
+        data
+      );
+      return result.data;
+    },
+    {
+      onSuccess(data) {
+        queryClient.setQueryData(launchpadKey, (currentLaunchpad: any) => ({
+          ...currentLaunchpad,
+          ...data,
+        }));
+      },
+    }
+  );
+
+  return mut;
+}
+
 interface IAddElement {
   label: string;
   url: string;

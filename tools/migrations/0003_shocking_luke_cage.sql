@@ -1,0 +1,1 @@
+ALTER TABLE "launchpads" RENAME COLUMN "name" TO "title";

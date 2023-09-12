@@ -1,14 +1,10 @@
 import { IsOptional, IsString, Length, MaxLength } from 'class-validator';
+import { ColorsDto } from './colors.dto';
 
-export class CreateLaunchpadDto {
+export class UpdateLaunchpadDto extends ColorsDto {
   @IsString()
   @Length(3, 64)
-  slug: string;
-
-  @IsString()
-  @Length(3, 64)
-  @IsOptional()
-  title = 'Weclome!';
+  title: string;
 
   @IsString()
   @MaxLength(250)

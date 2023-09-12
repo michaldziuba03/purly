@@ -7,6 +7,7 @@ import { LinkModule } from '../link/link.module';
 import { DeleteElement } from './usecases/delete-element.usecase';
 import { GetLaunchpadBySlug } from './usecases/get-launchpad-by-slug.usecase';
 import { PublicLaunchpadController } from './public.launchpad.controller';
+import { UpdateLaunchpad } from './usecases/update-launchpad.usecase';
 
 @Module({
   imports: [LinkModule],
@@ -15,6 +16,7 @@ import { PublicLaunchpadController } from './public.launchpad.controller';
     CreateLaunchpad,
     GetLaunchpad,
     GetLaunchpadBySlug,
+    UpdateLaunchpad,
     AddElement,
     DeleteElement,
   ],

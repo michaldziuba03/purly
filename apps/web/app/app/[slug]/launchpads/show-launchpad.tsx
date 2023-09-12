@@ -11,18 +11,31 @@ import { useToast } from '../../../../hooks/useToast';
 import { useState } from 'react';
 import { AddElementForm } from './add-element-form';
 import { Launchpad } from '../../../m/[slug]/launchpad';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '../../../../components/tabs';
+import { LaunchpadElements } from './launchpad-elements';
+import { LaunchpadAppearance } from './launchpad-appearance';
 
 interface ILaunchpadProps {
   id: string;
   slug: string;
+  title: string;
+  description?: string;
   elements: Array<any>;
+  bgColor: string;
+  textColor: string;
+  btnColor: string;
+  btnTextColor: string;
 }
 
 export function ShowLaunchpadView(props: ILaunchpadProps) {
   const link = `http://localhost:4200/m/${props.slug}`;
   const { toast } = useToast();
   const [isCopied, setIsCopied] = useState(false);
-  const [showForm, setShowForm] = useState(false);
 
   async function copyPageLink() {
     try {
@@ -49,7 +62,7 @@ export function ShowLaunchpadView(props: ILaunchpadProps) {
             <span className="flex items-center font-semibold">
               <HelpCircle className="w-4 h-4 mr-2" />
               Your Purly page is live:&nbsp;
-              <a className="font-normal underline" href={link}>
+              <a className="font-normal underline" target="_blank" href={link}>
                 {link}
               </a>
             </span>
@@ -64,29 +77,18 @@ export function ShowLaunchpadView(props: ILaunchpadProps) {
             </Button>
           </div>
 
-          <div className="flex gap-4">
-            <a className="border-b-primary border-b-2 border-collapse">
-              <Button className="font-semibold" variant="ghost">
-                Links
-              </Button>
-            </a>
-            <Button variant="ghost">Appearance</Button>
-          </div>
-
-          <div className="mt-8">
-            <Button onClick={() => setShowForm(true)}>
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Add a link
-            </Button>
-
-            <div className="py-8 flex flex-col gap-4">
-              {showForm && <AddElementForm setShowForm={setShowForm} />}
-              {!props.elements.length && !showForm && 'No links :('}
-              {props.elements.map((element: any) => (
-                <BioLink key={element.id} {...element} />
-              ))}
-            </div>
-          </div>
+          <Tabs defaultValue="links">
+            <TabsList>
+              <TabsTrigger value="links">Links</TabsTrigger>
+              <TabsTrigger value="appearance">Appearance</TabsTrigger>
+            </TabsList>
+            <TabsContent value="links">
+              <LaunchpadElements {...props} />
+            </TabsContent>
+            <TabsContent value="appearance">
+              <LaunchpadAppearance {...props} />
+            </TabsContent>
+          </Tabs>
         </div>
         <div className="sticky top-4 h-[760px]">
           <DeviceMockup>

@@ -5,7 +5,7 @@ import { LaunchpadRepository, isDuplicatedError } from '@purly/database';
 interface ICreateLaunchpadCommand {
   workspaceId: string;
   slug: string;
-  name: string;
+  title: string;
   description?: string;
 }
 
@@ -18,7 +18,7 @@ export class CreateLaunchpad implements Usecase<ICreateLaunchpadCommand> {
       const launchpad = await this.launchpadRepository.create({
         workspaceId: command.workspaceId,
         slug: command.slug,
-        name: command.name,
+        title: command.title,
         description: command.description,
       });
 
@@ -28,6 +28,8 @@ export class CreateLaunchpad implements Usecase<ICreateLaunchpadCommand> {
         );
       }
 
+      // make result interface compatible with GET
+      launchpad.elements = [];
       return launchpad;
     } catch (err) {
       if (isDuplicatedError('slug', err)) {

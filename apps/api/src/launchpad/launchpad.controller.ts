@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -19,6 +20,8 @@ import { GetLaunchpad } from './usecases/get-launchpad.usecase';
 import { AddElement } from './usecases/add-element.usecase';
 import { AddElementDto } from './dto/add-element.dto';
 import { DeleteElement } from './usecases/delete-element.usecase';
+import { UpdateLaunchpadDto } from './dto/update-launchpad';
+import { UpdateLaunchpad } from './usecases/update-launchpad.usecase';
 
 @BaseController('launchpads')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -27,6 +30,7 @@ export class LaunchpadController {
   constructor(
     private readonly createLaunchpadUsecase: CreateLaunchpad,
     private readonly getLaunchpadUsecase: GetLaunchpad,
+    private readonly updateLaunchpadUsecase: UpdateLaunchpad,
     private readonly addElementUsecase: AddElement,
     private readonly deleteElementUsecase: DeleteElement
   ) {}
@@ -38,7 +42,7 @@ export class LaunchpadController {
   ) {
     return this.createLaunchpadUsecase.execute({
       slug: body.slug,
-      name: body.name,
+      title: body.title,
       description: body.description,
       workspaceId: member.workspaceId,
     });
@@ -48,6 +52,17 @@ export class LaunchpadController {
   getLaunchpad(@Membership() member: Member) {
     return this.getLaunchpadUsecase.execute({
       workspaceId: member.workspaceId,
+    });
+  }
+
+  @Put()
+  updateLaunchpad(
+    @Membership() member: Member,
+    @Body() body: UpdateLaunchpadDto
+  ) {
+    return this.updateLaunchpadUsecase.execute({
+      workspaceId: member.workspaceId,
+      ...body,
     });
   }
 

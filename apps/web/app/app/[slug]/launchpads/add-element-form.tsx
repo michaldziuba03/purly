@@ -61,7 +61,11 @@ export function AddElementForm(props: AddElementFormProps) {
             <FormItem>
               <FormLabel>Button label</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="My button" />
+                <Input
+                  {...field}
+                  placeholder="My button"
+                  className="max-w-sm"
+                />
               </FormControl>
             </FormItem>
           )}

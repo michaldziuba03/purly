@@ -11,17 +11,20 @@ export class LaunchpadElement {
 export class Launchpad {
   workspaceId: string;
   slug: string; // editable identifier: website/m/identifier00
-  name?: string;
+  title?: string;
   description?: string;
-  bgColor?: string;
   @Type(() => LaunchpadElement)
-  elements: LaunchpadElement[] = [];
+  elements?: LaunchpadElement[];
+  bgColor: string;
+  btnColor: string;
+  btnTextColor: string;
+  textColor: string;
 }
 
 export interface LaunchpadInsert {
   workspaceId: string;
   slug: string;
-  name: string;
+  title: string;
   description?: string;
 }
 

@@ -100,3 +100,7 @@
 .h-workspace {
   height: calc(100% - 64px);
 }
+
+input::-webkit-color-swatch {
+  border: none;
+}

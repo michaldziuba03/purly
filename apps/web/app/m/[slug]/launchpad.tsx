@@ -3,14 +3,21 @@ import { cn } from '../../../lib/utils';
 interface ILaunchpadProps {
   isPreview: boolean;
   id: string;
+  title: string;
+  description?: string;
   elements: Array<{ id: string; label: string; redirect: string }>;
+  bgColor: string;
+  textColor: string;
+  btnColor: string;
+  btnTextColor: string;
 }
 
 export function Launchpad(props: ILaunchpadProps) {
   return (
     <div
+      style={{ backgroundColor: props.bgColor }}
       className={cn(
-        'flex justify-center w-full bg-gray-100',
+        'flex justify-center w-full',
         props.isPreview ? 'h-full' : 'min-h-screen'
       )}
     >
@@ -20,12 +27,18 @@ export function Launchpad(props: ILaunchpadProps) {
           props.isPreview ? undefined : 'md:py-32'
         )}
       >
-        <div className="w-full text-center">
-          <h1 className="font-bold">Title</h1>
+        <div style={{ color: props.textColor }} className="w-full text-center">
+          <h1 className="font-bold text-lg">{props.title}</h1>
+          <span>{props.description}</span>
         </div>
         <div className="mt-8 w-full flex flex-col gap-4">
           {props.elements.map((element) => (
-            <BioButton key={element.id} {...element} />
+            <BioButton
+              btnColor={props.btnColor}
+              btnTextColor={props.btnTextColor}
+              key={element.id}
+              {...element}
+            />
           ))}
         </div>
       </main>
@@ -33,11 +46,17 @@ export function Launchpad(props: ILaunchpadProps) {
   );
 }
 
-export function BioButton(props: { label: string; redirect: string }) {
+export function BioButton(props: {
+  label: string;
+  redirect: string;
+  btnColor: string;
+  btnTextColor: string;
+}) {
   return (
     <a
+      style={{ backgroundColor: props.btnColor, color: props.btnTextColor }}
       href={props.redirect}
-      className="w-full p-4 bg-gray-300 rounded-full text-center font-semibold"
+      className="w-full p-4 rounded-full text-center font-semibold"
     >
       {props.label}
     </a>

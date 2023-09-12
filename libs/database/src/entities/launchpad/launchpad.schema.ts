@@ -7,9 +7,12 @@ export const launchpads = pgTable(
   {
     workspaceId: uuid('workspace_id').primaryKey(),
     slug: varchar('slug').notNull(), // editable identifier: website/m/identifier00
-    name: varchar('name'),
+    title: varchar('title'),
     description: varchar('description').default(''),
-    bgColor: varchar('bg_color'),
+    bgColor: varchar('bg_color').default('#F3F4F6'),
+    btnColor: varchar('btn_color').default('#D1D5DB'),
+    btnTextColor: varchar('btn_text_color').default('#0F172A'),
+    textColor: varchar('text_color').default('#0F172A'),
   },
   (schema) => ({
     uniqueIndentifier: uniqueIndex('bio_id_unique').on(schema.slug),
