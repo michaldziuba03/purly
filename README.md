@@ -20,9 +20,12 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 
 > Account settings interactions example
 
-![launchpad-feature](https://github.com/michaldziuba03/purly/assets/43048524/993f79fc-1005-489e-826c-d90dd3fd9867)
+![launchpad-links](https://github.com/michaldziuba03/purly/assets/43048524/61b98547-5eaf-4379-9db3-bb859d99a589)
 
-> Link in Bio work in progress
+![launchpad-appearance](https://github.com/michaldziuba03/purly/assets/43048524/aa630bab-eae2-4bc8-ba03-227c49cf8664)
+
+
+> Link in Bio feature. More features to come after major refactor.
 
 ## Tech stack
 
