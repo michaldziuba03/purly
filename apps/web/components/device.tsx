@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'React';
+import React from 'react';
 
 export const DeviceMockup: React.FC<React.PropsWithChildren> = ({
   children,
