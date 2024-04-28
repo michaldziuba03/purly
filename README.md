@@ -2,7 +2,7 @@
 
 # purly ✂
 
-Scalable and distrubuted SaaS platform for managing your brand links. Under active development. Primary goal of this project is to create sample that **does more** than just simple CRUD.
+SaaS platform for managing your brand links. Under active development. Primary goal of this project is to create sample that **does more** than just simple CRUD.
 
 > Frontend is still in very early stage of development. It lacks proper error handling and will receive major upgrade when core features will be done.
 
@@ -24,7 +24,6 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 
 ![launchpad-appearance](https://github.com/michaldziuba03/purly/assets/43048524/aa630bab-eae2-4bc8-ba03-227c49cf8664)
 
-
 > Link in Bio feature. More features to come after major refactor.
 
 ## Tech stack
@@ -42,7 +41,6 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 
 ## Advanced concepts used in app
 
-- [x] Distributed locks (with redlock)
 - [x] Asynchronous messaging (with BullMQ)
 - [ ] Caching
 - [ ] Rate-limiting
@@ -64,7 +62,7 @@ Scalable and distrubuted SaaS platform for managing your brand links. Under acti
 - [x] Link Redirect Expiration
 - [ ] Statistics for shortened URLs
 - [x] Health checks
-- [ ] Link in bio
+- [x] Link in bio
 - [ ] Custom domains
 - [x] Workspaces with members management
 
