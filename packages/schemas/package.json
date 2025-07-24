@@ -1,0 +1,21 @@
+{
+  "name": "@purly/schemas",
+  "private": true,
+  "exports": {
+    "./*": "./dist/*.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "version": "1.0.0",
+  "description": "Shared validation schemas for Purly.",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "zod": "^4.0.9"
+  },
+  "peerDependencies": {
+    "zod": "^4.0.9"
+  }
+}
