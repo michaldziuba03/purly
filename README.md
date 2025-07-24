@@ -1,133 +1,135 @@
-<img width="1024px" src="https://github.com/michaldziuba03/purly/assets/43048524/97c35411-8126-4157-afbf-ac445345e869" />
+# Turborepo starter
 
-# purly ✂
+This Turborepo starter is maintained by the Turborepo core team.
 
-SaaS platform for managing your brand links. Under active development. Primary goal of this project is to create sample that **does more** than just simple CRUD.
+## Using this example
 
-> Frontend is still in very early stage of development. It lacks proper error handling and will receive major upgrade when core features will be done.
-
-![links-page](https://github.com/michaldziuba03/purly/assets/43048524/f93af5b3-e843-4f91-a561-e1d72a277cc8)
-
-![team-page](https://github.com/michaldziuba03/purly/assets/43048524/62af6087-d89d-4f1f-9437-6312b694db70)
-
-![qr-code-preview](https://github.com/michaldziuba03/purly/assets/43048524/c325bf99-8777-499f-9df7-ff6800566ebd)
-
-> Currently only downloading as PNG is possible. In the future SVG and JPEG will be added.
-
-<img width="290px" src="https://github.com/michaldziuba03/purly/assets/43048524/af3b62c4-0b9e-4308-8147-617095ab7d35" />
-<img width="290px" src="https://github.com/michaldziuba03/purly/assets/43048524/e2193f3f-3e51-418c-85f7-de2bbb224e58" />
-<img width="290px" src="https://github.com/michaldziuba03/purly/assets/43048524/41cf8df1-24ac-4caf-a467-5054cbd09041" />
-
-> Account settings interactions example
-
-![launchpad-links](https://github.com/michaldziuba03/purly/assets/43048524/61b98547-5eaf-4379-9db3-bb859d99a589)
-
-![launchpad-appearance](https://github.com/michaldziuba03/purly/assets/43048524/aa630bab-eae2-4bc8-ba03-227c49cf8664)
-
-> Link in Bio feature. More features to come after major refactor.
-
-## Tech stack
-
-- Node.js
-- NestJS
-- PostgreSQL ([Drizzle ORM](https://orm.drizzle.team/))
-- Redis ([ioredis](https://github.com/redis/ioredis))
-- Next.js
-- React
-- Docker
-- Zookeeper ([node-zookeeper](https://github.com/yfinkelstein/node-zookeeper))
-- Clickhouse ([clickhouse-js](https://github.com/ClickHouse/clickhouse-js))
-- AWS S3 ([MinIO](https://min.io/))
-
-## Advanced concepts used in app
-
-- [x] Asynchronous messaging (with BullMQ)
-- [ ] Caching
-- [ ] Rate-limiting
-- [x] Error monitoring (with Sentry)
-
-## Features
-
-- [ ] Email Verification
-- [x] Social Authentication (Google, GitHub)
-- [x] Email & Password Authentication
-- [x] Reset Password flow
-- [x] Google Recaptcha support
-- [x] Paid monthly subscriptions (Stripe)
-- [x] URL shortening
-- [x] QR Codes generation
-- [x] Reporting malicious URLs
-- [x] UTM Generator
-- [x] Mobile Redirects
-- [x] Link Redirect Expiration
-- [ ] Statistics for shortened URLs
-- [x] Health checks
-- [x] Link in bio
-- [ ] Custom domains
-- [x] Workspaces with members management
-
-### Todo
-
-- write e2e tests (currently partially written for user, workspace and auth modules)
-- create CI pipeline
-
-## Development
-
-Project uses [Nx workspaces](https://nx.dev/) for building and handling monorepo structure.
-
-### Run databases and services
+Run the following command:
 
 ```sh
-cd docker
-docker compose up
+npx create-turbo@latest
 ```
 
-### Run setup scripts
+## What's inside?
 
-```sh
-# will install depedencies and create .env file
-npm run setup
-# run migrations (will run migrations against database defined in env.POSTGRES_URI)
-npm run db:migrate
-# run migrations for stats database (definied CLICKHOUSE_ env variables)
-npm run stats:migrate
+This Turborepo includes the following packages/apps:
+
+### Apps and Packages
+
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+
+### Utilities
+
+This Turborepo has some additional tools already setup for you:
+
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
+
+### Build
+
+To build all apps and packages, run the following command:
+
+```
+cd my-turborepo
+
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo build
+
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo build
+yarn dlx turbo build
+pnpm exec turbo build
 ```
 
-### Configure S3 with MiniO (optional)
+You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
 
-Purly uses [MinIO](https://min.io/) to simulate AWS S3 for local development. We suggest to use AWS CLI for initial configuration.
+```
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo build --filter=docs
 
-Read about S3 local setup in `/tools/s3-local/README.md`
-
-### Run applications (api, worker and frontend web app)
-
-```sh
-npm run serve
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo build --filter=docs
+yarn exec turbo build --filter=docs
+pnpm exec turbo build --filter=docs
 ```
 
-### Forward Stripe webhook locally
+### Develop
 
-Purly uses `STRIPE_WEBHOOK_PATH` variable for webhook URL obfuscation. Don't forget to replace it in production with your own random value.
+To develop all apps and packages, run the following command:
 
-```sh
-stripe login # only once - stripe will remember your session
-stripe listen --forward-to localhost:8000/api/stripe/webhook/e7a42abb5d31ec92bdfeec3cb0a4fa1b
+```
+cd my-turborepo
+
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo dev
+
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo dev
+yarn exec turbo dev
+pnpm exec turbo dev
 ```
 
-> Stripe CLI will give you webhook signing secret like `whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`. Save this value in .env as **STRIPE_WEBHOOK_SECRET** and restart API. CLI gives you the same secret so no need to repeat this step every time you run listen command.
+You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
 
-## Contributing
+```
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo dev --filter=web
 
-Currently project is in early stage of development and many things are changing so often. Keep it in mind if you want to contribute.
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo dev --filter=web
+yarn exec turbo dev --filter=web
+pnpm exec turbo dev --filter=web
+```
 
-1. Use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commits and PRs.
-2. If you want to introduce bigger change I recommend to create issue first with feature request and get approval from mantainer :) Otherwise your pull request can be declined and you will waste your time.
-3. After changes in table schemas, run `db:generate` script to generate migrations and run `db:migrate` to run migration.
+### Remote Caching
 
-## License
+> [!TIP]
+> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-## Contributors
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
 
-![contributors](https://contributors-img.web.app/image?repo=michaldziuba03/purly)
+```
+cd my-turborepo
+
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo login
+
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo login
+yarn exec turbo login
+pnpm exec turbo login
+```
+
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+
+```
+# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
+turbo link
+
+# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
+npx turbo link
+yarn exec turbo link
+pnpm exec turbo link
+```
+
+## Useful Links
+
+Learn more about the power of Turborepo:
+
+- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
+- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
+- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
+- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
+- [Configuration Options](https://turborepo.com/docs/reference/configuration)
+- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
