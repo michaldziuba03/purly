@@ -5,16 +5,36 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "lint:staged": "lint-staged",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
+    "shx": "^0.4.0",
     "turbo": "^2.5.5",
     "typescript": "5.8.3"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "apps/**/*.{ts,js,tsx}": [
+      "prettier --ignore-path ./.prettierignore --write",
+      "eslint"
+    ],
+    "libs/**/*.{ts,js,tsx}": [
+      "prettier --ignore-path ./.prettierignore --write",
+      "eslint"
+    ]
   }
 }
