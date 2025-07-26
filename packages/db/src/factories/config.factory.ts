@@ -2,6 +2,7 @@ import { defineConfig, LoadStrategy } from "@mikro-orm/postgresql";
 import { Options } from "@mikro-orm/postgresql";
 import { User } from "../entities/user.entity";
 import { BaseEntity } from "../entities/base.entity";
+import { ResetToken } from "../entities/reset-token.entity";
 
 export class ConfigFactory {
   private static loadEnv(key: string, defaultValue?: string): string {
@@ -17,7 +18,7 @@ export class ConfigFactory {
 
   static create(overrides: Partial<Options> = {}) {
     return defineConfig({
-      entities: [BaseEntity, User],
+      entities: [BaseEntity, User, ResetToken],
       allowGlobalContext: false,
       loadStrategy: LoadStrategy.JOINED,
       clientUrl: this.loadEnv("DATABASE_URL"),

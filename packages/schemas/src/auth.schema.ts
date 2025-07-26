@@ -27,6 +27,6 @@ export type ResetPasswordRequestDto = z.infer<typeof ResetPasswordRequestSchema>
 
 export const ResetPasswordSchema = z.object({
   token: z.string().min(1),
-  newPassword: z.string().min(PASSWORD_MIN_LENGTH).max(PASSWORD_MAX_LENGTH),
+  password: z.string().min(PASSWORD_MIN_LENGTH).max(PASSWORD_MAX_LENGTH),
 });
 export type ResetPasswordDto = z.infer<typeof ResetPasswordSchema>;
