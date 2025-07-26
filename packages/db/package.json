@@ -1,0 +1,22 @@
+{
+  "name": "@purly/db",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    "./*": "./dist/*.js",
+    ".": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mikro-orm/core": "^6.4.16",
+    "@mikro-orm/migrations": "^6.4.16",
+    "@mikro-orm/postgresql": "^6.4.16",
+    "@mikro-orm/seeder": "^6.4.16",
+    "uuid": "^11.1.0"
+  }
+}

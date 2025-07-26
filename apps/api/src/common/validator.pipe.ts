@@ -22,6 +22,6 @@ export class ValidatorPipe implements PipeTransform {
   }
 }
 
-export function zd(schema: ZodSchema): ValidatorPipe {
+export function v(schema: ZodSchema): ValidatorPipe {
   return new ValidatorPipe(schema);
 }
