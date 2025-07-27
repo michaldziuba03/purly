@@ -1,0 +1,21 @@
+{
+  "name": "@purly/security",
+  "version": "1.0.0",
+  "description": "Security package for Purly",
+  "exports": {
+    "./*": "./dist/*.js",
+    ".": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -w -p tsconfig.json"
+  },
+  "author": "michaldziuba03",
+  "dependencies": {
+    "argon2": "^0.43.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0"
+  }
+}

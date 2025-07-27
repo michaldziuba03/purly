@@ -28,7 +28,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@purly/db": "workspace:*",
     "@purly/schemas": "workspace:*",
-    "argon2": "^0.43.1",
+    "@purly/security": "workspace:*",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.1",
     "reflect-metadata": "^0.1.13",

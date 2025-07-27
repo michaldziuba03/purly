@@ -1,10 +1,9 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import argon2 from 'argon2';
 import { isAfter } from 'date-fns';
 import { ResetToken, User } from '@purly/db';
-import { createHash, randomBytes } from 'node:crypto';
+import { Toolbox } from '@purly/security';
 import type {
   LoginDto,
   RegisterDto,
@@ -30,7 +29,7 @@ export class AuthService {
     }
 
     const now = new Date();
-    const passwordHash = await argon2.hash(payload.password);
+    const passwordHash = await Toolbox.hash(payload.password);
     const user = this.userRepository.create({
       email: payload.email,
       password: passwordHash,
@@ -50,7 +49,7 @@ export class AuthService {
       throw new BadRequestException('Invalid email or password');
     }
 
-    const isValid = await argon2.verify(user.password, payload.password);
+    const isValid = await Toolbox.verifyHash(payload.password, user.password);
     if (!isValid) {
       throw new BadRequestException('Invalid email or password');
     }
@@ -64,8 +63,8 @@ export class AuthService {
       throw new BadRequestException('User not found');
     }
 
-    const token = this.generateRandomToken();
-    const hashedToken = this.createSHA256(token);
+    const token = Toolbox.generateSecureRandomString();
+    const hashedToken = Toolbox.createSHA256(token);
     const now = new Date();
     const expiresAt = new Date(now.getTime() + this.RESET_TOKEN_LIFETIME);
 
@@ -89,7 +88,7 @@ export class AuthService {
 
   async changePassword(payload: ResetPasswordDto) {
     const metadata = await this.resetTokenRepository.findOne({
-      token: this.createSHA256(payload.token),
+      token: Toolbox.createSHA256(payload.token),
     });
     if (!metadata) {
       throw new BadRequestException('Invalid or expired reset token');
@@ -100,7 +99,7 @@ export class AuthService {
       throw new BadRequestException('Invalid or expired reset token');
     }
 
-    const hashedPassword = await argon2.hash(payload.password);
+    const hashedPassword = await Toolbox.hash(payload.password);
     const [count] = await Promise.all([
       this.userRepository.nativeUpdate(
         { id: metadata.user.id },
@@ -113,13 +112,5 @@ export class AuthService {
     if (!isUpdated) {
       throw new BadRequestException('Failed to update password');
     }
-  }
-
-  private generateRandomToken(len = 64) {
-    return randomBytes(len).toString('hex');
-  }
-
-  private createSHA256(value: string) {
-    return createHash('sha256').update(value).digest('hex');
   }
 }
