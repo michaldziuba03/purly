@@ -1,14 +1,14 @@
-import { SessionStorage, Session } from "./session";
+import { SessionStorage, ISession } from "./session";
 
 export class MemoryStorage implements SessionStorage {
-  private sessions: Map<string, Session> = new Map();
+  private sessions: Map<string, ISession> = new Map();
 
-  async create(session: Session): Promise<Session> {
+  async create(session: ISession): Promise<ISession> {
     this.sessions.set(session.id, session);
     return session;
   }
 
-  async touch(session: Session): Promise<void> {
+  async touch(session: ISession): Promise<void> {
     const existingSession = this.sessions.get(session.id);
     if (existingSession) {
       existingSession.touchedAt = new Date();
@@ -16,7 +16,7 @@ export class MemoryStorage implements SessionStorage {
     }
   }
 
-  async findById(sessionId: string): Promise<Session | null> {
+  async findById(sessionId: string): Promise<ISession | null> {
     return this.sessions.get(sessionId) || null;
   }
 

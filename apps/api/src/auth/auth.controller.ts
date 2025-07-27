@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Res,
+  Session,
+  UseGuards,
+} from '@nestjs/common';
 import {
   LoginDto,
   LoginSchema,
@@ -11,10 +19,10 @@ import {
 } from '@purly/schemas/auth.schema';
 import { v } from '../common/validator.pipe';
 import { AuthService } from './auth.service';
-import { SessionManager } from '@purly/security';
-import { FastifyReply } from 'fastify';
+import { ISession, SessionManager } from '@purly/security';
 import { User } from '@purly/db';
-import { Session } from '../common/session.decorator';
+import { AuthGuard, SESSION_COOKIE_NAME } from './auth.guard';
+import type { FastifyReply } from 'fastify';
 
 @Controller('auth')
 export class AuthController {
@@ -35,11 +43,24 @@ export class AuthController {
   ) {
     const user = await this.authService.login(body);
     await this.setSession(res, user);
+
+    return user;
   }
 
   @Get('session')
-  async session(@Session() session: object) {
+  @UseGuards(AuthGuard)
+  async getSession(@Session() session: ISession) {
     return session;
+  }
+
+  @Post('logout')
+  @UseGuards(AuthGuard)
+  async logout(
+    @Res({ passthrough: true }) res: FastifyReply,
+    @Session() session: ISession,
+  ) {
+    await this.sessionManager.deleteSession(session.id);
+    res.clearCookie(SESSION_COOKIE_NAME);
   }
 
   @Post('reset/request')
@@ -60,18 +81,13 @@ export class AuthController {
 
   private async setSession(res: FastifyReply, user: User) {
     const session = await this.sessionManager.createSession(user.id);
-    const maxAge = 86400;
 
-    if (process.env.NODE_ENV === 'production') {
-      res.header(
-        'set-cookie',
-        `session=${session.token}; Max-Age=${maxAge}; HttpOnly; Secure; Path=/; SameSite=Lax`,
-      );
-    } else {
-      res.header(
-        'set-cookie',
-        `session=${session.token}; Max-Age=${maxAge}; HttpOnly; Path=/; SameSite=Lax`,
-      );
-    }
+    res.setCookie(SESSION_COOKIE_NAME, session.token, {
+      maxAge: 86400,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      sameSite: 'lax',
+    });
   }
 }

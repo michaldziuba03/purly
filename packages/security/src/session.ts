@@ -1,7 +1,7 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { Toolbox } from "./toolbox";
 
-export interface Session {
+export interface ISession {
   id: string;
   userId: string;
   secretHash: Buffer;
@@ -9,14 +9,14 @@ export interface Session {
   touchedAt: Date;
 }
 
-interface SessionWithToken extends Session {
+interface SessionWithToken extends ISession {
   token: string;
 }
 
 export interface SessionStorage {
-  create(session: Session): Promise<Session>;
-  touch(session: Session): Promise<void>;
-  findById(sessionId: string): Promise<Session | null>;
+  create(session: ISession): Promise<ISession>;
+  touch(session: ISession): Promise<void>;
+  findById(sessionId: string): Promise<ISession | null>;
   delete(sessionId: string): Promise<void>;
 }
 
@@ -57,7 +57,7 @@ export class SessionManager {
     return session;
   }
 
-  async verifySession(token: string): Promise<Session | null> {
+  async verifySession(token: string): Promise<ISession | null> {
     const parts = token.split(this.TOKEN_SEPARATOR);
     if (parts.length !== 2) {
       return null;
